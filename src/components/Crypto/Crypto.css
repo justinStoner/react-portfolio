@@ -1,0 +1,5 @@
+.coin-card p:first-child {
+  font-weight: bold; }
+
+.mdl-textfield label {
+  top: 0px !important; }

@@ -1,0 +1,119 @@
+/* modified from https://github.com/andrejewski/angle-input/blob/master/angle-input.css */
+.button-holder{
+  position: relative;
+}
+svg{
+  overflow: visible;
+}
+.radial-close{
+  z-index: 2;
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+text{
+  text-anchor:middle;
+  font-size: 12px;
+  font-weight: bold;
+}
+.angle-input{
+  background: #fff;
+  position: absolute;
+  border-radius: 50%;
+  height: 75px;
+  width: 75px;
+  /* box-shadow: inset 0 0 1px #888; */
+  z-index: 3;
+  cursor: pointer;
+  outline: none;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+
+.svg-holder{
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 3;
+  height: 75px;
+  width:75px;
+  top:-4px;
+}
+rect{
+
+}
+svg{
+  z-index: 4;
+}
+input{
+  position: absolute;
+  z-index: 5;
+  width: 40px;
+  outline:none;
+  background: transparent;
+  border: none;
+  color:#2196f3;
+  left: 24%;
+  top: 48px;
+  text-align: center;
+}
+.no-spin::-webkit-inner-spin-button, .no-spin::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+    -moz-appearance:textfield !important;
+}
+.angle-input-pivot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  margin-top: -1px;
+  height: 2px;
+  /* background-color: #aaa; */
+}
+
+.angle-input-pivot::before {
+  content: '';
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  width: 10px;
+  margin-top: -6px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #2196f3;
+  /* box-shadow: 0 0 1px #888; */
+  border: 1px solid #ccc;
+}
+.radial-input-holder{
+  background: #2196f3;
+  width: 27px;
+  margin: 0 auto;
+  border-radius: 100px;
+  padding-bottom: 2px;
+  overflow: hidden;
+  position: relative;
+  top:50%;
+  transform: translateY(-50%);
+}
+.mdl-textfield__input.radial-input{
+  width: 100%;
+  padding-bottom: 2px;
+  font-size: 14px;
+  color:#fff;
+  text-align: center;
+
+  border-bottom: 1px solid #fff;
+}
+button.round-button{
+  z-index: 1;
+  border: 2px solid #fff;
+  text-transform: lowercase;
+  line-height: 1.3;
+}

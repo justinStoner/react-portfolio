@@ -1,0 +1,14 @@
+.indicator{
+  height: 5px;
+}
+ul{
+  list-style: none;
+}
+li{
+
+}
+.mixer-item>div{
+  text-align: center;
+  width: 75px;
+  display: inline-block;
+}

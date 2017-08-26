@@ -1,0 +1,119 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+.has-visualizer{
+  position: relative;
+  z-index: 1;
+}
+.has-visualiser p{
+  position: relative;
+  z-index: 1;
+}
+.fractal p{
+  color:rgba(0, 0, 0, 0.87);
+}
+#svg-dropshadow{
+  position:absolute;
+  top:-9999px;
+  left:-9999px;
+}
+.green-border{
+  border-color: #00e676 !important;
+}
+.no-top-margin{
+  margin-top: 0px;
+}
+.App-intro {
+  font-size: large;
+}
+.header{
+  position: relative;
+  padding: 16px 16px 0;
+  background: #ee0979;
+  background: -webkit-linear-gradient(to bottom, #ff6a00, #ee0979);
+  background: linear-gradient(to bottom, #ff6a00, #ee0979);
+  color: #fff;
+  height: 144px;
+}
+.header .profile{
+    margin-bottom: 0px;
+    height: 64px;
+}
+.header .profile i{
+  font-size: 64px;
+}
+.header .name{
+    margin-top: 16px;
+    font-weight: 500;
+    margin-bottom: 0px;
+  }
+.header .email{
+    padding-bottom: 16px;
+    font-weight: 400;
+    margin-bottom: 0px;
+}
+
+.top-menu a{
+  text-decoration: none;
+  color:#2196f3;
+  display: block;
+}
+.mdl-navigation__link{
+  padding-left: 16px !important;
+  transition: 0.2s all ease;
+  float: right;
+}
+.mdl-navigation__link i{
+  margin-right: 32px;
+}
+.effect-label{
+  margin-bottom: 0;
+}
+.round-button{
+  border-radius: 100px !important;
+  width: 36px !important;
+  padding: 0px !important;
+  min-width: 36px !important;
+}
+.text-white{
+  color:#fff !important;
+}
+.text-center{
+  text-align: center !important;
+}
+.text-left{
+  text-align: left !important;
+}
+.right{
+  float:right !important;
+}
+.left{
+  float:left !important;
+}
+.effect-switch{
+  width:auto !important;
+  right: 20px;
+}
+label.is-checked .mdl-switch__track{
+  background: rgba(33,150,243,.5) !important;
+}
+label.is-checked .mdl-switch__thumb{
+  background: #2196f3 !important;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

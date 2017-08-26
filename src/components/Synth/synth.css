@@ -1,0 +1,14 @@
+.synth-container{
+  overflow: hidden;
+}
+.synth-container>div{
+  overflow: auto;
+  position: absolute;
+  height: 81%;
+}
+
+@media (max-height: 420px) and (orientation: landscape){
+  .synth-container>div {
+      height: 79%;
+  }
+}
