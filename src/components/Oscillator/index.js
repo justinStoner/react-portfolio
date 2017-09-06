@@ -2,17 +2,21 @@ import React, { Component } from 'react';
 import {Grid, Cell} from 'react-mdl';
 import {Knob} from '../Knob';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { updateOscillator } from '../../actions';
 import * as selectors from '../../selectors';
 import PropTypes from 'prop-types';
-
+const waves=['sine', 'sawtooth', 'square', 'triangle'];
 class Oscillator extends Component{
   constructor(props){
     super(props);
     console.log(props);
   }
+  shouldComponentUpdate(nextProps){
+    const props = this.props;
+    if(nextProps.oscillators != props.oscillators) return true
+    return false
+  }
   render(){
-    console.log(this.props.synth);
     return(
       <div className="mdl-shadow--2dp mdl-color--blue-grey-100">
         <Grid>
@@ -21,19 +25,19 @@ class Oscillator extends Component{
           </Cell>
           <Cell col={6} className="text-center">
            <p className="effect-label">Mix</p>
-            <Knob value={this.props.preset.volume} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="oscVol" index={this.props.index}/>
+            <Knob value={this.props.oscillators[this.props.index].volume} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="volume" index={this.props.index}/>
           </Cell>
           <Cell col={6} className="text-center">
             <p className="effect-label">Octave</p>
-            <Knob value={this.props.preset.octave} type="radial" min={-5} max={5} step={1} onChange={this.props.onChange} propName="oscOctave" index={this.props.index}/>
+            <Knob value={this.props.oscillators[this.props.index].octave} type="radial" min={-5} max={5} step={1} onChange={this.props.onChange} propName="octave" index={this.props.index}/>
           </Cell>
           <Cell col={6} className="text-center">
             <p className="effect-label">Wave</p>
-            <Knob value={this.props.preset.wave} type="radial" min={0} max={3} step={1} onChange={this.props.onChange} propName="oscWave" type="select" index={this.props.index}/>
+            <Knob value={waves.indexOf(this.props.oscillators[this.props.index].wave)} type="radial" min={0} max={3} step={1} onChange={this.props.onChange} propName="wave" type="select" index={this.props.index}/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Detune</p>
-            <Knob value={this.props.preset.detune} type="radial" min={-100} max={100} step={1} onChange={this.props.onChange} propName="oscDetune" index={this.props.index}/>
+            <Knob value={this.props.oscillators[this.props.index].detune} type="radial" min={-100} max={100} step={1} onChange={this.props.onChange} propName="detune" index={this.props.index}/>
           </Cell>
         </Grid>
       </div>
@@ -41,13 +45,19 @@ class Oscillator extends Component{
   }
 }
 Oscillator.propTypes={
-  synth: PropTypes.object.isRequired,
-  //hasMounted:PropTypes.bool.isRequired,
-  //mount:PropTypes.func.isRequired
+  oscillators: PropTypes.array.isRequired
 }
 const mapStateToProps = state => ({
-  synth:state.synth
+  oscillators:state.oscillators
 
 });
 
-export default connect(mapStateToProps, undefined)(Oscillator)
+const mapDispatchToProps = dispatch =>{
+  return {
+    onChange: ( key, value, index ) => {
+      dispatch(updateOscillator( key, index, value ))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Oscillator)

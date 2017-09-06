@@ -8,7 +8,6 @@ import './Crypto.css';
 import 'cryptocoins-icons/webfont/cryptocoins.css';
 import 'cryptocoins-icons/webfont/cryptocoins-colors.css';
 
-const socket = openSocket('http://localhost:3000');
 const colorNames = [
   ['Ask', 'askColor'],
   ['Bid', 'bidColor'],
@@ -26,11 +25,11 @@ const defaultFilters = {
   'USDT-ETH':{currency1:'USDT', currency2:'ETH', name:'USDT-ETH'},
   'USDT-BTC':{currency1:'USDT', currency2:'BTC', name:'USDT-BTC'}
 };
+let socket;
 
 export class Crypto extends Component{
   constructor(props){
     super(props);
-    console.log();
     var filters;
     try{
       filters = JSON.parse(localStorage.coinFilters);
@@ -44,6 +43,12 @@ export class Crypto extends Component{
       coinPickerOpen:true
     }
 
+    this.removeCoin=this.removeCoin.bind(this);
+    this.addCoin=this.addCoin.bind(this)
+  }
+
+  componentDidMount(){
+    socket = openSocket('http://localhost:3000');
     var currencies = new Request("api/crypto/currencies");
     var marketData = new Request("api/crypto/marketdata");
     fetch(currencies)
@@ -63,21 +68,15 @@ export class Crypto extends Component{
       console.log(this.state);
     })
 
-
-
     socket.on('ticker', tick => {
       console.log(tick);
       this.setState( {coins:{...splitArray(tick.result, this.state)}} )
     });
 
     socket.emit('subscribeToTicker', 5000);
-
-    this.removeCoin=this.removeCoin.bind(this);
-    this.addCoin=this.addCoin.bind(this)
   }
-
-  componentDidMount(){
-
+  componentWillUnMount(){
+    socket.disconnect()
   }
   render(){
     return (

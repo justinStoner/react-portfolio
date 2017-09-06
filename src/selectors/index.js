@@ -1,5 +1,4 @@
 export const getContext = (state) => {
-  console.log(state);
   return state.context
 };
 export const getEnvelope = state => state.synth.envelope;

@@ -133,11 +133,11 @@ export class Sequencer extends React.Component{
             </Cell>
             <Cell col={1}>
               <p className="effect-label mdl-color-text--white">Volume</p>
-              <Knob value={this.state.volume} type="radial" min={0} max={1} step={0.01} onChange={this.onChange} propName="volume" color="green"/>
+              <Knob value={this.state.volume} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="volume" color="green"/>
             </Cell>
             <Cell col={2} className="mdl-color-text--white">
               <p className="effect-label">Tempo</p>
-              <Knob value={this.props.tempo} type="radial" min={0} max={1} step={0.01} onChange={this.onChange} propName="tempo" color="green"/>
+              <Knob value={this.props.tempo} type="radial" min={1} max={240} step={0.2} onChange={this.onChange} propName="tempo" color="green"/>
             </Cell>
           </Grid>
         </Cell>
@@ -234,10 +234,22 @@ export class Sequencer extends React.Component{
                 </ul>
           }
         </Cell>
-        <Cell col={6}>
-          <Compressor audio={this.props.context} input={this.props.service.effectsIn} output={this.props.service.effectsOut}/>
-        </Cell>
+
       </Grid>
     )
   }
 }
+
+// <Cell col={6}>
+//   <Compressor audio={this.props.context} input={this.props.service.effectsIn} output={this.props.service.effectsOut} preset={{
+//     type:'compressor',
+//     id:'',
+//     threshold:-20,
+//     knee:20,
+//     ratio:5,
+//     attack:0.1,
+//     release:0.1,
+//     active:false,
+//     col:2
+//   }}/>
+// </Cell>

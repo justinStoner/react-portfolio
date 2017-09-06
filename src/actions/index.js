@@ -128,9 +128,46 @@ export const name = 'synth'
      }
    };
  };
- export const updateOscillator = () =>{
+ export const updateOscillator = (key, index, value) =>{
    return{
-     type:'UPDATE_OSCILLATOR'
+     type:'UPDATE_OSCILLATOR',
+     action:{type:key, index:index, payload:value}
+   }
+ }
+ export const keyDown = (index) =>{
+   return{
+     type:'KEY_DOWN',
+     index
+   }
+ }
+ export const keyUp = (index) =>{
+   return{
+     type:'KEY_UP',
+     index
+   }
+ }
+ export const updateSynthFilter = (key, value) => {
+   return{
+     type:'UPDATE_SYNTH_FILTER',
+     payload:{
+       type:key,
+       value
+     }
+   }
+ }
+ export const updateSynthOutput = (key, value) => {
+   return{
+     type:'UPDATE_SYNTH_OUTPUT',
+     payload:{
+       type:key,
+       value
+     }
+   }
+ }
+ export const updateLfo = (key, index, value) =>{
+   return{
+     type:'UPDATE_LFO',
+     action:{type:key, index:index, payload:value}
    }
  }
  export const mountSynth = id =>{

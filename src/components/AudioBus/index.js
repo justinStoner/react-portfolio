@@ -9,9 +9,9 @@ export class AudioBus extends Component{
     this.compressor[key].value=value;
   }
   componentWillMount(){
-    this.props.analyser.connect(this.props.context.destination);
-    this.props.synth.analyser.connect(this.props.analyser);
-    this.props.drums.analyser.connect(this.props.analyser)
+    //this.props.analyser.connect(this.props.context.destination);
+    this.props.synth.analyser.connect(this.props.context.destination);
+    this.props.drums.analyser.connect(this.props.context.destination)
 
     this.props.synth.input.connect(this.props.synth.analyser);
     this.props.drums.input.connect(this.props.drums.analyser)

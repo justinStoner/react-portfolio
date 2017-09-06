@@ -10,9 +10,9 @@ export class Delay extends Component{
     this.delay = this.props.audio.createDelay(5.0);
     this.feedback = this.props.audio.createGain();
     this.wetLevel = this.props.audio.createGain();
-    this.delay.delayTime.value = 1;
-    this.feedback.gain.value = 0.15;
-    this.wetLevel.gain.value = 0.15;
+    this.delay.delayTime.value = this.props.preset.delayTime / 100;
+    this.feedback.gain.value = this.props.preset.feedback / 100;
+    this.wetLevel.gain.value = this.props.preset.wetLevel / 100;
 
     this.props.input.connect(this.dInput);
     this.dInput.connect(this.delay);
@@ -24,10 +24,10 @@ export class Delay extends Component{
     this.dOutput.connect(this.props.output);
     this.onChange=this.onChange.bind(this);
     this.state={
-      delayTime:100,
-      feedback:15,
-      wetLevel:15,
-      active:true
+      delayTime:this.props.preset.delayTime,
+      feedback:this.props.preset.feedback,
+      wetLevel:this.props.preset.wetLevel,
+      active:this.props.preset.active
     }
     this.toggleEffect=this.toggleEffect.bind(this);
   }

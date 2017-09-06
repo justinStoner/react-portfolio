@@ -3,15 +3,18 @@ import './keyboard.css';
 export class Key extends Component{
   constructor(props){
     super(props);
-    console.log(props);
     this.noteStart=this.noteStart.bind(this);
     this.noteEnd=this.noteEnd.bind(this);
-    this.state={
-      active:false
-    }
   }
   componentWillMount(){
 
+  }
+  shouldComponentUpdate(nextProps){
+    // console.log(nextProps.note.isPlaying != isPlaying);
+    // console.log(nextProps.note.isPlaying, isPlaying);
+
+    if(nextProps.note.isPlaying != this.props.isPlaying) return true
+    return false
   }
   render(){
     return(
@@ -25,15 +28,9 @@ export class Key extends Component{
     )
   }
   noteStart(){
-    this.setState((prevState)=>({
-      active:!prevState.active
-    }))
     this.props.playNote(this.props.index);
   }
   noteEnd(){
-    this.setState((prevState)=>({
-      active:!prevState.active
-    }))
     this.props.stopNote(this.props.index);
   }
 

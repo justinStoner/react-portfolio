@@ -51,8 +51,8 @@ rect{
 svg{
   z-index: 4;
 }
-input{
-  position: absolute;
+input.knob-input{
+  position: absolute !important;
   z-index: 5;
   width: 40px;
   outline:none;

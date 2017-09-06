@@ -1,85 +1,55 @@
 import { generateKeys } from '../utils/audio';
 import uuid from 'uuid';
+
 const initialState={
-  lfo:{
-    wave:'sine',
-    detune:50,
-    osc0:4,
-    osc1:8,
-    osc2:12,
-    freq:13,
-    type:'Lfo',
-    modType:0
-  },
-  oscillators:[
-    {
-      wave:'sine',
-      detune:45,
-      octave:-1,
-      volume:100,
-      index:0
-    },
-    {
-      wave:'square',
-      detune:50,
-      octave:0,
-      volume:100,
-      index:1
-    },
-    {
-      wave:'sawtooth',
-      detune:55,
-      octave:3,
-      volume:100,
-      index:2
-    }
-  ],
   effects:[
     {
       type:'eq',
-      id:uuid.v4()
+      id:uuid.v4(),
+      eq80:24,
+      eq350:22,
+      eq720:21,
+      eq16k:-14,
+      eq5k:-20,
+      eq10k:0,
+      active:true,
+      col:2
     },
     {
       type:'delay',
-      id:uuid.v4()
+      id:uuid.v4(),
+      delayTime:100,
+      feedback:15,
+      wetLevel:15,
+      active:true,
+      col:2
     },
     {
       type:'compressor',
-      id:uuid.v4()
-    },
-    {
-      type:'sidechain-compressor',
-      id:uuid.v4()
+      id:uuid.v4(),
+      threshold:-20,
+      knee:20,
+      ratio:5,
+      attack:0.1,
+      release:0.1,
+      active:true,
+      col:2
     }
-  ],
-  filter:{
-    lpfQ:10,
-    lpfMod:13,
-    lpfCutoff:7,
-    lpfEnv:60,
-    lpfA:50,
-    lpfD:20,
-    lpfS:30,
-    lpfR:50
-  },
-  output:{
-    masterVol:50,
-    reverb:13,
-    drive:10,
-    visualizerOn:false,
-    visualizerType:'waveform',
-    envA:20,
-    envD:65,
-    envS:65,
-    envR:50,
-    synthOctave:0
-  },
-  keys:generateKeys()
+    // {
+    //   type:'sidechain-compressor',
+    //   id:uuid.v4(),
+    //   threshold:-20,
+    //   knee:20,
+    //   ratio:5,
+    //   attack:0.1,
+    //   release:0.1,
+    //   active:true,
+    //   col:3
+    // }
+  ]
 }
 const synth = (state = initialState, action) => {
   switch(action.type) {
-    case 'UPDATE_OSCILLATOR':
-      break;
     default:
       return state;
 
@@ -87,22 +57,10 @@ const synth = (state = initialState, action) => {
   return state
 }
 
-function keys(state = initialState.keys, action) {
-  switch (action.type) {
-    case 'KEY_DOWN':
-      return Object.assign({}, state, {
-        [action.payload.id]: action.payload
-      });
-    case 'KEY_UP':
-      return Object.assign({}, state, {
-        [action.payload]: Object.assign({}, state[action.payload], {
-          velocity: 0
-        })
-      });
-    default:
-      return state;
-  }
+const output = (state = initialState, action) => {
+
 }
+
 
 // function effects(state = initialState.effects, action) {
 //   switch (action.type) {

@@ -6,13 +6,13 @@ export class Equalizer extends Component{
     super(props);
     console.log(props);
     this.state={
-      eq80:24,
-      eq350:22,
-      eq720:21,
-      eq16k:-14,
-      eq5k:-20,
-      eq10k:0,
-      active:true
+      eq80:this.props.preset.eq80,
+      eq350:this.props.preset.eq350,
+      eq720:this.props.preset.eq720,
+      eq16k:this.props.preset.eq16k,
+      eq5k:this.props.preset.eq5k,
+      eq10k:this.props.preset.eq10k,
+      active:this.props.preset.active
     }
     this.createNodes()
     this.onChange=this.onChange.bind(this);

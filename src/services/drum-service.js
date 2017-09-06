@@ -147,8 +147,8 @@ export class DrumService{
           this.drums[i].gain.connect(this.gain);
           if(this.drums[i].name==='kick' && this.audio.compressionOn){
             //this.scriptNode.disconnect();
-            this.drums[i].gain.connect(this.audio.compressor);
-            this.audio.synthIn.connect(this.audio.compressor);
+            //this.drums[i].gain.connect(this.audio.compressor);
+            //this.audio.synthIn.connect(this.audio.compressor);
 
 
             // this.scriptNode=this.audioCtx.createScriptProcessor(4096,1,1);
@@ -170,13 +170,14 @@ export class DrumService{
         this.effectsOut=this.context.createGain();
         //this.compressor=this.context.createGain();
         //this.gain.gain.value=1;
-        this.gain.connect(this.effectsIn);
+        this.gain.connect(this.audio.input);
+        //this.effectsIn.connect(this.effectsOut);
         //this.sideChainGain.connect(this.audio.compressor);
           //this.sideChainGain.connect(this.audio.drumsIn);
 
         //this.effectsIn.connect(this.compressor);
         //this.compressor.connect(this.effectsOut)
-        this.effectsOut.connect(this.audio.drumsIn);
+        //this.effectsOut.connect(this.audio.input);
         // this.scriptNode=this.context.createScriptProcessor(4096,1,1);
         // this.scriptNode.onaudioprocess=(e)=>{
         //   this.audio.synthIn.gain.value=Math.pow(10, this.audio.compressor.reduction/20);

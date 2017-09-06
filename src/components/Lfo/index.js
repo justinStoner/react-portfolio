@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import {Grid, Cell} from 'react-mdl';
 import {Knob} from '../Knob';
+import { connect } from 'react-redux';
+import { updateLfo } from '../../actions';
+import PropTypes from 'prop-types';
+const waves=['sine', 'sawtooth', 'square', 'triangle'];
 
-export class Lfo extends Component{
+class Lfo extends Component{
   constructor(props){
     super(props);
     console.log(props);
@@ -16,26 +20,44 @@ export class Lfo extends Component{
           </Cell>
           <Cell col={4} className="text-center">
            <p className="effect-label">Frequency</p>
-            <Knob value={this.props.preset.freq} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="lfoFreq"/>
+            <Knob value={this.props.lfo.freq} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="freq"/>
           </Cell>
           <Cell col={4} className="text-center">
             <p className="effect-label">Wave</p>
-            <Knob value={this.props.preset.wave} type="radial" min={0} max={3} step={1} onChange={this.props.onChange} type="select" propName="lfoWave"/>
+            <Knob value={waves.indexOf(this.props.lfo.wave)} type="radial" min={0} max={3} step={1} onChange={this.props.onChange} type="select" propName="wave"/>
           </Cell>
           <Cell col={4} className="text-center">
             <p className="effect-label">Osc1</p>
-            <Knob value={this.props.preset.osc0} type="radial" min={0} max={100} step={1} index={1} onChange={this.props.onChange} propName="lfoOsc"/>
+            <Knob value={this.props.lfo.osc0} type="radial" min={0} max={100} step={1} index={1} onChange={this.props.onChange} propName="osc" index={0}/>
           </Cell>
           <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Osc2</p>
-            <Knob value={this.props.preset.osc1} type="radial" min={0} max={100} step={1} index={2} onChange={this.props.onChange} propName="lfoOsc"/>
+            <Knob value={this.props.lfo.osc1} type="radial" min={0} max={100} step={1} index={2} onChange={this.props.onChange} propName="osc" index={1}/>
           </Cell>
           <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Osc3</p>
-            <Knob value={this.props.preset.osc2} type="radial" min={0} max={100} step={1} index={3} onChange={this.props.onChange} propName="lfoOsc"/>
+            <Knob value={this.props.lfo.osc2} type="radial" min={0} max={100} step={1} index={3} onChange={this.props.onChange} propName="osc" index={2}/>
           </Cell>
         </Grid>
       </div>
     )
   }
 }
+Lfo.propTypes = {
+  lfo:PropTypes.object.isRequired
+}
+const mapDispatchToProps = dispatch =>{
+  return {
+    onChange: ( key, value, index ) => {
+      dispatch(updateLfo( key, index, value ))
+    }
+  }
+}
+
+const mapStateToProps = state => {
+  return{
+    lfo:state.lfo
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lfo)

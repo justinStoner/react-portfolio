@@ -7,11 +7,11 @@ export class Compressor extends Component{
     console.log(props);
     if(this.props.mode!='sidechain'){
       this.compressor=this.props.audio.createDynamicsCompressor();
-      this.compressor.threshold.value = -20;
-      this.compressor.knee.value = 20;
-      this.compressor.ratio.value = 10;
-      this.compressor.attack.value = 0.1;
-      this.compressor.release.value = 0.1;
+      this.compressor.threshold.value = this.props.preset.threshold;
+      this.compressor.knee.value = this.props.preset.knee;
+      this.compressor.ratio.value = this.props.preset.ratio;
+      this.compressor.attack.value = this.props.preset.attack;
+      this.compressor.release.value = this.props.preset.release;
       this.props.input.connect(this.compressor);
       this.compressor.connect(this.props.output);
     }else{
@@ -21,12 +21,12 @@ export class Compressor extends Component{
     this.toggleEffect=this.toggleEffect.bind(this);
     this.onChange=this.onChange.bind(this);
     this.state={
-      threshold:-20,
-      knee:20,
-      ratio:5,
-      attack:0.1,
-      release:0.1,
-      active:true
+      threshold:this.props.preset.threshold,
+      knee:this.props.preset.knee,
+      ratio:this.props.preset.ratio,
+      attack:this.props.preset.attack,
+      release:this.props.preset.release,
+      active:this.props.preset.active
     }
   }
   onChange(key, value, index){
@@ -68,7 +68,7 @@ export class Compressor extends Component{
             <Knob value={this.state.ratio} type="radial" min={1} max={20} step={1} onChange={this.onChange} propName="ratio"/>
           </Cell>
           <Cell col={4} className="text-center">
-            <p className="effect-label">Relase</p>
+            <p className="effect-label">Release</p>
             <Knob value={this.state.release} type="radial" min={0} max={1} step={0.01} onChange={this.onChange} propName="release"/>
           </Cell>
           <Cell col={4} className="text-center">

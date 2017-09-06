@@ -12,7 +12,7 @@ const radCircumference = Math.PI * 2;
 const radius = center - 1; // padding to prevent clipping
 function degToPercent(value, min, max){
   var val=(value - 0) * (100 - 0) / (360 - 0) + 0;
-  console.log(value, val);
+  //console.log(value, val);
   return val/100;
 }
 function renderPaths(slices) {
@@ -131,7 +131,7 @@ const RadialSlider = React.createClass({
     this.endKeyboardInput();
   },
   _onKeyDown: function(e) {
-    console.log('down');
+    //console.log('down');
     var max = this.props.max;
     var min = this.props.min;
     var step = this.props.step || 1;
@@ -208,7 +208,7 @@ const RadialSlider = React.createClass({
     this.tracking = false;
   },
   updateWithEvent: function(event, done) {
-    console.log(event);
+    //console.log(event);
     if(event.srcElement.tagName != 'INPUT'){
       var $dom = this.refs.container;
       var vector = [event.x, event.y];
@@ -257,7 +257,7 @@ const RadialSlider = React.createClass({
     if(!isNaN(event.target.value)){
       var displayValue=parseFloat(event.target.value);
       var value=this.valueToDegree(displayValue);
-      console.log(value, displayValue);
+      //console.log(value, displayValue);
       if(displayValue<=this.props.maxRange && displayValue >= this.props.minRange){
         this.setState({value: value, displayValue:displayValue});
         this.props.onChange(this.props.propName, displayValue, this.props.index || 0)
@@ -285,7 +285,7 @@ const RadialSlider = React.createClass({
             <path d={`M ${center},${center} ${30},${74} ${center},${74} z`} fill="#00e676" transform={`rotate(${-94+degToPercent(this.state.value)*240} ${center} ${center})`}></path>
           </g>
         </svg>
-        <input type="number" className="no-spin" min={`${this.props.minRange-1}`} max={`${this.props.maxRange}`} value={this.state.displayValue} ref="input" onChange={this.inputChanged} step={`${this.props.step || 1}`}></input>
+        <input type="number" className="no-spin knob-input" min={`${this.props.minRange-1}`} max={`${this.props.maxRange}`} value={this.state.displayValue} ref="input" onChange={this.inputChanged} step={`${this.props.step || 1}`}></input>
       </div>
     )
   }

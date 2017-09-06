@@ -3,7 +3,7 @@ import {Button} from 'react-mdl'
 import RadialSlider from './radial-slider';
 import SelectSlider from './select-slider';
 import './knob.css';
-const waves={sine:'sine', sawtooth:'saw', square:'sqr', triangl:'tri'};
+const waves=['sine','saw', 'sqr', 'tri'];
 export class Knob extends Component{
   constructor(props){
     super(props);

@@ -7,6 +7,7 @@ import React from 'react';
 
 var r = React.createElement;
 const waves=['sine', 'saw', 'sqr', 'tri'];
+const waveTypes=['sine', 'sawtooth', 'square', 'triangle'];
 const size=75;
 const center=size/2;
 const radCircumference = Math.PI * 2;
@@ -131,7 +132,7 @@ const SelectSlider = React.createClass({
   selectItem(e){
     var val=e.target.getAttribute('data-value');
     this.setState({displayValue:val});
-    this.props.onChange(this.props.propName, val, this.props.index || 0)
+    this.props.onChange(this.props.propName, waveTypes[val], this.props.index || 0)
   },
   degreeToValue:function(value){
     var displayValue=(value - this.props.min) * (this.props.maxRange - this.props.minRange) / (this.props.max - this.props.min) + this.props.min;
