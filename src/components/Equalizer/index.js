@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import {Grid, Cell, Switch} from 'react-mdl'
 import {Knob} from '../Knob';
-export class Equalizer extends Component{
+import { connect } from 'react-redux';
+import { updateEffect } from '../../actions';
+import PropTypes from 'prop-types';
+
+class Equalizer extends Component{
   constructor(props){
     super(props);
     console.log(props);
@@ -15,12 +19,7 @@ export class Equalizer extends Component{
       active:this.props.preset.active
     }
     this.createNodes()
-    this.onChange=this.onChange.bind(this);
     this.toggleEffect=this.toggleEffect.bind(this);
-  }
-  onChange(key, value, index){
-    this.setState({[key]:value});
-    this[key].gain.value=value;
   }
   toggleEffect(){
     this.setState({active:!this.state.active});
@@ -37,37 +36,37 @@ export class Equalizer extends Component{
     }
   }
   createNodes(){
-    this.eq80=this.props.audio.createBiquadFilter();
-    this.eq350=this.props.audio.createBiquadFilter();
-    this.eq720=this.props.audio.createBiquadFilter();
-    this.eq16k=this.props.audio.createBiquadFilter();
-    this.eq5k=this.props.audio.createBiquadFilter();
-    this.eq10k=this.props.audio.createBiquadFilter();
-    this.eq80.frequency.value=80;
-    this.eq80.type="lowshelf";
-    this.eq80.gain.value=this.state.eq80;
-    this.eq350.frequency.value=350;
-    this.eq350.type="peaking";
-    this.eq350.gain.value=this.state.eq350;
-    this.eq720.frequency.value=720;
-    this.eq720.type="peaking";
-    this.eq720.gain.value=this.state.eq720;
-    this.eq16k.frequency.value=1600;
-    this.eq16k.type="peaking";
-    this.eq16k.gain.value=this.state.eq16k;
-    this.eq5k.frequency.value=5000;
-    this.eq5k.type="peaking";
-    this.eq5k.gain.value=this.state.eq5k;
-    this.eq10k.frequency.value=10000;
-    this.eq10k.type="highshelf";
-    this.eq10k.gain.value=this.state.eq10k;
-    this.props.input.connect(this.eq80);
-    this.eq80.connect(this.eq350);
-    this.eq350.connect(this.eq720);
-    this.eq720.connect(this.eq16k);
-    this.eq16k.connect(this.eq5k);
-    this.eq5k.connect(this.eq10k);
-    this.eq10k.connect(this.props.output);
+    // this.eq80=this.props.audio.createBiquadFilter();
+    // this.eq350=this.props.audio.createBiquadFilter();
+    // this.eq720=this.props.audio.createBiquadFilter();
+    // this.eq16k=this.props.audio.createBiquadFilter();
+    // this.eq5k=this.props.audio.createBiquadFilter();
+    // this.eq10k=this.props.audio.createBiquadFilter();
+    // this.eq80.frequency.value=80;
+    // this.eq80.type="lowshelf";
+    // this.eq80.gain.value=this.state.eq80;
+    // this.eq350.frequency.value=350;
+    // this.eq350.type="peaking";
+    // this.eq350.gain.value=this.state.eq350;
+    // this.eq720.frequency.value=720;
+    // this.eq720.type="peaking";
+    // this.eq720.gain.value=this.state.eq720;
+    // this.eq16k.frequency.value=1600;
+    // this.eq16k.type="peaking";
+    // this.eq16k.gain.value=this.state.eq16k;
+    // this.eq5k.frequency.value=5000;
+    // this.eq5k.type="peaking";
+    // this.eq5k.gain.value=this.state.eq5k;
+    // this.eq10k.frequency.value=10000;
+    // this.eq10k.type="highshelf";
+    // this.eq10k.gain.value=this.state.eq10k;
+    // this.props.input.connect(this.eq80);
+    // this.eq80.connect(this.eq350);
+    // this.eq350.connect(this.eq720);
+    // this.eq720.connect(this.eq16k);
+    // this.eq16k.connect(this.eq5k);
+    // this.eq5k.connect(this.eq10k);
+    // this.eq10k.connect(this.props.output);
   }
   render(){
     return(
@@ -105,3 +104,20 @@ export class Equalizer extends Component{
     )
   }
 }
+Equalizer.propTypes={
+  effects: PropTypes.array.isRequired
+}
+const mapStateToProps = state => ({
+  effects:state.synth.effects
+
+});
+const mapDispatchToProps = dispatch =>{
+  return {
+    onChange: ( key, value, index ) => {
+      dispatch(updateEffect( key, index, value ))
+    }
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Equalizer)

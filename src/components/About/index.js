@@ -85,6 +85,16 @@ export class About extends React.Component{
         ]
       },
       {
+        name:'Tools/Pre-processors',
+        skills:[
+          {
+            name:'Sass',
+            value:80,
+            description:'The css for this site is written in Sass, using node-sass-chokidar for compilation'
+          }
+        ]
+      },
+      {
         name:'Backend',
         skills:[
           {

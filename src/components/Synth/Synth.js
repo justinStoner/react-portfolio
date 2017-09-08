@@ -4,7 +4,7 @@ import Oscillator from '../Oscillator';
 import Lfo from '../Lfo';
 import SynthOutput from '../SynthOutput';
 import SynthFilter from '../SynthFilter';
-import {Equalizer} from '../Equalizer';
+import Equalizer from '../Equalizer';
 import {Delay} from '../Delay';
 import {Compressor} from '../Compressor';
 import Keyboard from '../Keyboard';
@@ -76,17 +76,17 @@ class Synth extends Component{
                         (() => {
                           switch (e.type) {
                             case 'eq':
-                              return <Equalizer audio={this.props.context} input={this.props.audio.effectsIn} output={this.props.audio.eq} preset={e}/>
+                              return <Equalizer preset={e}/>
                               break;
-                            case 'delay':
-                              return <Delay audio={this.props.context} input={this.props.audio.eq} output={this.props.audio.delay} preset={e}/>
-                              break;
-                            case 'compressor':
-                              return <Compressor audio={this.props.context} input={this.props.audio.delay} output={this.props.audio.effectsOut} preset={e}/>
-                              break;
-                            case 'sidechain-compressor':
-                              return <Compressor audio={this.props.context} onChange={this.props.audio.setCompressor} mode="sidechain" input={this.props.audio.compressor} output={this.props.audio.effectsOut} preset={e}/>
-                              break;
+                            // case 'delay':
+                            //   return <Delay audio={this.props.context} input={this.props.audio.eq} output={this.props.audio.delay} preset={e}/>
+                            //   break;
+                            // case 'compressor':
+                            //   return <Compressor audio={this.props.context} input={this.props.audio.delay} output={this.props.audio.effectsOut} preset={e}/>
+                            //   break;
+                            // case 'sidechain-compressor':
+                            //   return <Compressor audio={this.props.context} onChange={this.props.audio.setCompressor} mode="sidechain" input={this.props.audio.compressor} output={this.props.audio.effectsOut} preset={e}/>
+                            //   break;
                             default:
                               return null
                           }

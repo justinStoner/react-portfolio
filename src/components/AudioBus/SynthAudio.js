@@ -2,6 +2,7 @@ import React, { Component }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { keyDown, keyUp } from '../../actions';
+import EqAudio from '../Equalizer/EqAudio';
 import { getContext } from '../../selectors';
 const octaves=[-3,-2,-1,0,1,2,3];
 const waves=['sine', 'sawtooth', 'square', 'triangle'];
@@ -32,6 +33,9 @@ export class SynthAudio extends Component{
     this.props=props;
     this.playKey=this.playKey.bind(this);
     this.stopKey=this.stopKey.bind(this);
+    this.state={
+      effectsChain:[]
+    };
   }
 
   componentWillMount(){
@@ -53,6 +57,18 @@ export class SynthAudio extends Component{
       this.lfo.type = lfo.wave;
       this.lfo.frequency.value = lfo.freq;
       this.lfo.detune.value = lfo.detune;
+    }
+    if(nextProps.synth.effects.length != this.state.effectsChain.length){
+      this.setState({
+        effectsChain: nextProps.synth.effects.map( (e, i) => {
+          return {
+            ...Object.assign({}, e),
+            input:i===0?this.props.audio.effectsIn:this.props.context.createGain(),
+            //output:i===nextProps.synth.effects.length-1?this.props.audio.effectsOut:this.props.context.createGain()
+            output:this.props.audio.effectsOut
+          }
+        })
+      })
     }
     if(filter != this.props.synthFilter){
       Object.values(notes).forEach( note =>{
@@ -76,8 +92,25 @@ export class SynthAudio extends Component{
     }
   }
   render(){
-
-    return null
+    return (
+      <div>
+          {
+            this.state.effectsChain.map( (e, i) => {
+            return (
+              (() => {
+                switch (e.type) {
+                  case 'eq':
+                    return <EqAudio audio={this.props.context} input={e.input} output={e.output} preset={e}/>
+                    break;
+                  default:
+                    return null
+                }
+              })()
+            )
+          })
+        }
+      </div>
+    )
   }
   updateOsc(osc, hz, gain, newProps) {
     osc.type = newProps.wave;
@@ -189,7 +222,7 @@ export class SynthAudio extends Component{
 
          }
        }
-
+       this.props.audio.effectsOut.gain.value=this.props.synthOutput.masterVol/50;
        note['f1'].type = "lowpass";
        note['f1'].Q.value = this.props.synthFilter.lpfQ;
        note['f1'].frequency.value = this.props.synthFilter.lpfCutoff*100;

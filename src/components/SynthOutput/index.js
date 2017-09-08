@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { updateSynthOutput } from '../../actions';
 import * as selectors from '../../selectors';
 import PropTypes from 'prop-types';
-
+import './synthoutput.css';
 class SynthOutput extends Component{
   constructor(props){
     super(props);

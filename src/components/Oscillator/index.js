@@ -3,8 +3,8 @@ import {Grid, Cell} from 'react-mdl';
 import {Knob} from '../Knob';
 import { connect } from 'react-redux';
 import { updateOscillator } from '../../actions';
-import * as selectors from '../../selectors';
 import PropTypes from 'prop-types';
+
 const waves=['sine', 'sawtooth', 'square', 'triangle'];
 class Oscillator extends Component{
   constructor(props){

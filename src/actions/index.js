@@ -62,6 +62,15 @@ export const name = 'synth'
      }
    };
  };
+ export const updateEffect = effect => {
+   return {
+     type: 'UPDATE_EFFECT_'+effect.instrument,
+     payload: {
+       settings:effect.settings
+       //...defaultSettings[effect]
+     }
+   };
+ };
  export const removeEffect = id => {
    return {
      type: C.REMOVE_EFFECT,
