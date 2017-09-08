@@ -5,8 +5,8 @@ import Lfo from '../Lfo';
 import SynthOutput from '../SynthOutput';
 import SynthFilter from '../SynthFilter';
 import Equalizer from '../Equalizer';
-import {Delay} from '../Delay';
-import {Compressor} from '../Compressor';
+import Delay from '../Delay';
+import Compressor from '../Compressor';
 import Keyboard from '../Keyboard';
 import {AudioVisualizer} from '../AudioVisualizer';
 import { connect } from 'react-redux';
@@ -38,9 +38,11 @@ class Synth extends Component{
   }
   shouldComponentUpdate(nextProps){
     const props = this.props;
+    console.log(nextProps.effects != props.effects);
     if(nextProps.oscillators != props.oscillators) return true
     if(nextProps.synthFilter != props.synthFilter) return true
     if(nextProps.synthOutput != props.synthOutput) return true
+    if(nextProps.effects != props.effects) return true
     return false
   }
   render(){
@@ -69,24 +71,24 @@ class Synth extends Component{
                 <SynthFilter/>
               </Cell>
               {
-                this.props.synth.effects.map( (e, i) => {
+                Object.values(this.props.effects).map( (e, i) => {
                   return (
                     <Cell col={e.col} phone={4} tablet={3} key={i}>
                       {
                         (() => {
                           switch (e.type) {
                             case 'eq':
-                              return <Equalizer preset={e}/>
+                              return <Equalizer parent="synth" id={e.id}/>
                               break;
-                            // case 'delay':
-                            //   return <Delay audio={this.props.context} input={this.props.audio.eq} output={this.props.audio.delay} preset={e}/>
-                            //   break;
-                            // case 'compressor':
-                            //   return <Compressor audio={this.props.context} input={this.props.audio.delay} output={this.props.audio.effectsOut} preset={e}/>
-                            //   break;
-                            // case 'sidechain-compressor':
-                            //   return <Compressor audio={this.props.context} onChange={this.props.audio.setCompressor} mode="sidechain" input={this.props.audio.compressor} output={this.props.audio.effectsOut} preset={e}/>
-                            //   break;
+                            case 'delay':
+                              return <Delay parent="synth" id={e.id}/>
+                              break;
+                            case 'compressor':
+                              return <Compressor parent="synth" id={e.id}/>
+                              break;
+                            case 'sidechain-compressor':
+                              return <Compressor parent="synth" id={e.id} mode='sidechain-compressor'/>
+                              break;
                             default:
                               return null
                           }
@@ -312,6 +314,7 @@ Synth.propTypes={
   synth:PropTypes.object.isRequired,
   oscillators: PropTypes.array.isRequired,
   lfo: PropTypes.object.isRequired,
+  effects: PropTypes.object.isRequired
   //hasMounted:PropTypes.bool.isRequired,
   //mount:PropTypes.func.isRequired
 }
@@ -321,7 +324,8 @@ const mapStateToProps = state => ({
   synth:state.synth,
   context: getContext(state),
   oscillators:state.oscillators,
-  lfo:state.lfo
+  lfo:state.lfo,
+  effects:state.effects.synth
 });
 
 export default connect(mapStateToProps, undefined)(Synth)

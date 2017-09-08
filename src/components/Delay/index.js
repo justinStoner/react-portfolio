@@ -1,75 +1,42 @@
 import React, { Component } from 'react';
 import {Grid, Cell, Switch} from 'react-mdl'
 import {Knob} from '../Knob';
-export class Delay extends Component{
+import { connect } from 'react-redux';
+import { updateEffect } from '../../actions';
+import PropTypes from 'prop-types';
+
+class Delay extends Component{
   constructor(props){
     super(props);
-    console.log(props);
-    this.dInput=this.props.audio.createGain();
-    this.dOutput=this.props.audio.createGain();
-    this.delay = this.props.audio.createDelay(5.0);
-    this.feedback = this.props.audio.createGain();
-    this.wetLevel = this.props.audio.createGain();
-    this.delay.delayTime.value = this.props.preset.delayTime / 100;
-    this.feedback.gain.value = this.props.preset.feedback / 100;
-    this.wetLevel.gain.value = this.props.preset.wetLevel / 100;
-
-    this.props.input.connect(this.dInput);
-    this.dInput.connect(this.delay);
-    this.dInput.connect(this.dOutput);
-    this.delay.connect(this.feedback);
-    this.delay.connect(this.wetLevel);
-    this.feedback.connect(this.delay);
-    this.wetLevel.connect(this.dOutput);
-    this.dOutput.connect(this.props.output);
-    this.onChange=this.onChange.bind(this);
-    this.state={
-      delayTime:this.props.preset.delayTime,
-      feedback:this.props.preset.feedback,
-      wetLevel:this.props.preset.wetLevel,
-      active:this.props.preset.active
-    }
     this.toggleEffect=this.toggleEffect.bind(this);
-  }
-  onChange(key, value, index){
-    if(key=='delayTime'){
-      this.setState({[key]:value});
-      this.delay.delayTime.value=value/100;
-    }else{
-      this.setState({[key]:value});
-      this[key].gain.value=value/100;
-    }
+    this.onChange=this.onChange.bind(this);
   }
   toggleEffect(){
-    this.setState({active:!this.state.active});
-    this.props.input.disconnect();
-    if(this.state.active){
-      this.dOutput.disconnect();
-      this.props.input.connect(this.props.output);
-    }else{
-      this.props.input.connect(this.dInput);
-
-      this.dOutput.connect(this.props.output);
-    }
+    const active=this.props.effects[this.props.parent][this.props.id].active;
+    this.props.onChange('active', !active, this.props.parent, this.props.id);
+  }
+  onChange(key, value){
+    this.props.onChange(key, value, this.props.parent, this.props.id);
   }
   render(){
+    const effect=this.props.effects[this.props.parent][this.props.id];
     return(
       <div className="mdl-shadow--2dp mdl-color--lime-400">
         <Grid>
           <Cell col={12} >
-            <p className="effect-label">Delay <Switch className="right effect-switch" ripple id="switch1" defaultChecked onClick={this.toggleEffect}>On</Switch></p>
+            <p className="effect-label">Delay <Switch className="right effect-switch" ripple id={effect.id} checked={effect.active} onChange={this.toggleEffect}>On</Switch></p>
           </Cell>
           <Cell col={6} className='text-center'>
             <p className="effect-label">Time</p>
-            <Knob value={this.state.delayTime} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="delayTime"/>
+            <Knob value={effect.delayTime} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="delayTime"/>
           </Cell>
           <Cell col={6} className='text-center'>
             <p className="effect-label">Feedback</p>
-            <Knob value={this.state.feedback} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="feedback"/>
+            <Knob value={effect.feedback} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="feedback"/>
           </Cell>
           <Cell col={6} className='text-center'>
             <p className="effect-label">Wet/Dry</p>
-            <Knob value={this.state.wetLevel} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="wetLevel"/>
+            <Knob value={effect.wetLevel} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="wetLevel"/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
 
@@ -79,3 +46,20 @@ export class Delay extends Component{
     )
   }
 }
+Delay.propTypes={
+  effects: PropTypes.object.isRequired
+}
+const mapStateToProps = state => ({
+  effects:state.effects
+
+});
+const mapDispatchToProps = dispatch =>{
+  return {
+    onChange: ( key, value, parent, id ) => {
+      dispatch(updateEffect( key, value, parent, id ))
+    }
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Delay)

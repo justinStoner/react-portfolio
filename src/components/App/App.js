@@ -35,22 +35,21 @@ const App=({playing, context})=>{
     analyser:context.createAnalyser(),
     input:context.createGain(),
     effectsIn:context.createGain(),
-    effectsOut:context.createGain(),
-    delay:context.createGain(),
-    eq:context.createGain(),
-    compressor:context.createGain()
+    effectsOut:context.createGain()
   }
   let drumsAudio={
     input:context.createGain(),
-    analyser:context.createAnalyser()
+    analyser:context.createAnalyser(),
+    sideChainOutput:context.createGain()
   }
+  console.log(drumsAudio.sideChainOutput);
   //<img src="images/me1.jpg" width="64" height="64" style={{borderRadius:'50px', cursor:'pointer'}} alt=""></img>
   return (
 
         <BrowserRouter>
           <Layout fixedHeader fixedDrawer style={{background:'#e0e0e0'}}>
             <AudioBus synth={synthAudio} drums={drumsAudio} analyser={analyser} context={context} />
-            <SynthAudio audio={synthAudio} />
+            <SynthAudio audio={synthAudio} sideChainIn={drumsAudio.sideChainOutput}/>
             <DrumsAudio audio={drumsAudio} />
             <Route exact path="/" render={(props)=>(
                 <Header title="About" className="mdl-color--blue-500"></Header>

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { keyDown, keyUp } from '../../actions';
 import EqAudio from '../Equalizer/EqAudio';
+import DelayAudio from '../Delay/DelayAudio';
+import CompressorAudio from '../Compressor/CompressorAudio';
 import { getContext } from '../../selectors';
 const octaves=[-3,-2,-1,0,1,2,3];
 const waves=['sine', 'sawtooth', 'square', 'triangle'];
@@ -33,13 +35,27 @@ export class SynthAudio extends Component{
     this.props=props;
     this.playKey=this.playKey.bind(this);
     this.stopKey=this.stopKey.bind(this);
-    this.state={
-      effectsChain:[]
-    };
+    this.effectsChain=[];
+    console.log(this.props.effects);
+    console.log(Object.values(this.props.effects));
   }
 
   componentWillMount(){
-    this.createNodes();
+    this.createNodes()
+    let arr = Object.values(this.props.effects);
+    this.effectsChain = arr.map( ( e, i) => {
+      if ( i === 0 ) return {input:this.props.audio.effectsIn, output:this.props.context.createGain()}
+      else if( i === arr.length-1) return {input:null, output:this.props.audio.effectsOut}
+      else return {input:null, output:this.props.context.createGain()}
+    })
+    this.effectsChain.forEach( ( e, i ) => {
+      if( !e.input ) e.input = this.effectsChain[i-1].output;
+    })
+    // this.effectsChain.forEach( ( e, i ) => {
+    //   if( i !== this.effectsChain.length -1){
+    //     e.output.connect(this.effectsChain[i+1].input)
+    //   }
+    // })
 
   }
   componentDidUpdate(){
@@ -50,6 +66,7 @@ export class SynthAudio extends Component{
     //console.log(nextProps);
     // console.log('SA props '+window.performance.now('SynthAudio'))
     // window.performance.mark('SynthAudio');
+
     const oscillators=nextProps.oscillators;
     const lfo = nextProps.lfo;
     const filter  = nextProps.synthFilter;
@@ -58,17 +75,8 @@ export class SynthAudio extends Component{
       this.lfo.frequency.value = lfo.freq;
       this.lfo.detune.value = lfo.detune;
     }
-    if(nextProps.synth.effects.length != this.state.effectsChain.length){
-      this.setState({
-        effectsChain: nextProps.synth.effects.map( (e, i) => {
-          return {
-            ...Object.assign({}, e),
-            input:i===0?this.props.audio.effectsIn:this.props.context.createGain(),
-            //output:i===nextProps.synth.effects.length-1?this.props.audio.effectsOut:this.props.context.createGain()
-            output:this.props.audio.effectsOut
-          }
-        })
-      })
+    if(nextProps.effects!= this.props.effects){
+
     }
     if(filter != this.props.synthFilter){
       Object.values(notes).forEach( note =>{
@@ -92,15 +100,25 @@ export class SynthAudio extends Component{
     }
   }
   render(){
+    console.log(this.props.audio.sideChainIn);
     return (
       <div>
           {
-            this.state.effectsChain.map( (e, i) => {
+            Object.values(this.props.effects).map( (e, i) => {
             return (
               (() => {
                 switch (e.type) {
                   case 'eq':
-                    return <EqAudio audio={this.props.context} input={e.input} output={e.output} preset={e}/>
+                    return <EqAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent="synth"/>
+                    break;
+                  case 'delay':
+                    return <DelayAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent="synth"/>
+                    break;
+                  case 'compressor':
+                    return <CompressorAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent="synth"/>
+                    break;
+                  case 'sidechain-compressor':
+                    return <CompressorAudio audio={this.props.context} input={this.effectsChain[i].input} mode="sidechain" sideChainInput={this.props.sideChainIn} output={this.effectsChain[i].output} id={e.id} key={i} parent="synth"/>
                     break;
                   default:
                     return null
@@ -221,6 +239,12 @@ export class SynthAudio extends Component{
            note['g'+ii].connect( note['f1'] );
 
          }
+       }else{
+         for(var ii=0; ii<3; ii++){
+           note['lfoOscGain'+ii].disconnect();
+           note['o'+ii].disconnect();
+           //delete note['o'+ii];
+         }
        }
        this.props.audio.effectsOut.gain.value=this.props.synthOutput.masterVol/50;
        note['f1'].type = "lowpass";
@@ -311,6 +335,7 @@ SynthAudio.propTypes={
   synthOutput: PropTypes.object.isRequired,
   oscillators: PropTypes.array.isRequired,
   lfo: PropTypes.object.isRequired,
+  effects: PropTypes.object.isRequired
 
 }
 const mapStateToProps = state => ({
@@ -319,7 +344,8 @@ const mapStateToProps = state => ({
   synthFilter: state.synthFilter,
   synthOutput: state.synthOutput,
   oscillators:state.oscillators,
-  lfo:state.lfo
+  lfo:state.lfo,
+  effects:state.effects.synth
 });
 
 const mapDispatchToProps = dispatch =>{

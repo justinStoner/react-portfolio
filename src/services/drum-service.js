@@ -145,7 +145,8 @@ export class DrumService{
           this.drums[i].filter1.connect(this.drums[i].filter2);
           this.drums[i].filter2.connect(this.drums[i].gain);
           this.drums[i].gain.connect(this.gain);
-          if(this.drums[i].name==='kick' && this.audio.compressionOn){
+          if(this.drums[i].name==='kick'){
+            this.drums[i].gain.connect(this.audio.sideChainOutput)
             //this.scriptNode.disconnect();
             //this.drums[i].gain.connect(this.audio.compressor);
             //this.audio.synthIn.connect(this.audio.compressor);

@@ -62,11 +62,13 @@ export const name = 'synth'
      }
    };
  };
- export const updateEffect = effect => {
+ export const updateEffect = (key, value, parent, id) => {
    return {
-     type: 'UPDATE_EFFECT_'+effect.instrument,
+     type: 'UPDATE_EFFECT',
+     parent:parent,
+     id:id,
      payload: {
-       settings:effect.settings
+       [key]:value
        //...defaultSettings[effect]
      }
    };

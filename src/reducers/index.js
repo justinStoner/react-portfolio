@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import synth from './synth'
 import sequencer from './sequencer'
+import effects from './effects';
 import { oscillators, oscillator } from './oscillator';
 import { lfo } from './lfo';
 import { synthFilter } from './synthFilter';
@@ -45,6 +46,7 @@ const appState = combineReducers({
   synthOutput,
   keys,
   sequencer,
+  effects,
   context,
   mount,
   hasMounted
