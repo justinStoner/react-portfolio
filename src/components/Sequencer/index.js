@@ -5,7 +5,7 @@ import {Knob} from '../Knob';
 import Compressor from '../Compressor';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toggleDrums, scheduleDrum } from '../../actions';
+import { toggleDrums, scheduleDrum, modifyDrum, changeSequencerVolume } from '../../actions';
 function generateTH(notePlaying){
   var arr=[];
   for(var i=0;i<16;i++){
@@ -61,52 +61,21 @@ class Sequencer extends React.Component{
     this.toggleNote=this.toggleNote.bind(this);
     this.playSample=this.playSample.bind(this);
     this.toggleMixer=this.toggleMixer.bind(this);
+    this.changeFilter=this.changeFilter.bind(this);
     this.changeDrumSound=this.changeDrumSound.bind(this);
+    this.changeMasterVolume=this.changeMasterVolume.bind(this);
   }
   onChange(key, value, index){
-    switch (key) {
-      case 'volume':
-
-        break;
-      case 'tempo':
-
-        break;
-      case 'pitch':
-
-        break;
-      case 'high':
-
-        break;
-      case 'highFreq':
-
-        break;
-      case 'mid':
-
-        break;
-      case 'midFreq':
-
-        break;
-      case 'low':
-
-        break;
-      case 'lowFreq':
-
-        break;
-      case 'reverbLevel':
-
-        break;
-      case 'cutoff':
-
-        break;
-      case 'Q':
-
-        break;
-      default:
-
-    }
+    this.props.modifyDrum(key, value, index);
+  }
+  changeMasterVolume(key, value){
+    this.props.changeSequencerVolume(value);
   }
   toggleDrums(){
     this.props.toggleDrums(!this.props.playing);
+  }
+  changeFilter(e){
+    this.props.modifyDrum( 'filterType', e.target.value, e.target.getAttribute('data-index') )
   }
   changeDrumSound(){
 
@@ -149,7 +118,7 @@ class Sequencer extends React.Component{
             </Cell>
             <Cell col={1}>
               <p className="effect-label mdl-color-text--white">Volume</p>
-              <Knob value={this.props.sequencer.volume} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="volume" color="green"/>
+              <Knob value={this.props.sequencer.volume} type="radial" min={0} max={100} step={1} onChange={this.changeMasterVolume} propName="volume" color="green"/>
             </Cell>
           </Grid>
         </Cell>
@@ -179,56 +148,56 @@ class Sequencer extends React.Component{
                 :
                 <ul>
                   {
-                    sequencer.drums.map((drum, index)=>{
+                    Object.values(sequencer.drums).map((drum, index)=>{
                       return (
                         <li key={index} className='mixer-item'>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Volume</p>
-                            <Knob value={drum.volume} type="radial" min={0} max={100} step={1} onChange={this.changeDrumSound} propName="volume" index={index}/>
+                            <Knob value={drum.volume} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="volume" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Pitch</p>
-                            <Knob value={drum.pitch} type="radial" min={0} max={100} step={1} onChange={this.changeDrumSound} propName="pitch" index={index}/>
+                            <Knob value={drum.pitch} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="pitch" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">High</p>
-                            <Knob value={drum.high} type="radial" min={0} max={80} step={1} onChange={this.changeDrumSound} propName="high" index={index}/>
+                            <Knob value={drum.high} type="radial" min={0} max={80} step={1} onChange={this.onChange} propName="high" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">High Freq</p>
-                            <Knob value={drum.highFreq} type="radial" min={sequencer.eqFreqs[drum.type+'Range'].high[0]} max={sequencer.eqFreqs[drum.type+'Range'].high[1]} step={1} onChange={this.changeDrumSound} propName="highFreq" index={index}/>
+                            <Knob value={drum.highFreq} type="radial" min={sequencer.eqFreqs[drum.type+'Range'].high[0]} max={sequencer.eqFreqs[drum.type+'Range'].high[1]} step={1} onChange={this.onChange} propName="highFreq" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Mid</p>
-                            <Knob value={drum.mid} type="radial" min={0} max={80} step={1} onChange={this.onChange} propName="mid" index={index}/>
+                            <Knob value={drum.mid} type="radial" min={0} max={80} step={1} onChange={this.onChange} propName="mid" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Mid Freq</p>
-                            <Knob value={drum.midFreq} type="radial" min={sequencer.eqFreqs[drum.type+'Range'].mid[0]} max={sequencer.eqFreqs[drum.type+'Range'].mid[1]} step={1} onChange={this.changeDrumSound} propName="midFreq" index={index}/>
+                            <Knob value={drum.midFreq} type="radial" min={sequencer.eqFreqs[drum.type+'Range'].mid[0]} max={sequencer.eqFreqs[drum.type+'Range'].mid[1]} step={1} onChange={this.onChange} propName="midFreq" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Low</p>
-                            <Knob value={drum.low} type="radial" min={0} max={80} step={1} onChange={this.changeDrumSound} propName="low" index={index}/>
+                            <Knob value={drum.low} type="radial" min={0} max={80} step={1} onChange={this.onChange} propName="low" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Low Freq</p>
-                            <Knob value={drum.lowFreq} type="radial" min={sequencer.eqFreqs[drum.type+'Range'].low[0]} max={sequencer.eqFreqs[drum.type+'Range'].low[1]} step={1} onChange={this.changeDrumSound} propName="lowFreq" index={index}/>
+                            <Knob value={drum.lowFreq} type="radial" min={sequencer.eqFreqs[drum.type+'Range'].low[0]} max={sequencer.eqFreqs[drum.type+'Range'].low[1]} step={1} onChange={this.onChange} propName="lowFreq" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Reverb</p>
-                            <Knob value={drum.reverbLevel} type="radial" min={0} max={100} step={1} onChange={this.changeDrumSound} propName="reverbLevel" index={index}/>
+                            <Knob value={drum.reverbLevel} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="reverbLevel" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Cutoff</p>
-                            <Knob value={drum.cutoff} type="radial" min={0} max={200} step={1} onChange={this.changeDrumSound} propName="cutoff" index={index}/>
+                            <Knob value={drum.cutoff} type="radial" min={0} max={200} step={1} onChange={this.onChange} propName="cutoff" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Q</p>
-                            <Knob value={drum.Q} type="radial" min={0} max={20} step={1} onChange={this.changeDrumSound} propName="Q" index={index}/>
+                            <Knob value={drum.Q} type="radial" min={0} max={20} step={1} onChange={this.onChange} propName="Q" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Filter Type</p>
-                              <select name="filterType" id="" className="browser-default" value={drum.filterType} onChange={this.changeDrumSound} data-index={index}>
+                              <select name="filterType" id="" className="browser-default" value={drum.filterType} onChange={this.changeFilter} data-index={drum.name}>
                                 <option value="lowpass">lowpass</option>
                                 <option value="highpass">highpass</option>
                                 <option value="bandpass">bandpass</option>
@@ -260,6 +229,7 @@ const mapStateToProps = state => ({
   playing:state.playing
 
 });
+//key value index
 const mapDispatchToProps = dispatch =>{
   return {
     toggleDrums: ( playing ) => {
@@ -267,6 +237,12 @@ const mapDispatchToProps = dispatch =>{
     },
     scheduleDrum: ( indexes ) => {
       dispatch(scheduleDrum( indexes ));
+    },
+    modifyDrum: ( key, value, index ) => {
+      dispatch(modifyDrum( {key, value, index } ))
+    },
+    changeSequencerVolume: ( volume ) => {
+      dispatch(changeSequencerVolume( volume ))
     }
   }
 }

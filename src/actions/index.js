@@ -51,7 +51,12 @@ export const name = 'synth'
 /*
  * other constants
  */
-
+ export const changeSequencerVolume = volume => {
+   return {
+     type:"CHANGE_VOLUME",
+     payload:volume
+   }
+ }
  export const changeTempo = tempo =>{
    return {
      type:"CHANGE_TEMPO",
@@ -86,12 +91,11 @@ export const modifyDrum = drum => {
      }
    };
  };
- export const reorderEffects = (parent, toIndex, fromIndex, id) => {
+ export const reorderEffects = (parent, dir, id) => {
    return {
      type:'REORDER_EFFECTS',
-     parent:parent,
-     toIndex,
-     fromIndex,
+     parent,
+     dir,
      id
    }
  }

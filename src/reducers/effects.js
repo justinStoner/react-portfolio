@@ -13,7 +13,8 @@ const initialState = {
       mode:0,
       col:1,
       id:overdriveId,
-      active:true
+      active:true,
+      index:0
     },
     [reverbId]:{
       type:'reverb',
@@ -21,7 +22,8 @@ const initialState = {
       active:true,
       col:1,
       id:reverbId,
-      reverbType:'hall'
+      reverbType:'hall',
+      index:1
     },
     [id1]:{
       type:'eq',
@@ -34,7 +36,7 @@ const initialState = {
       eq10k:0,
       active:false,
       col:2,
-      index:0
+      index:2
     },
     [id2]:{
       type:'delay',
@@ -44,7 +46,7 @@ const initialState = {
       wetLevel:15,
       active:false,
       col:2,
-      index:1
+      index:3
     },
     [id3]:{
       type:'compressor',
@@ -56,7 +58,7 @@ const initialState = {
       release:0.1,
       active:true,
       col:2,
-      index:2
+      index:4
     }
     // [id4]:{
     //   type:'sidechain-compressor',
@@ -85,13 +87,44 @@ const effects = (state = initialState, action) => {
     case 'REORDER_EFFECTS':
       newState = Object.assign({}, state);
       let effect1 = Object.assign({}, newState[action.parent][action.id]);
-      let effect2 = Object.assign({}, Object.values( newState[action.parent] ).filter( eff => {
-          return eff.index === action.toIndex
-        })[0]
-      )
-      console.log(effect2);
-      //TODO reorder array
+      let effect2;
+      let arr = Object.values(newState[action.parent]);
+      let obj={}
+      console.log(arr);
+      //moving right
+      if(action.dir){
+        //clast effect, cant move any further in this direction
+        if(effect1.index === arr.length-1) return newState
+        else{
+          effect2=arr[effect1.index+1]
+          effect1.index++;
+          effect2.index--;
+          arr[effect1.index] = effect1;
+          arr[effect2.index] = effect2;
+          arr.forEach( eff => {
+            obj[eff.id] = eff
+          })
+          console.log(obj);
+          newState[action.parent] = obj
+        }
+      }else{
+        //clast effect, cant move any further in this direction
+        if(effect1.index === 0) return newState
+        else{
+          effect2=arr[effect1.index-1]
+          effect1.index--;
+          effect2.index++;
+          arr[effect1.index] = effect1;
+          arr[effect2.index] = effect2;
+          arr.forEach( eff => {
+            obj[eff.id] = eff
+          })
+          console.log(obj);
+          newState[action.parent] = obj
+        }
+      }
       return newState
+      //TODO reorder array
       break;
     default:
       return state;

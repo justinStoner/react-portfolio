@@ -84,6 +84,12 @@ const sequencer = (state = initialState, action) => {
     case "SCHEDULE_DRUM":
       newState.scheduled[action.payload.sampleIndex][action.payload.noteIndex] = !newState.scheduled[action.payload.sampleIndex][action.payload.noteIndex]
       return newState;
+    case "MODIFY_DRUM":
+      newState.drums[action.payload.index][action.payload.key] = action.payload.value
+      return newState
+    case 'CHANGE_VOLUME':
+      newState.volume = action.payload
+      return newState
     default:
       return state
   }

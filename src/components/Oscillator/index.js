@@ -18,7 +18,7 @@ class Oscillator extends Component{
   }
   render(){
     return(
-      <div className={`mdl-shadow--2dp text-white mdl-color--deep-purple-A200`}>
+      <div className={`mdl-shadow--2dp text-white mdl-color--deep-purple-A100`}>
         <Grid>
           <Cell col={12} >
             <p className="effect-label">Oscillator {this.props.index+1}</p>
