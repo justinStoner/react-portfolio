@@ -2,12 +2,14 @@ import { combineReducers } from 'redux'
 import synth from './synth'
 import sequencer from './sequencer'
 import effects from './effects';
+import playing from './playing';
 import { oscillators, oscillator } from './oscillator';
 import { lfo } from './lfo';
 import { synthFilter } from './synthFilter';
 import { synthOutput } from './synthOutput';
 import { keys } from './keys';
 import { getContext } from '../utils/audio';
+import { tempo } from './tempo'
 
 const initialState = {
   context: getContext(),
@@ -49,7 +51,9 @@ const appState = combineReducers({
   effects,
   context,
   mount,
-  hasMounted
+  hasMounted,
+  tempo,
+  playing
 })
 
 export default appState

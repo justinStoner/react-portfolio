@@ -30,9 +30,8 @@ export class Waveform extends Component{
   }
   onResize(){
     let container=document.getElementById(this.props.containerId)
-    if(!container){
-      cancelAnimationFrame(animId);
-    }else{
+    cancelAnimationFrame(animId);
+    if(container){
       this.setState({width: container.clientWidth, height: container.clientHeight});
       this.draw();
     }

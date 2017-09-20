@@ -26,27 +26,27 @@ class Equalizer extends Component{
           <Cell col={12} >
             <p className="effect-label">Equalizer <Switch className="right effect-switch" ripple id="switch1" checked={effect.active} onChange={this.toggleEffect}>On</Switch></p>
           </Cell>
-          <Cell col={4} className="text-center">
+          <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">80hz</p>
             <Knob value={effect.eq80} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq80"/>
           </Cell>
-          <Cell col={4} className="text-center">
+          <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">350hz</p>
             <Knob value={effect.eq350} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq350"/>
           </Cell>
-          <Cell col={4} className="text-center">
+          <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">720hz</p>
             <Knob value={effect.eq720} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq720"/>
           </Cell>
-          <Cell col={4} className="text-center">
+          <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">1.6khz</p>
             <Knob value={effect.eq16k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq16k"/>
           </Cell>
-          <Cell col={4} className="text-center">
+          <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">5khz</p>
             <Knob value={effect.eq5k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq5k"/>
           </Cell>
-          <Cell col={4} className="text-center">
+          <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">10khz</p>
             <Knob value={effect.eq10k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq10k"/>
           </Cell>

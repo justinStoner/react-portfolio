@@ -18,20 +18,20 @@ class Oscillator extends Component{
   }
   render(){
     return(
-      <div className="mdl-shadow--2dp mdl-color--blue-grey-100">
+      <div className={`mdl-shadow--2dp text-white mdl-color--deep-purple-A200`}>
         <Grid>
           <Cell col={12} >
             <p className="effect-label">Oscillator {this.props.index+1}</p>
           </Cell>
-          <Cell col={6} className="text-center">
+          <Cell col={6} phone={1} tablet={4} className="text-center">
            <p className="effect-label">Mix</p>
             <Knob value={this.props.oscillators[this.props.index].volume} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="volume" index={this.props.index}/>
           </Cell>
-          <Cell col={6} className="text-center">
+          <Cell col={6} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Octave</p>
             <Knob value={this.props.oscillators[this.props.index].octave} type="radial" min={-5} max={5} step={1} onChange={this.props.onChange} propName="octave" index={this.props.index}/>
           </Cell>
-          <Cell col={6} className="text-center">
+          <Cell col={6} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Wave</p>
             <Knob value={waves.indexOf(this.props.oscillators[this.props.index].wave)} type="radial" min={0} max={3} step={1} onChange={this.props.onChange} propName="wave" type="select" index={this.props.index}/>
           </Cell>

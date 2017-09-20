@@ -114,25 +114,89 @@ const SelectSlider = React.createClass({
   getInitialState: function() {
     return {value: this.valueToDegree(this.props.defaultValue) || 0, displayValue:this.props.defaultValue};
   },
+  beginKeyboardInput: function() {
+    $all.addEventListener('keydown', this._onKeyDown, false);
+    //this.refs.container.click();
+    this.keyboardInput = true;
+  },
+  endKeyboardInput: function() {
+    $all.removeEventListener('keydown', this._onKeyDown, false);
+    this.keyboardInput = false;
+  },
+  _onKeyDown: function(e) {
+    //console.log('down');
+    var max = this.props.max;
+    var min = this.props.min;
+    var step = this.props.step || 1;
+
+    var LEFT_ARROW  = 37;
+    var UP_ARROW    = 38;
+    var RIGHT_ARROW = 39;
+    var DOWN_ARROW  = 40;
+
+    var val=this.state.displayValue;
+    console.log(e);
+    switch(e.keyCode) {
+      case UP_ARROW:
+      case RIGHT_ARROW:
+        val--;
+        break;
+      case DOWN_ARROW:
+      case LEFT_ARROW:
+        val++;
+        break;
+      case 13:
+        this.props.toggleInput();
+        break;
+    }
+    if(val > 3) val = 0
+    if(val < 0) val = 3;
+    e.preventDefault();
+    if(e.keyCode != 13){
+      this.setState({displayValue: val});
+      this.props.onChange(this.props.propName, waveTypes[val], this.props.index || 0);
+    }
+  },
   _handleWheelEvents: function(e) {
     e.preventDefault();
-    var deltaX = -e.detail || e.wheelDeltaX;
-    var deltaY = -e.detail || e.wheelDeltaY;
-    var val = deltaX > 0 || deltaY > 0 ? 1 : deltaX < 0 || deltaY < 0 ? -1 : 0;
-    if(val>0){
-      if(val>359) val=359;
-      val=this.state.value+this.props.step||1
-      this.setState({value: val, displayValue:this.degreeToValue(val)})
-    }else if(val<0){
-      if(val < 0) val=0;
-      val=this.state.value-this.props.step||1
-      this.setState({value: val, displayValue:this.degreeToValue(val)})
-    }
+    var val=this.state.displayValue+1;
+    if(val>3) val = 0;
+    this.setState({displayValue:val});
+    this.props.onChange(this.props.propName, waveTypes[val], this.props.index || 0);
+
   },
   selectItem(e){
     var val=e.target.getAttribute('data-value');
     this.setState({displayValue:val});
-    this.props.onChange(this.props.propName, waveTypes[val], this.props.index || 0)
+    this.props.onChange(this.props.propName, waveTypes[val], this.props.index || 0);
+    this.props.toggleInput();
+  },
+  componentDidMount: function() {
+  //  $all.addEventListener('mousemove', this._onMouseMove, false);
+    $all.addEventListener('mouseup', this._onMouseUp, false);
+    $all.addEventListener('mousewheel', this._handleWheelEvents, false);
+    $all.addEventListener('DOMMouseScroll', this._handleWheelEvents, false);
+    this.beginKeyboardInput();
+    //this.refs.input.focus();
+    this.tracking = true;
+  },
+  componentWillUnmount: function() {
+    //$all.removeEventListener('mousemove', this._onMouseMove, false);
+    $all.removeEventListener('mouseup', this._onMouseUp, false);
+    $all.removeEventListener('mousewheel', this._handleWheelEvents, false);
+    $all.removeEventListener('DOMMouseScroll', this._handleWheelEvents, false);
+    this.endKeyboardInput();
+    this.tracking = false;
+  },
+  _onMouseDown: function(e) {
+    //this.beginTracking();
+  },
+  _onMouseMove: function(e) {
+    //this.updateWithEvent(e, true);
+  },
+  _onMouseUp: function(e) {
+    //this.updateWithEvent(e, true);
+    //this.endTracking();
   },
   degreeToValue:function(value){
     var displayValue=(value - this.props.min) * (this.props.maxRange - this.props.minRange) / (this.props.max - this.props.min) + this.props.min;
@@ -157,7 +221,7 @@ const SelectSlider = React.createClass({
   render:function(){
     var x,y
     return(
-      <div className="svg-holder" onMouseDown={this._onMouseDown} ref="container" tabIndex="0" >
+      <div className="svg-holder" ref="container" tabIndex="0" >
         <svg viewBox={`0 0 ${size} ${size}`} filter="url(#shadow-4dp)">
           <g transform={`rotate(0 ${center} ${center})`} >
             {renderPaths([{color:this.props.defaultValue==0?'#ddd':'#fff', value:25},{color:this.props.defaultValue==1?'#ddd':'#fff', value:25},

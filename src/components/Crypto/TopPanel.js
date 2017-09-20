@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Cell, Chip, ChipContact, IconButton, Textfield } from 'react-mdl';
+import './Crypto.css';
 
 export class TopPanel extends Component{
   constructor(props){
@@ -27,7 +28,7 @@ export class TopPanel extends Component{
               onBlur={ () => {setTimeout( () =>{this.setState({searchText:'', searching:false})}, 300 )}}
               style={{padding:'0px'}}
               />
-              <IconButton name={this.state.isOpen ? 'close' : 'more_vert'} onClick={ () => {this.setState({isOpen:!this.state.isOpen})} }/>
+            <IconButton name="expand_less" className={'expandable ' + (this.state.isOpen?'isExpanded':'notExpanded')} onClick={ () => {this.setState({isOpen:!this.state.isOpen})} }/>
           </div>
         </Cell>
         {

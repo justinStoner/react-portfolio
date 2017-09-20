@@ -4,3 +4,9 @@
 .mdl-textfield label {
   top: -1px !important;
   font-size: 24px !important; }
+
+.expandable .isExpanded {
+  transform: rotate(180deg); }
+
+.expandable .notExpanded {
+  transform: rotate(0deg); }

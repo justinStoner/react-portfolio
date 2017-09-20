@@ -19,7 +19,7 @@ export class Key extends Component{
   render(){
     return(
         <li className={"key " + (this.props.note.color?"white":"black")} key={this.props.index} onTouchStart={this.noteStart} onTouchEnd={this.noteEnd} onMouseDown={this.noteStart} onMouseUp={this.noteEnd}>
-          <div className={(this.props.note.isPlaying?"mdl-shadow--2dp ":"mdl-shadow--4dp ")+(this.props.note.color?"mdl-color--white":"mdl-color--black text-white")}>
+          <div className={(this.props.note.isPlaying?"mdl-shadow--2dp mdl-color--blue-500 text-white ":(this.props.note.color?"mdl-color--white mdl-shadow--4dp ":"mdl-color--black mdl-shadow--4dp "))+(this.props.note.color?"white-key":" text-white")}>
             <p className="mdl-cell--hide-phone mdl-cell--hide-tablet">{this.props.note.key}</p>
             <p className="mdl-cell--hide-desktop">{this.props.note.note}</p>
           </div>
@@ -28,10 +28,14 @@ export class Key extends Component{
     )
   }
   noteStart(){
-    this.props.playNote(this.props.index);
+    this.props.playNote(this.props.note);
+    let event = new CustomEvent("mock-keydown", {detail:this.props.note.key})
+    window.dispatchEvent(event);
   }
   noteEnd(){
-    this.props.stopNote(this.props.index);
+    this.props.stopNote(this.props.note);
+    let event = new CustomEvent("mock-keyup", {detail:this.props.note.key})
+    window.dispatchEvent(event);
   }
 
 }

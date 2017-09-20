@@ -143,6 +143,7 @@ const RadialSlider = React.createClass({
     var DOWN_ARROW  = 40;
 
     var dir = 0;
+    //console.log(e);
     switch(e.keyCode) {
       case UP_ARROW:
       case RIGHT_ARROW:
@@ -152,13 +153,17 @@ const RadialSlider = React.createClass({
       case LEFT_ARROW:
         dir = -1;
         break;
+      case 13:
+        this.endTracking()
+        this.props.toggleInput();
+        break;
     }
     var val = value + (dir * step);
     if(val === max + 1) val = min;
     if(val === min - 1) val = max - 1;
     val = this.normalize(val);
-    if(dir) {
-      e.preventDefault();
+    e.preventDefault();
+    if(dir && e.keyCode !=13) {
       this.setState({value: val});
       if(this.props.onChange) {
         this.props.onChange(val);
@@ -254,6 +259,7 @@ const RadialSlider = React.createClass({
     this.keyboardInput = false;
   },
   inputChanged: function(event){
+    //console.log(event);
     if(!isNaN(event.target.value)){
       var displayValue=parseFloat(event.target.value);
       var value=this.valueToDegree(displayValue);

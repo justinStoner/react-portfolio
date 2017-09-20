@@ -1,14 +1,14 @@
 import uuid from 'uuid';
 const initialState=[
     {
-      wave:'sine',
+      wave:'sawtooth',
       detune:45,
       octave:-1,
       volume:100,
       index:0
     },
     {
-      wave:'square',
+      wave:'sine',
       detune:50,
       octave:0,
       volume:100,
@@ -17,7 +17,7 @@ const initialState=[
     {
       wave:'sawtooth',
       detune:55,
-      octave:3,
+      octave:2,
       volume:100,
       index:2
     }

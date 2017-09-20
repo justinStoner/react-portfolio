@@ -40,7 +40,7 @@ export class About extends React.Component{
           {
             name:'Aurelia',
             value:100,
-            description:'Aurelia is the front end framework I\'m most experienced in, and my personal favorite after three years of use. This site is built using it. For those who haven\'t heard of it, Aurelia is a MVC framework very similar to Angular.',
+            description:'Aurelia is the front end framework I\'m most experienced in, and my second favorite after three years of use. For those who haven\'t heard of it, Aurelia is a MVC framework very similar to Angular.',
           },
           {
             name:'Angular',
@@ -49,8 +49,8 @@ export class About extends React.Component{
           },
           {
             name:'React',
-            value:60,
-            description:'I only started using react about 6 months ago, but I think its a great framework and am very excited about react native.'
+            value:90,
+            description:'I only started using react about 9 months ago, but it\'s. my favorite framework so far'
           },
         ]
       },
@@ -80,7 +80,7 @@ export class About extends React.Component{
           {
             name:'Material-design-lite',
             value:70,
-            description:'Im new to this framework, but so far it\'s my favorite over bootstrap and the others. This site is using Material-design-lite'
+            description:'Im new to this framework, but so far it\'s my favorite over bootstrap and the others. This site is using Material-design-lite, and react-mdl wrappers'
           }
         ]
       },
@@ -91,6 +91,16 @@ export class About extends React.Component{
             name:'Sass',
             value:80,
             description:'The css for this site is written in Sass, using node-sass-chokidar for compilation'
+          },
+          {
+            name:'Grunt',
+            value:85,
+            description:''
+          },
+          {
+            name:'Gulp',
+            value:90,
+            description:''
           }
         ]
       },

@@ -5,7 +5,10 @@ import { keyDown, keyUp } from '../../actions';
 import EqAudio from '../Equalizer/EqAudio';
 import DelayAudio from '../Delay/DelayAudio';
 import CompressorAudio from '../Compressor/CompressorAudio';
+import { ReverbAudio } from '../Reverb';
+import { OverdriveAudio } from '../Overdrive';
 import { getContext } from '../../selectors';
+
 const octaves=[-3,-2,-1,0,1,2,3];
 const waves=['sine', 'sawtooth', 'square', 'triangle'];
 const notes={
@@ -51,25 +54,23 @@ export class SynthAudio extends Component{
     this.effectsChain.forEach( ( e, i ) => {
       if( !e.input ) e.input = this.effectsChain[i-1].output;
     })
-    // this.effectsChain.forEach( ( e, i ) => {
-    //   if( i !== this.effectsChain.length -1){
-    //     e.output.connect(this.effectsChain[i+1].input)
-    //   }
-    // })
-
   }
   componentDidUpdate(){
-    // console.log('SA updated ' + window.performance.now('SynthAudio'))
-    // window.performance.mark('SynthAudio');
+
+  }
+  shouldComponentUpdate(nextProps){
+    const props = this.props;
+    if(nextProps.oscillators != props.oscillators) return true
+    if(nextProps.synthFilter != props.synthFilter) return true
+    if(nextProps.synthOutput != props.synthOutput) return true
+    if(nextProps.effects != props.effects) return true
+    return false
   }
   componentWillReceiveProps(nextProps){
-    //console.log(nextProps);
-    // console.log('SA props '+window.performance.now('SynthAudio'))
-    // window.performance.mark('SynthAudio');
-
     const oscillators=nextProps.oscillators;
     const lfo = nextProps.lfo;
     const filter  = nextProps.synthFilter;
+    const output = nextProps.synthOutput;
     if(lfo != this.props.lfo){
       this.lfo.type = lfo.wave;
       this.lfo.frequency.value = lfo.freq;
@@ -100,7 +101,7 @@ export class SynthAudio extends Component{
     }
   }
   render(){
-    console.log(this.props.audio.sideChainIn);
+    console.log('SA render');
     return (
       <div>
           {
@@ -110,16 +111,16 @@ export class SynthAudio extends Component{
                 switch (e.type) {
                   case 'eq':
                     return <EqAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent="synth"/>
-                    break;
                   case 'delay':
                     return <DelayAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent="synth"/>
-                    break;
                   case 'compressor':
                     return <CompressorAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent="synth"/>
-                    break;
                   case 'sidechain-compressor':
                     return <CompressorAudio audio={this.props.context} input={this.effectsChain[i].input} mode="sidechain" sideChainInput={this.props.sideChainIn} output={this.effectsChain[i].output} id={e.id} key={i} parent="synth"/>
-                    break;
+                  case 'reverb':
+                    return <ReverbAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent="synth"/>
+                  case 'overdrive':
+                    return <OverdriveAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent="synth"/>
                   default:
                     return null
                 }
@@ -180,43 +181,63 @@ export class SynthAudio extends Component{
       this.lfo.type=this.props.lfo.wave;
       this.lfo.frequency.value=this.props.lfo.freq;
       this.lfo.detune.value=this.props.lfo.detune;
+
+      // this.reverbNode = this.props.context.createConvolver();
+      // this.reverbGain = this.props.context.createGain();
+      // this.reverbBypassGain = this.props.context.createGain();
+
       this.lfo.start(0);
       this.connect();
       window.addEventListener('keydown', this.play.bind(this));
       window.addEventListener('keyup', this.stop.bind(this));
+      window.addEventListener('mock-keydown', this.playFromClick.bind(this));
+      window.addEventListener('mock-keyup', this.stopFromClick.bind(this));
       //this.props.mount();
     //}
   }
 
   connect(){
-
-    //this.effectsIn.connect(this.eq);
-    //this.eq.connect(this.delay);
-    //this.delay.connect(this.compressor);
-    //this.compressor.connect(this.sideChain);
-    //this.sideChain.connect(this.effectsOut);
+    // this.reverbNode.connect(this.reverbGain);
+    // this.reverbGain.connect(this.props.audio.effectsIn)
+    // this.reverbBypassGain.connect(this.props.audio.effectsIn)
     this.props.audio.effectsOut.connect(this.props.audio.input);
   }
+
   play(e){
     let s=e.key;
+    let note;
     if(!e.key){
-      this.playKey(notes[String.fromCharCode(e.keyCode)]);
+      note=notes[String.fromCharCode(e.keyCode)]
     }else{
-      this.playKey(notes[s.toLowerCase()]);
+      note=notes[s.toLowerCase()]
+    }
+    if(note){
+      this.playKey(note);
+      this.props.playNote(note)
     }
   }
   stop(e){
     let s=e.key;
+    let note;
     if(!e.key){
-      this.stopKey(notes[String.fromCharCode(e.keyCode)]);
+      note=notes[String.fromCharCode(e.keyCode)]
     }else{
-      this.stopKey(notes[s.toLowerCase()]);
+      note = notes[s.toLowerCase()]
     }
+    if(note){
+      this.stopKey(note);
+      this.props.stopNote(note);
+    }
+  }
+  playFromClick(e){
+    this.playKey(notes[e.detail]);
+  }
+  stopFromClick(e){
+    this.stopKey(notes[e.detail]);
   }
   playKey(note){
      if(!note) return
      if(note.isPlaying===false){
-       //this.props.playNote(i)
        if(!note.hasPlayed){
          note['f1'] = this.props.context.createBiquadFilter();
          note['f2'] = this.props.context.createBiquadFilter();
@@ -304,7 +325,6 @@ export class SynthAudio extends Component{
   stopKey(note){
     if(!note) return
     if(note.isPlaying===true){
-      //this.props.stopNote(i);
       var now =  this.props.context.currentTime;
       var release = now + (this.props.synthOutput.envR/10.0);
       note['e'].gain.cancelScheduledValues(now);
@@ -335,7 +355,8 @@ SynthAudio.propTypes={
   synthOutput: PropTypes.object.isRequired,
   oscillators: PropTypes.array.isRequired,
   lfo: PropTypes.object.isRequired,
-  effects: PropTypes.object.isRequired
+  effects: PropTypes.object.isRequired,
+  keys:PropTypes.object.isRequired
 
 }
 const mapStateToProps = state => ({
@@ -345,7 +366,8 @@ const mapStateToProps = state => ({
   synthOutput: state.synthOutput,
   oscillators:state.oscillators,
   lfo:state.lfo,
-  effects:state.effects.synth
+  effects:state.effects.synth,
+  keys:state.keys
 });
 
 const mapDispatchToProps = dispatch =>{

@@ -7,11 +7,11 @@ import SynthFilter from '../SynthFilter';
 import Equalizer from '../Equalizer';
 import Delay from '../Delay';
 import Compressor from '../Compressor';
+import { ReverbUI } from '../Reverb';
+import { OverdriveUI } from '../Overdrive';
 import Keyboard from '../Keyboard';
 import {AudioVisualizer} from '../AudioVisualizer';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
-import * as selectors from '../../selectors';
 import PropTypes from 'prop-types';
 import { getContext } from '../../selectors';
 import './synth.css';
@@ -78,17 +78,17 @@ class Synth extends Component{
                         (() => {
                           switch (e.type) {
                             case 'eq':
-                              return <Equalizer parent="synth" id={e.id}/>
-                              break;
+                              return <Equalizer parent="synth" id={e.id} />
                             case 'delay':
                               return <Delay parent="synth" id={e.id}/>
-                              break;
                             case 'compressor':
                               return <Compressor parent="synth" id={e.id}/>
-                              break;
                             case 'sidechain-compressor':
                               return <Compressor parent="synth" id={e.id} mode='sidechain-compressor'/>
-                              break;
+                            case 'reverb':
+                              return <ReverbUI parent="synth" id={e.id}/>
+                            case 'overdrive':
+                              return <OverdriveUI parent="synth" id={e.id}/>
                             default:
                               return null
                           }

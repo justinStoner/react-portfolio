@@ -18,19 +18,19 @@ class SynthFilter extends Component{
           <Cell col={12} >
             <p className="effect-label">Filter</p>
           </Cell>
-          <Cell col={3} className="text-center">
+          <Cell col={3} phone={1} tablet={4} className="text-center">
            <p className="effect-label">Cutoff</p>
             <Knob value={this.props.filter.lpfCutoff} type="radial" min={0} max={200} step={1} onChange={this.props.onChange} propName="lpfCutoff"/>
           </Cell>
-          <Cell col={3} className="text-center">
+          <Cell col={3} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Q</p>
             <Knob value={this.props.filter.lpfQ} type="radial" min={0} max={20} step={1} onChange={this.props.onChange} propName="lpfQ"/>
           </Cell>
-          <Cell col={3} className="text-center">
+          <Cell col={3} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Mod</p>
             <Knob value={this.props.filter.lpfMod} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="lpfMod"/>
           </Cell>
-          <Cell col={3} className="text-center">
+          <Cell col={3} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Env</p>
             <Knob value={this.props.filter.lpfEnv} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="lpfEnv"/>
           </Cell>

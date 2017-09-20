@@ -46,11 +46,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch =>{
   return {
-    playNote: ( key, value ) => {
-      dispatch(keyDown( key, value ))
+    playNote: ( note ) => {
+      dispatch(keyDown( note ))
     },
-    stopNote: ( key, value ) => {
-      dispatch(keyUp( key, value ))
+    stopNote: ( note ) => {
+      dispatch(keyUp( note ))
     }
   }
 }

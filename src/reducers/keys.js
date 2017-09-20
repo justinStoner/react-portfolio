@@ -20,15 +20,15 @@ const initialState = {
 }
 
 export const keys = (state = initialState, action) => {
-  const newState = [...state]
+  const newState = Object.assign({}, state)
   switch (action.type) {
     case 'KEY_UP':
-      // newState[action.index] = Object.assign({}, newState[action.index], {isPlaying:false})
-      // return newState
+      newState[action.index.key] = Object.assign({}, newState[action.index.key], {isPlaying:false})
+      return newState
       // break;
     case 'KEY_DOWN':
-      // newState[action.index] = Object.assign({}, newState[action.index], {isPlaying:true})
-      // return newState;
+      newState[action.index.key] = Object.assign({}, newState[action.index.key], {isPlaying:true})
+      return newState;
       // break;
     default:
       return state;

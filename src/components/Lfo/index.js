@@ -13,20 +13,20 @@ class Lfo extends Component{
   }
   render(){
     return(
-      <div className="mdl-shadow--2dp mdl-color--deep-orange-400">
+      <div className="mdl-shadow--2dp mdl-color--deep-orange-400 text-white">
         <Grid>
           <Cell col={12} >
             <p className="effect-label">Lfo</p>
           </Cell>
-          <Cell col={4} className="text-center">
+          <Cell col={4} phone={1} tablet={4} className="text-center">
            <p className="effect-label">Frequency</p>
             <Knob value={this.props.lfo.freq} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="freq"/>
           </Cell>
-          <Cell col={4} className="text-center">
+          <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Wave</p>
             <Knob value={waves.indexOf(this.props.lfo.wave)} type="radial" min={0} max={3} step={1} onChange={this.props.onChange} type="select" propName="wave"/>
           </Cell>
-          <Cell col={4} className="text-center">
+          <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Osc1</p>
             <Knob value={this.props.lfo.osc0} type="radial" min={0} max={100} step={1} index={1} onChange={this.props.onChange} propName="osc" index={0}/>
           </Cell>

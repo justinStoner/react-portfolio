@@ -51,7 +51,24 @@ export const name = 'synth'
 /*
  * other constants
  */
-
+export const toggleDrums = playing =>{
+  return {
+    type:'TOGGLE_DRUMS',
+    payload:playing
+  }
+}
+export const scheduleDrum = indexes => {
+  return {
+    type:'SCHEDULE_DRUM',
+    payload:indexes
+  }
+}
+export const modifyDrum = drum => {
+  return {
+    type:'MODIFY_DRUM',
+    payload:drum
+  }
+}
  export const addEffect = effect => {
    return {
      type: C.ADD_EFFECT,
@@ -62,6 +79,15 @@ export const name = 'synth'
      }
    };
  };
+ export const reorderEffects = (parent, toIndex, fromIndex, id) => {
+   return {
+     type:'REORDER_EFFECTS',
+     parent:parent,
+     toIndex,
+     fromIndex,
+     id
+   }
+ }
  export const updateEffect = (key, value, parent, id) => {
    return {
      type: 'UPDATE_EFFECT',
@@ -80,15 +106,6 @@ export const name = 'synth'
    };
  };
 
- export const reorderEffects = (id, up = false) => {
-   return {
-     type: C.REORDER_EFFECTS,
-     payload: {
-       id,
-       up
-     }
-   };
- };
 
  export const setEffectSettings = settings => {
    return {

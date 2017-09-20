@@ -1,11 +1,11 @@
 const initialState = {
   lpfQ:10,
-  lpfMod:13,
+  lpfMod:78,
   lpfCutoff:7,
   lpfEnv:60,
   lpfA:50,
-  lpfD:20,
-  lpfS:30,
+  lpfD:50,
+  lpfS:18,
   lpfR:50
 }
 

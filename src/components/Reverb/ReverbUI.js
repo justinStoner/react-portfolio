@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { updateEffect, reorderEffects } from '../../actions';
 import PropTypes from 'prop-types';
 
-class Delay extends Component{
+class ReverbUI extends Component{
   constructor(props){
     super(props);
     this.toggleEffect=this.toggleEffect.bind(this);
@@ -22,25 +22,18 @@ class Delay extends Component{
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
     return(
-      <div className="mdl-shadow--2dp mdl-color--lime-400">
-        <Grid>
-          <Cell col={12} >
-            <p className="effect-label">Delay <Switch className="right effect-switch" ripple id={effect.id} checked={effect.active} onChange={this.toggleEffect}>On</Switch></p>
+      <div className="mdl-shadow--2dp mdl-color--lime-300">
+        <Grid style={{paddingBottom:'0'}}>
+          <Cell col={12} style={{marginBottom:'0'}}>
+            <p className="effect-label">Reverb <Switch className="right effect-switch" ripple id={effect.id} checked={effect.active} onChange={this.toggleEffect}></Switch></p>
           </Cell>
-          <Cell col={6} phone={1} tablet={4} className='text-center'>
-            <p className="effect-label">Time</p>
-            <Knob value={effect.delayTime} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="delayTime"/>
+          <Cell col={12} phone={1} tablet={4} className='text-center' style={{marginTop:'0'}}>
+            <p className="effect-label">Amount</p>
+            <Knob value={effect.amount} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="amount"/>
           </Cell>
-          <Cell col={6} phone={1} tablet={4} className='text-center'>
-            <p className="effect-label">Feedback</p>
-            <Knob value={effect.feedback} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="feedback"/>
-          </Cell>
-          <Cell col={6} phone={1} tablet={4} className='text-center'>
-            <p className="effect-label">Wet/Dry</p>
-            <Knob value={effect.wetLevel} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="wetLevel"/>
-          </Cell>
-          <Cell col={6} phone={1} tablet={4} phone={1} tablet={4} className='text-center'>
-
+          <Cell col={12} phone={1} tablet={4} className='text-center'>
+            <p className="effect-label">Type</p>
+            <Knob value={effect.reverbType} type="select" min={0} max={100} step={1} onChange={this.onChange} propName="reverbType"/>
           </Cell>
         </Grid>
       </div>
@@ -48,7 +41,7 @@ class Delay extends Component{
   }
 }
 //<button onClick={ ()=>{this.props.reOrder(this.props.parent, effect.index, 0, effect.id)} }>re order</button>
-Delay.propTypes={
+ReverbUI.propTypes={
   effects: PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({
@@ -67,4 +60,4 @@ const mapDispatchToProps = dispatch =>{
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Delay)
+export default connect(mapStateToProps, mapDispatchToProps)(ReverbUI)

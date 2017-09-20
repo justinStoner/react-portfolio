@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Cell, Button } from 'react-mdl'
+import { Grid, Cell, Button, Tooltip } from 'react-mdl'
 import { Knob } from '../Knob';
 import { AudioVisualizer } from '../AudioVisualizer';
 import { AvModeSelector } from '../AudioVisualizer/AvModeSelector'
@@ -22,19 +22,22 @@ class SynthOutput extends Component{
           <Cell col={12} >
             <p className="effect-label">Synth</p>
           </Cell>
-          <Cell col={3} className="text-center">
-           <p className="effect-label">Drive</p>
-            <Knob value={this.props.output.drive} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="drive" color="green"/>
+          <Cell col={3} phone={1} tablet={4} className="text-center">
+
           </Cell>
-          <Cell col={3} className="text-center">
-            <p className="effect-label">Reverb</p>
-            <Knob value={this.props.output.reverb} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="reverb" color="green"/>
-          </Cell>
-          <Cell col={3} className="text-center">
+          <Cell col={3} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Volume</p>
             <Knob value={this.props.output.masterVol} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="masterVol" color="green"/>
           </Cell>
-          <Cell col={3} className="text-center">
+          <Cell col={3} phone={1} tablet={4} className="text-center">
+            <p className="effect-label">Effects</p>
+            <Tooltip label="Coming soon!" position="top">
+              <Button raised ripple className="mdl-color--green-A400 round-button text-white" >
+                <i className="material-icons">add</i>
+              </Button>
+            </Tooltip>
+          </Cell>
+          <Cell col={3} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Visualizer</p>
             <AvModeSelector visualizerType={this.props.output.visualizerType} visualizerOn={this.props.output.visualizerOn} onClick={ this.props.onChange } />
           </Cell>

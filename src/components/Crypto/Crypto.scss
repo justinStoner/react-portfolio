@@ -6,7 +6,15 @@
 
 .mdl-textfield{
   label{
-    top:-1px !important; 
+    top:-1px !important;
     font-size:24px !important;
+  }
+}
+.expandable{
+  .isExpanded{
+    transform: rotate(180deg);
+  }
+  .notExpanded{
+    transform: rotate(0deg);
   }
 }

@@ -8,8 +8,12 @@ import { Provider } from 'react-redux'
 //import { createStore } from 'redux'
 import  configureStore from './reducers/store'
 //import appState from './reducers';
+import polyfill from 'object.values';
 import './index.css';
 //let store=createStore(appState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+if(!Object.values){
+  polyfill.shim();
+}
 ReactDOM.render(
   <Provider store={configureStore()}>
     <App />

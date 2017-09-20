@@ -1,10 +1,10 @@
 const initialState = {
-  wave:'sine',
+  wave:'sawtooth',
   detune:50,
-  osc0:4,
-  osc1:8,
-  osc2:12,
-  freq:13,
+  osc0:50,
+  osc1:40,
+  osc2:60,
+  freq:6,
   type:'Lfo',
   volume:50
 }

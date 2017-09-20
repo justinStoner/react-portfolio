@@ -36,7 +36,8 @@ export class Knob extends Component{
             className: 'angle-input mdl-shadow--2dp',
             pivotClassName: 'angle-input-pivot',
             onChange: this.props.onChange,
-            onInput: function(newAngle) {}
+            onInput: function(newAngle) {},
+            toggleInput: this.toggleInput
           })
         }
         {isToggled &&

@@ -1,7 +1,5 @@
 const initialState = {
   masterVol:50,
-  reverb:13,
-  drive:10,
   visualizerOn:false,
   visualizerType:'waveform',
   envA:20,

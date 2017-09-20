@@ -35,7 +35,7 @@
   height: 100%;
   margin: 0 0.3rem 0 0;
 }
-.key>div.mdl-color--white p{
+.key>div.white-key p{
   position: relative;
   top: 55%;
 }
