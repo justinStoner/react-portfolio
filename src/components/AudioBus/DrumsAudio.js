@@ -125,8 +125,8 @@ export class DrumsAudio extends Component{
       //sample.gain.connect(this.gain);
       //this.gain.connect(this.effectsIn);
     //}
-    this.gain.gain.value=this.volume/50;
-    this.sideChainGain.gain.value=this.volume/50;
+    this.gain.gain.value=this.props.sequencer.volume/50;
+    this.sideChainGain.gain.value=this.props.sequencer.volume/50;
     src.start(time);
   }
   playSample(sample){
@@ -154,7 +154,7 @@ export class DrumsAudio extends Component{
       this.setState({notePlaying:this.notePlaying})
     }
   }
-  
+
 
   componentWillReceiveProps(newProps){
     console.log(newProps.playing, this.props.playing);

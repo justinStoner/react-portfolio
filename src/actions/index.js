@@ -51,6 +51,13 @@ export const name = 'synth'
 /*
  * other constants
  */
+
+ export const changeTempo = tempo =>{
+   return {
+     type:"CHANGE_TEMPO",
+     payload:tempo
+   }
+ }
 export const toggleDrums = playing =>{
   return {
     type:'TOGGLE_DRUMS',

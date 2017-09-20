@@ -20,6 +20,7 @@ import { AudioBus } from '../AudioBus';
 import SynthAudio from '../AudioBus/SynthAudio';
 import DrumsAudio from '../AudioBus/DrumsAudio';
 import NavDrawer from '../Nav/NavDrawer';
+import { changeTempo } from '../../actions'
 //import { actionCreators } from 'react-redux-webaudio';
 var testExp = new RegExp('Android|webOS|iPhone|iPad|' + 'BlackBerry|Windows Phone|'  + 'Opera Mini|IEMobile|Mobile' , 'i');
 const isMobile=testExp.test(navigator.userAgent);
@@ -28,7 +29,7 @@ let synthMounted=false;
 const mountSynth=()=>{
   synthMounted=true;
 }
-const App=({playing, context, tempo})=>{
+const App=({playing, context, tempo, updateTempo})=>{
   let analyser=context.createAnalyser();
   let synthAudio={
     analyser:context.createAnalyser(),
@@ -57,7 +58,7 @@ const App=({playing, context, tempo})=>{
                 <Header title="Synth" className="mdl-color--blue-500">
                   <span style={{paddingRight:'8px'}}>Tempo</span>
                   <Textfield
-                      onChange={() => {}}
+                      onChange={(e) => {updateTempo(e.target.value)}}
                       pattern="-?[0-9]*(\.[0-9]+)?"
                       error="number"
                       label="Tempo"
@@ -70,7 +71,7 @@ const App=({playing, context, tempo})=>{
                 <Header title="Sequencer" className="mdl-color--blue-500">
                   <span style={{paddingRight:'8px'}}>Tempo</span>
                   <Textfield
-                      onChange={() => {}}
+                      onChange={(e) => {updateTempo(e.target.value)}}
                       pattern="-?[0-9]*(\.[0-9]+)?"
                       error="number"
                       label="Tempo"
@@ -89,7 +90,7 @@ const App=({playing, context, tempo})=>{
                 <Synth audio={synthAudio} hasMounted={synthMounted} mount={mountSynth} />
                 )}/>
               <Route path="/sequencer" render={(props)=>(
-                  <Sequencer tempo={120} audio={drumsAudio} context={context}/>
+                  <Sequencer audio={drumsAudio} context={context}/>
                 )}/>
               <Route path="/crypto" render={(props)=>(
                   <Crypto />
@@ -110,4 +111,12 @@ const mapStateToProps = state => ({
   tempo:state.tempo
 });
 
-export default connect(mapStateToProps, null)(App);
+const mapDispatchToProps = dispatch =>{
+  return {
+    updateTempo: ( tempo ) => {
+      dispatch(changeTempo( tempo ))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

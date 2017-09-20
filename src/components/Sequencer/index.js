@@ -149,7 +149,7 @@ class Sequencer extends React.Component{
             </Cell>
             <Cell col={1}>
               <p className="effect-label mdl-color-text--white">Volume</p>
-              <Knob value={this.state.volume} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="volume" color="green"/>
+              <Knob value={this.props.sequencer.volume} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="volume" color="green"/>
             </Cell>
           </Grid>
         </Cell>
