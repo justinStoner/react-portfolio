@@ -26,7 +26,7 @@ export class Fractal extends Component{
   }
   render(){
     return(
-      <canvas width={this.state.width} height={this.state.height} id='fractal' style={{position:'absolute', zIndex:0, marginTop:'-208px'}}></canvas>
+      <canvas width={this.state.width} height={this.state.height} id='fractal' style={{position:'absolute', zIndex:0, marginTop:this.props.marginTop}}></canvas>
     )
   }
   componentDidMount(){

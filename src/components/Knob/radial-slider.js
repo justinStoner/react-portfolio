@@ -229,6 +229,7 @@ const RadialSlider = React.createClass({
         }
       }
       var displayValue=this.degreeToValue(value)
+      if( this.props.minRange < 0 ) displayValue = displayValue + this.props.minRange
       this.setState({value: value, displayValue:displayValue});
       //var fx = done
       this.props.onChange(this.props.propName, displayValue, this.props.index || 0)

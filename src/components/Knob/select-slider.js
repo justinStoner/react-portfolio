@@ -154,7 +154,7 @@ const SelectSlider = React.createClass({
     e.preventDefault();
     if(e.keyCode != 13){
       this.setState({displayValue: val});
-      this.props.onChange(this.props.propName, waveTypes[val], this.props.index || 0);
+      this.props.onChange(this.props.propName, this.props.labels?val:waveTypes[val], this.props.index || 0);
     }
   },
   _handleWheelEvents: function(e) {
@@ -162,13 +162,13 @@ const SelectSlider = React.createClass({
     var val=this.state.displayValue+1;
     if(val>3) val = 0;
     this.setState({displayValue:val});
-    this.props.onChange(this.props.propName, waveTypes[val], this.props.index || 0);
+    this.props.onChange(this.props.propName, this.props.labels?val:waveTypes[val], this.props.index || 0);
 
   },
   selectItem(e){
     var val=e.target.getAttribute('data-value');
     this.setState({displayValue:val});
-    this.props.onChange(this.props.propName, waveTypes[val], this.props.index || 0);
+    this.props.onChange(this.props.propName, this.props.labels?val:waveTypes[val], this.props.index || 0);
     this.props.toggleInput();
   },
   componentDidMount: function() {
@@ -249,7 +249,7 @@ const SelectSlider = React.createClass({
 
                 }
                 return(
-                  <text key={index} fill={this.props.defaultValue==index?'#2196f3':'rgba(0,0,0,0.87)'} transform={`translate (${x} ${y})`} data-value={index} onClick={this.selectItem}>{wave}</text>
+                  <text key={index} fill={this.props.defaultValue==index?'#2196f3':'rgba(0,0,0,0.87)'} transform={`translate (${x} ${y})`} data-value={index} onClick={this.selectItem}>{this.props.labels?this.props.labels[index]:wave}</text>
                 )
               })
             }

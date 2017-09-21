@@ -29,6 +29,7 @@ const initialState={
     'Roland_TR-33_Clave':{name:'Roland_TR-33_Clave', type:'tom', displayName:'clave', volume:50, pitch:0, high:40, highFreq:5000, mid:40, midFreq:600, low:40,lowFreq:250,
     Q:10,  cutoff:200, filterType:'lowpass', reverbLevel:32}
   },
+  visualizerType:'waveform',
   loopLength:16,
   hasPlayed:false,
   volume:85,

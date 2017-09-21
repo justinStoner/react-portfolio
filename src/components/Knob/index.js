@@ -37,7 +37,8 @@ export class Knob extends Component{
             pivotClassName: 'angle-input-pivot',
             onChange: this.props.onChange,
             onInput: function(newAngle) {},
-            toggleInput: this.toggleInput
+            toggleInput: this.toggleInput,
+            labels:this.props.labels
           })
         }
         {isToggled &&
@@ -46,9 +47,9 @@ export class Knob extends Component{
             onClick:this.toggleInput
           })
         }
-        <Button raised ripple className={(this.props.color==='green'?"mdl-color--green-A400 ":"mdl-color--blue-500") + " round-button text-white"} onClick={this.toggleInput}>
-          {this.props.type==='select'?
-            waves[this.props.value]
+        <Button raised ripple className={(this.props.color==='green'?"mdl-color--green-A400 ":"mdl-color--blue-500") + " round-button text-white"} onClick={this.toggleInput} disabled={this.props.disabled}>
+          {this.props.type==='select' && !this.props.labels?
+          waves[this.props.value]
           :this.props.value}
         </Button>
       </div>

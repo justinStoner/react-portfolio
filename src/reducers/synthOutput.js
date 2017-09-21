@@ -1,6 +1,5 @@
 const initialState = {
   masterVol:50,
-  visualizerOn:false,
   visualizerType:'waveform',
   envA:20,
   envD:65,

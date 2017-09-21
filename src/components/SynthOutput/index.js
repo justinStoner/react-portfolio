@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Grid, Cell, Button, Tooltip } from 'react-mdl'
+import { Grid, Cell, Button, Tooltip, Menu, MenuItem } from 'react-mdl'
 import { Knob } from '../Knob';
 import { AudioVisualizer } from '../AudioVisualizer';
 import { AvModeSelector } from '../AudioVisualizer/AvModeSelector'
 import { connect } from 'react-redux';
-import { updateSynthOutput } from '../../actions';
+import { updateSynthOutput, addEffect } from '../../actions';
 import * as selectors from '../../selectors';
 import PropTypes from 'prop-types';
+import { AddEffect } from '../EffectBank'
 import './synthoutput.css';
+
 class SynthOutput extends Component{
   constructor(props){
     super(props);
@@ -23,23 +25,19 @@ class SynthOutput extends Component{
             <p className="effect-label">Synth</p>
           </Cell>
           <Cell col={3} phone={1} tablet={4} className="text-center">
-
+            <p className="effect-label">Octave</p>
+            <Knob value={this.props.output.synthOctave} type="radial" min={-3} max={3} step={1} onChange={this.props.onChange} propName="synthOctave" color="green"/>
           </Cell>
           <Cell col={3} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Volume</p>
             <Knob value={this.props.output.masterVol} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="masterVol" color="green"/>
           </Cell>
           <Cell col={3} phone={1} tablet={4} className="text-center">
-            <p className="effect-label">Effects</p>
-            <Tooltip label="Coming soon!" position="top">
-              <Button raised ripple className="mdl-color--green-A400 round-button text-white" >
-                <i className="material-icons">add</i>
-              </Button>
-            </Tooltip>
+            <AddEffect addEffect={this.props.addEffect} parent="synth"/>
           </Cell>
           <Cell col={3} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Visualizer</p>
-            <AvModeSelector visualizerType={this.props.output.visualizerType} visualizerOn={this.props.output.visualizerOn} onClick={ this.props.onChange } />
+            <AvModeSelector visualizerType={this.props.output.visualizerType} onClick={ this.props.onChange } />
           </Cell>
           <Cell col={3} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Attack</p>
@@ -58,7 +56,7 @@ class SynthOutput extends Component{
             <Knob value={this.props.output.envR} type="radial" min={0} max={100} step={1} onChange={this.props.onChange} propName="envR" color="green"/>
           </Cell>
         </Grid>
-        <AudioVisualizer visualizerType={this.props.output.visualizerType} containerId='synthoutput' audio={this.props.audio} visualizerOn={this.props.output.visualizerOn}></AudioVisualizer>
+        <AudioVisualizer visualizerType={this.props.output.visualizerType} containerId='synthoutput' audio={this.props.audio} visualizerOn={this.props.output.visualizerOn} marginTop='-208px'/>
       </div>
     )
   }
@@ -75,6 +73,9 @@ const mapDispatchToProps = dispatch =>{
   return {
     onChange: ( key, value ) => {
       dispatch(updateSynthOutput( key, value ))
+    },
+    addEffect: ( type, parent ) => {
+      dispatch(addEffect( type, parent ))
     }
   }
 }

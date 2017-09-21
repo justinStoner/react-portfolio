@@ -63,6 +63,11 @@ class EqAudio extends Component{
       }
   //  }
   }
+  componentWillUnmount(){
+    this.props.input.disconnect();
+    this.eq10k.disconnect();
+    this.props.input.connect(this.props.output)
+  }
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
     this.eq80.gain.value=effect.eq80;

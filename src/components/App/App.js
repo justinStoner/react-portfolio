@@ -8,8 +8,8 @@ import {
   Link
 } from 'react-router-dom';
 
-import {Synth} from '../Synth';
-import Sequencer from '../Sequencer';
+import { SynthUI, SynthAudio } from '../Synth';
+import { SequencerUI, SequencerAudio } from '../Sequencer';
 import {About} from '../About';
 import { Crypto } from '../Crypto';
 import { MaterialShadowsSvg } from './material-shadows-svg';
@@ -17,8 +17,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getContext } from '../../selectors';
 import { AudioBus } from '../AudioBus';
-import SynthAudio from '../AudioBus/SynthAudio';
-import DrumsAudio from '../AudioBus/DrumsAudio';
 import NavDrawer from '../Nav/NavDrawer';
 import { changeTempo } from '../../actions'
 //import { actionCreators } from 'react-redux-webaudio';
@@ -38,6 +36,7 @@ const App=({playing, context, tempo, updateTempo})=>{
     effectsOut:context.createGain()
   }
   let drumsAudio={
+    analyser:context.createAnalyser(),
     input:context.createGain(),
     analyser:context.createAnalyser(),
     sideChainOutput:context.createGain()
@@ -50,7 +49,7 @@ const App=({playing, context, tempo, updateTempo})=>{
           <Layout fixedHeader fixedDrawer style={{background:'#e0e0e0'}}>
             <AudioBus synth={synthAudio} drums={drumsAudio} analyser={analyser} context={context} />
             <SynthAudio audio={synthAudio} sideChainIn={drumsAudio.sideChainOutput}/>
-            <DrumsAudio audio={drumsAudio} />
+            <SequencerAudio audio={drumsAudio} />
             <Route exact path="/" render={(props)=>(
                 <Header title="About" className="mdl-color--blue-500"></Header>
               )}/>
@@ -87,14 +86,14 @@ const App=({playing, context, tempo, updateTempo})=>{
             <Content>
               <Route exact path="/" component={About}/>
               <Route path="/synth" render={(props)=>(
-                <Synth audio={synthAudio} hasMounted={synthMounted} mount={mountSynth} />
+                  <SynthUI audio={synthAudio} hasMounted={synthMounted} mount={mountSynth} />
                 )}/>
               <Route path="/sequencer" render={(props)=>(
-                  <Sequencer audio={drumsAudio} context={context}/>
+                  <SequencerUI audio={drumsAudio} context={context}/>
                 )}/>
               <Route path="/crypto" render={(props)=>(
                   <Crypto />
-                  )}/>
+                )}/>
             </Content>
             <MaterialShadowsSvg/>
           </Layout>

@@ -5,13 +5,16 @@ const id3 = uuid.v4()
 const id4 = uuid.v4()
 const reverbId = uuid.v4()
 const overdriveId = uuid.v4()
+
 const initialState = {
   synth:{
     [overdriveId]:{
       type:'overdrive',
-      amount:50,
+      gain:50,
       mode:0,
-      col:1,
+      curve:50,
+      drive:50,
+      col:2,
       id:overdriveId,
       active:true,
       index:0
@@ -20,7 +23,9 @@ const initialState = {
       type:'reverb',
       amount:66,
       active:true,
-      col:1,
+      col:2,
+      highCut:22050,
+      lowCut:20,
       id:reverbId,
       reverbType:'hall',
       index:1
@@ -75,9 +80,10 @@ const initialState = {
   },
   drums:{}
 }
+const presets = Object.values(initialState.synth).map( i => i)
 
 const effects = (state = initialState, action) => {
-  let newState;
+  let newState, obj, arr;
   switch (action.type) {
     case 'UPDATE_EFFECT':
       newState = Object.assign({}, state);
@@ -88,8 +94,8 @@ const effects = (state = initialState, action) => {
       newState = Object.assign({}, state);
       let effect1 = Object.assign({}, newState[action.parent][action.id]);
       let effect2;
-      let arr = Object.values(newState[action.parent]);
-      let obj={}
+      arr = Object.values(newState[action.parent]);
+      obj={}
       console.log(arr);
       //moving right
       if(action.dir){
@@ -126,8 +132,32 @@ const effects = (state = initialState, action) => {
       return newState
       //TODO reorder array
       break;
+    case 'ADD_EFFECT':
+      newState = Object.assign({}, state);
+      newState[action.parent] = Object.assign({}, newState[action.parent])
+      obj = presets.filter( p => p.type === action.payload)[0];
+      //length++
+      obj.index = Object.values(newState[action.parent]).length
+      let id = uuid.v4()
+      obj.id=id
+      newState[action.parent][id]=obj
+      return newState
+    case 'REMOVE_EFFECT':
+      obj = {}
+      newState = Object.assign({}, state);
+      let index = newState[action.parent][action.id].index
+      console.log(index);
+      arr = Object.values(newState[action.parent])
+      arr.splice( index, 1 )
+      arr.forEach( i => {
+        if( i.index > index) i.index--
+        obj[i.id] = i
+      })
+            console.log(obj);
+      newState[action.parent] = obj;
+      return newState
     default:
-      return state;
+      return state
   }
 }
 

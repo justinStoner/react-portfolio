@@ -2,6 +2,7 @@ import React, { Component }  from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getContext } from '../../selectors';
+import { EffectsAudio } from '../EffectBank';
 let sampleNames=[];
 export class DrumsAudio extends Component{
   constructor(props){
@@ -27,7 +28,7 @@ export class DrumsAudio extends Component{
       })
     })
     this.gain=context.createGain();
-    this.gain.connect(this.props.audio.input)
+    //this.gain.connect(this.props.audio.input)
     this.sideChainGain=context.createGain();
     this.props.audio.input.connect(this.props.audio.analyser)
     this.props.audio.analyser.fftSize=2048;
@@ -58,8 +59,9 @@ export class DrumsAudio extends Component{
     })
   }
   render(){
-
-    return null
+    return (
+      <EffectsAudio effects={this.props.effects} context={this.props.context} effectsIn={this.gain} effectsOut={this.props.audio.input} parent="drums"/>
+    )
   }
   loadSample(name){
     //var source = this.context.createBufferSource();
@@ -74,6 +76,13 @@ export class DrumsAudio extends Component{
         })
       })
   }
+  updateReverb(val, sample){
+    val=val/100;
+    var gain1 = Math.cos(val * 0.5*Math.PI);
+	  var gain2 = Math.cos((1.0-val) * 0.5*Math.PI);
+    sample.revGain.gain.value=gain2;
+    sample.revBypassGain.gain.value=gain1;
+  }
   playSound(sample, time){
     var src=this.props.context.createBufferSource();
     const drumSettings = this.props.sequencer.drums[sample.name];
@@ -84,6 +93,8 @@ export class DrumsAudio extends Component{
 
     src.connect(sample.revNode);
     src.connect(sample.revBypassGain);
+
+    this.updateReverb(drumSettings.reverbLevel, sample)
 
     sample.eq120.frequency.value=drumSettings.lowFreq;
     sample.eq120.type="lowshelf";
@@ -207,13 +218,15 @@ DrumsAudio.propTypes={
   context: PropTypes.object.isRequired,
   tempo: PropTypes.number,
   sequencer:PropTypes.object,
-  playing: PropTypes.bool.isRequired
+  playing: PropTypes.bool.isRequired,
+  effects: PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({
   context: getContext(state),
   tempo:state.tempo,
   sequencer:state.sequencer,
-  playing: state.playing
+  playing: state.playing,
+  effects: state.effects.drums
 });
 
 export default connect(mapStateToProps, undefined)(DrumsAudio)

@@ -51,6 +51,13 @@ export const name = 'synth'
 /*
  * other constants
  */
+ export const addEffect = ( type, parent) => {
+   return {
+     type:'ADD_EFFECT',
+     payload:type,
+     parent
+   }
+ }
  export const changeSequencerVolume = volume => {
    return {
      type:"CHANGE_VOLUME",
@@ -81,16 +88,6 @@ export const modifyDrum = drum => {
     payload:drum
   }
 }
- export const addEffect = effect => {
-   return {
-     type: C.ADD_EFFECT,
-     payload: {
-       id: uuid.v4(),
-       type: effect//,
-       //...defaultSettings[effect]
-     }
-   };
- };
  export const reorderEffects = (parent, dir, id) => {
    return {
      type:'REORDER_EFFECTS',
@@ -110,10 +107,11 @@ export const modifyDrum = drum => {
      }
    };
  };
- export const removeEffect = id => {
+ export const removeEffect = ( parent, id ) => {
    return {
-     type: C.REMOVE_EFFECT,
-     payload: id
+     type: 'REMOVE_EFFECT',
+     parent,
+     id
    };
  };
 

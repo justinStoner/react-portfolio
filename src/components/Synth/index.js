@@ -1,3 +1,4 @@
-import Synth from './Synth';
+import SynthUI from './SynthUI';
+import SynthAudio from './SynthAudio';
 
-export { Synth };
+export { SynthUI, SynthAudio };

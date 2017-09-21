@@ -40,6 +40,12 @@ class ReverbAudio extends Component{
       this.props.input.connect(this.props.output);
     }
   }
+  componentWillUnmount(){
+    this.props.input.disconnect();
+    this.reverbGain.disconnect();
+    this.reverbBypassGain.disconnect();
+    this.props.input.connect(this.props.output)
+  }
   componentWillReceiveProps(nextProps){
     //const active=this.props.effects[this.props.parent][this.props.id].active;
     const nextActive=nextProps.effects[nextProps.parent][nextProps.id].active;

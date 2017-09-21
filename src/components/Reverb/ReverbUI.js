@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Cell, Menu, MenuItem, IconButton } from 'react-mdl'
 import { Knob } from '../Knob';
 import { connect } from 'react-redux';
-import { updateEffect, reorderEffects } from '../../actions';
+import { updateEffect, reorderEffects, removeEffect } from '../../actions';
 import PropTypes from 'prop-types';
 
 class ReverbUI extends Component{
@@ -26,24 +26,32 @@ class ReverbUI extends Component{
     const effect=this.props.effects[this.props.parent][this.props.id];
     return(
       <div className="mdl-shadow--2dp mdl-color--lime-300">
-        <Grid style={{paddingBottom:'0'}}>
-          <Cell col={12} style={{marginBottom:'0'}}>
+        <Grid>
+          <Cell col={12}>
             <p className="effect-label left">Reverb</p>
-            <IconButton className="right" ripple name="more_vert" id={effect.id} style={{marginTop:'-8px'}}/>
+            <IconButton className="right" ripple name="more_vert" id={effect.id} style={{marginTop:'-8px', marginRight:'-8px'}}/>
             <Menu target={effect.id} ripple align="left">
                 <MenuItem onClick={this.toggleEffect}>{effect.active?'Deactivate':'Activate'}</MenuItem>
                 <MenuItem onClick={() => {this.reOrder(false)}}>Move Left</MenuItem>
                 <MenuItem onClick={() => {this.reOrder(true)}}>Move Right</MenuItem>
-                <MenuItem onClick={() => {}}>Remove</MenuItem>
+                <MenuItem onClick={() => {this.props.remove( this.props.parent, effect.id )}}>Remove</MenuItem>
             </Menu>
           </Cell>
-          <Cell col={12} phone={1} tablet={4} className='text-center' style={{marginTop:'0'}}>
+          <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Amount</p>
             <Knob value={effect.amount} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="amount"/>
           </Cell>
-          <Cell col={12} phone={1} tablet={4} className='text-center'>
+          <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Type</p>
-            <Knob value={effect.reverbType} type="select" min={0} max={100} step={1} onChange={this.onChange} propName="reverbType"/>
+            <Knob value={effect.reverbType} type="select" labels={['hall', 'room', 'plate', 'spring']} min={0} max={100} step={1} onChange={this.onChange} propName="reverbType" disabled/>
+          </Cell>
+          <Cell col={6} phone={1} tablet={4} className='text-center'>
+            <p className="effect-label">High Cut</p>
+            <Knob value={effect.highCut} type="radial" min={0} max={22050} step={1} onChange={this.onChange} propName="highCut"/>
+          </Cell>
+          <Cell col={6} phone={1} tablet={4} className='text-center'>
+            <p className="effect-label">Low Cut</p>
+            <Knob value={effect.lowCut} type="radial" min={0} max={22050} step={1} onChange={this.onChange} propName="lowCut"/>
           </Cell>
         </Grid>
       </div>
@@ -65,6 +73,9 @@ const mapDispatchToProps = dispatch =>{
     },
     reOrder: ( parent, toIndex, fromIndex ) => {
       dispatch(reorderEffects( parent, toIndex, fromIndex ))
+    },
+    remove: ( parent, id ) => {
+      dispatch(removeEffect( parent, id ))
     }
   }
 }

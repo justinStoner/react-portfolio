@@ -12,15 +12,18 @@ class OverdriveAudio extends Component{
     const effect=this.props.effects[this.props.parent][this.props.id];
 
     this.drive = new this.tuna.Overdrive({
-        outputGain: effect.amount/100,         //0 to 1+
-        drive: effect.amount/100,              //0 to 1
-        curveAmount: effect.amount/100,          //0 to 1
+        outputGain: effect.gain/100,         //0 to 1+
+        drive: effect.drive/100,              //0 to 1
+        curveAmount: effect.curve/100,          //0 to 1
         algorithmIndex: effect.mode,       //0 to 5, selects one of our drive algorithms
         bypass: !effect.active
     });
 
       this.props.input.connect(this.drive);
       this.drive.connect(this.props.output)
+  }
+  componentWillUnmount(){
+    this.drive.bypass = true
   }
   componentWillReceiveProps(nextProps){
     //const active=this.props.effects[this.props.parent][this.props.id].active;
@@ -33,9 +36,9 @@ class OverdriveAudio extends Component{
   }
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
-    this.drive.outputGain = effect.amount/100
-    this.drive.drive = effect.amount/100
-    this.drive.curveAmount = effect.amount/100
+    this.drive.outputGain = effect.gain/100
+    this.drive.drive = effect.drive/100
+    this.drive.curveAmount = effect.curve/100
     this.drive.algorithmIndex = effect.mode
     return null
   }

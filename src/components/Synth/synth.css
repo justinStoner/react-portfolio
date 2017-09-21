@@ -2,7 +2,8 @@
   overflow: hidden;
 }
 .synth-container>div{
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: absolute;
   height: 81%;
 }

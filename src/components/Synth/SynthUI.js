@@ -4,13 +4,12 @@ import Oscillator from '../Oscillator';
 import Lfo from '../Lfo';
 import SynthOutput from '../SynthOutput';
 import SynthFilter from '../SynthFilter';
-import Equalizer from '../Equalizer';
-import Delay from '../Delay';
-import Compressor from '../Compressor';
+import { EqUI } from '../Equalizer';
+import { DelayUI } from '../Delay';
+import { CompressorUI } from '../Compressor';
 import { ReverbUI } from '../Reverb';
 import { OverdriveUI } from '../Overdrive';
 import Keyboard from '../Keyboard';
-import {AudioVisualizer} from '../AudioVisualizer';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getContext } from '../../selectors';
@@ -78,13 +77,13 @@ class Synth extends Component{
                         (() => {
                           switch (e.type) {
                             case 'eq':
-                              return <Equalizer parent="synth" id={e.id} />
+                              return <EqUI parent="synth" id={e.id} />
                             case 'delay':
-                              return <Delay parent="synth" id={e.id}/>
+                              return <DelayUI parent="synth" id={e.id}/>
                             case 'compressor':
-                              return <Compressor parent="synth" id={e.id}/>
+                              return <CompressorUI parent="synth" id={e.id}/>
                             case 'sidechain-compressor':
-                              return <Compressor parent="synth" id={e.id} mode='sidechain-compressor'/>
+                              return <CompressorUI parent="synth" id={e.id} mode='sidechain-compressor'/>
                             case 'reverb':
                               return <ReverbUI parent="synth" id={e.id}/>
                             case 'overdrive':

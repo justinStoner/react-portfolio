@@ -28,19 +28,24 @@ class CompressorAudio extends Component{
   }
   componentWillReceiveProps(nextProps){
     //const active=this.props.effects[this.props.parent][this.props.id].active;
-    const nextActive=nextProps.effects[nextProps.parent][nextProps.id].active;
-    //console.log(active, nextActive);
-    //if(active != nextActive){
+    if(nextProps.effects[nextProps.parent][nextProps.id]){
+      const nextActive=nextProps.effects[nextProps.parent][nextProps.id].active;
       if(nextActive){
         this.props.input.disconnect();
         this.props.input.connect(this.compressor);
         this.compressor.connect(this.props.output);
-      }else{
-        this.props.input.disconnect();
-        this.compressor.disconnect();
-        this.props.input.connect(this.props.output)
       }
-  //  }
+    }else{
+      this.props.input.disconnect();
+      this.compressor.disconnect();
+      this.props.input.connect(this.props.output)
+    }
+    //console.log(active, nextActive);
+  }
+  componentWillUnmount(){
+    this.props.input.disconnect();
+    this.compressor.disconnect();
+    this.props.input.connect(this.props.output)
   }
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
