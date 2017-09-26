@@ -8,6 +8,7 @@ class DelayAudio extends Component{
     super(props)
   }
   componentWillMount(){
+    this.props.input.disconnect();
     const effect=this.props.effects[this.props.parent][this.props.id];
     this.dInput=this.props.audio.createGain();
     this.dOutput=this.props.audio.createGain();
@@ -63,10 +64,12 @@ class DelayAudio extends Component{
 }
 
 DelayAudio.propTypes={
-  effects: PropTypes.object.isRequired
+  effects: PropTypes.object.isRequired,
+  tempo: PropTypes.number.isRequired
 }
 const mapStateToProps = state => ({
-  effects:state.effects
+  effects: state.effects,
+  tempo: state.tempo
 
 });
 

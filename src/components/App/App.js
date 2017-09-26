@@ -21,7 +21,7 @@ import NavDrawer from '../Nav/NavDrawer';
 import { changeTempo } from '../../actions'
 //import { actionCreators } from 'react-redux-webaudio';
 var testExp = new RegExp('Android|webOS|iPhone|iPad|' + 'BlackBerry|Windows Phone|'  + 'Opera Mini|IEMobile|Mobile' , 'i');
-const isMobile=testExp.test(navigator.userAgent);
+window.isMobile=testExp.test(navigator.userAgent);
 //material design svg shadow filters: https://codepen.io/hanger/pen/yOGvQp
 let synthMounted=false;
 const mountSynth=()=>{
@@ -50,39 +50,31 @@ const App=({playing, context, tempo, updateTempo})=>{
             <AudioBus synth={synthAudio} drums={drumsAudio} analyser={analyser} context={context} />
             <SynthAudio audio={synthAudio} sideChainIn={drumsAudio.sideChainOutput}/>
             <SequencerAudio audio={drumsAudio} />
-            <Route exact path="/" render={(props)=>(
-                <Header title="About" className="mdl-color--blue-500"></Header>
-              )}/>
-            <Route path="/synth" render={(props)=>(
-                <Header title="Synth" className="mdl-color--blue-500">
-                  <span style={{paddingRight:'8px'}}>Tempo</span>
-                  <Textfield
-                      onChange={(e) => {updateTempo(e.target.value)}}
-                      pattern="-?[0-9]*(\.[0-9]+)?"
-                      error="number"
-                      label="Tempo"
-                      value={tempo}
-                      style={{maxWidth:'45px'}}
-                  />
+            <Route children={(match)=>(
+                <Header title={match.location.pathname == '/' ? 'About' : match.location.pathname.replace('/', '').charAt(0).toUpperCase() + match.location.pathname.slice(2)} className="mdl-color--blue-500">
+                  {
+                    (match.location.pathname == '/synth' || match.location.pathname == '/sequencer')
+                    ?
+                    <div>
+                      <span style={{paddingRight:'8px'}}>Tempo</span>
+                      <Textfield
+                          onChange={(e) => {updateTempo(e.target.value)}}
+                          pattern="-?[0-9]*(\.[0-9]+)?"
+                          error="number"
+                          label="Tempo"
+                          value={tempo}
+                          style={{maxWidth:'45px'}}
+                      />
+                    </div>
+                    :
+                    null
+                  }
                 </Header>
               )}/>
-            <Route path="/sequencer" render={(props)=>(
-                <Header title="Sequencer" className="mdl-color--blue-500">
-                  <span style={{paddingRight:'8px'}}>Tempo</span>
-                  <Textfield
-                      onChange={(e) => {updateTempo(e.target.value)}}
-                      pattern="-?[0-9]*(\.[0-9]+)?"
-                      error="number"
-                      label="Tempo"
-                      value={tempo}
-                      style={{maxWidth:'45px'}}
-                  />
-                </Header>
-              )}/>
-            <Route path="/crypto" render={(props)=>(
-                  <Header title="Crypto Market Data" className="mdl-color--blue-500"></Header>
-                )}/>
-            <NavDrawer/>
+
+            <Route children={(match) => (
+                <NavDrawer location={match.location.pathname}/>
+              )} />
             <Content>
               <Route exact path="/" component={About}/>
               <Route path="/synth" render={(props)=>(

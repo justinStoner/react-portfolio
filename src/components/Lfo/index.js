@@ -13,7 +13,7 @@ class Lfo extends Component{
   }
   render(){
     return(
-      <div className="mdl-shadow--2dp mdl-color--deep-orange-400 text-white">
+      <div className="mdl-shadow--2dp mdl-color--red-500 text-white">
         <Grid>
           <Cell col={12} >
             <p className="effect-label">Lfo</p>

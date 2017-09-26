@@ -26,7 +26,7 @@ class CompressorUI extends Component{
     const effect=this.props.effects[this.props.parent][this.props.id];
     if(effect){
       return(
-        <div className="mdl-shadow--2dp mdl-color--light-green-A200">
+        <div className="mdl-shadow--2dp mdl-color--deep-orange-500 text-white">
           <Grid>
             <Cell col={12} >
               <p className="effect-label left">Compressor</p>
@@ -40,23 +40,23 @@ class CompressorUI extends Component{
             </Cell>
             <Cell col={4} phone={1} tablet={4} className="text-center">
               <p className="effect-label">Attack</p>
-              <Knob value={effect.attack} type="radial" min={0} max={1} step={0.01} onChange={this.onChange} propName="attack"/>
+              <Knob value={effect.attack} type="radial" min={0} max={1} step={0.01} onChange={this.onChange} propName="attack" disabled={!effect.active}/>
             </Cell>
             <Cell col={4} phone={1} tablet={4} className="text-center">
               <p className="effect-label">Thresh.</p>
-              <Knob value={effect.threshold} type="radial" min={-100} max={0} step={1} onChange={this.onChange} propName="threshold"/>
+              <Knob value={effect.threshold} type="radial" min={-100} max={0} step={1} onChange={this.onChange} propName="threshold" disabled={!effect.active}/>
             </Cell>
             <Cell col={4} phone={1} tablet={4} className="text-center">
               <p className="effect-label">Ratio</p>
-              <Knob value={effect.ratio} type="radial" min={1} max={20} step={1} onChange={this.onChange} propName="ratio"/>
+              <Knob value={effect.ratio} type="radial" min={1} max={20} step={1} onChange={this.onChange} propName="ratio" disabled={!effect.active}/>
             </Cell>
             <Cell col={4} phone={1} tablet={4} className="text-center">
               <p className="effect-label">Release</p>
-              <Knob value={effect.release} type="radial" min={0} max={1} step={0.01} onChange={this.onChange} propName="release"/>
+              <Knob value={effect.release} type="radial" min={0} max={1} step={0.01} onChange={this.onChange} propName="release" disabled={!effect.active}/>
             </Cell>
             <Cell col={4} phone={1} tablet={4} className="text-center">
               <p className="effect-label">Knee</p>
-              <Knob value={effect.knee} type="radial" min={0} max={40} step={1} onChange={this.onChange} propName="knee"/>
+              <Knob value={effect.knee} type="radial" min={0} max={40} step={1} onChange={this.onChange} propName="knee" disabled={!effect.active}/>
             </Cell>
           </Grid>
         </div>

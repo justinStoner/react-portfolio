@@ -198,25 +198,42 @@ const RadialSlider = React.createClass({
   beginTracking: function() {
     $all.addEventListener('mousemove', this._onMouseMove, false);
     $all.addEventListener('mouseup', this._onMouseUp, false);
+
+    $all.addEventListener('touchmove', this._onMouseMove, false);
+    $all.addEventListener('touchend', this._onMouseUp, false);
+
     $all.addEventListener('mousewheel', this._handleWheelEvents, false);
     $all.addEventListener('DOMMouseScroll', this._handleWheelEvents, false);
     //this.beginKeyboardInput();
-    this.refs.input.focus();
+    if( !window.isMobile ) this.refs.input.focus();
     this.tracking = true;
   },
   endTracking: function() {
     $all.removeEventListener('mousemove', this._onMouseMove, false);
     $all.removeEventListener('mouseup', this._onMouseUp, false);
+
+    $all.removeEventListener('touchmove', this._onMouseMove, false);
+    $all.removeEventListener('touchend', this._onMouseUp, false);
+
+
     $all.removeEventListener('mousewheel', this._handleWheelEvents, false);
     $all.removeEventListener('DOMMouseScroll', this._handleWheelEvents, false);
     //this.endKeyboardInput();
     this.tracking = false;
   },
   updateWithEvent: function(event, done) {
-    //console.log(event);
+    console.log(event);
     if(event.srcElement.tagName != 'INPUT'){
+      var x, y;
+      if( event.x ){
+        x = event.x
+        y = event.y
+      }else{
+        x = event.changedTouches[0].pageX
+        y = event.changedTouches[0].pageY
+      }
       var $dom = this.refs.container;
-      var vector = [event.x, event.y];
+      var vector = [x, y];
       var deg = angle(vector, $dom);
       var value = this.normalize(deg);
       if(this.state.value<=10){
@@ -275,7 +292,7 @@ const RadialSlider = React.createClass({
     }
   },
   componentDidMount: function(){
-    this.refs.input.focus();
+    if( !window.isMobile ) this.refs.input.focus();
   },
 
   //<rect x={`${(size/2)-2.5}`} y="1" width="5" height={`${(size/2)}`} className="pointer"
@@ -285,11 +302,11 @@ const RadialSlider = React.createClass({
     var active=degToPercent(this.state.value)*100*0.66;
     var inactive=Math.abs(active-66);
     return(
-      <div className="svg-holder" onMouseDown={this._onMouseDown} ref="container" tabIndex="0" >
-        <svg viewBox={`0 0 ${size} ${size}`} filter="url(#shadow-4dp)">
+      <div className="svg-holder" onMouseDown={this._onMouseDown} onTouchStart={this._onMouseDown} ref="container" tabIndex="0" >
+        <svg viewBox={`0 0 ${size} ${size}`} filter={(navigator.userAgent.indexOf('Safari')>-1 && navigator.userAgent.indexOf('Chrome') < 0 ) ?'':"url(#shadow-4dp)"} className="knob-svg" xmlns="http://www.w3.org/2000/svg">
           <g transform={`rotate(150 ${center} ${center})`} >
             {renderPaths([{color:'#ddd', value:33},{color:'#fff', value:inactive},{color:'#2196f3', value:active}])}
-            <path d={`M ${center},${center} ${30},${74} ${center},${74} z`} fill="#00e676" transform={`rotate(${-94+degToPercent(this.state.value)*240} ${center} ${center})`}></path>
+            <path d={`M ${center},${center} ${30},${74} ${center},${74} z`} fill="#00e676" transform={`rotate(${-94+degToPercent(this.state.value)*240} ${center} ${center})`} />
           </g>
         </svg>
         <input type="number" className="no-spin knob-input" min={`${this.props.minRange-1}`} max={`${this.props.maxRange}`} value={this.state.displayValue} ref="input" onChange={this.inputChanged} step={`${this.props.step || 1}`}></input>

@@ -1,7 +1,7 @@
 import React from 'react';
 export const MaterialShadowsSvg = () =>{
   return (
-    <svg id="svg-dropshadow" width="75px" height="75px">
+    <svg xmlns="http://www.w3.org/2000/svg"  id="svg-dropshadow" width="75px" height="75px">
       <defs>
         <filter id="shadow-2dp" x="-50%" y="-100%" width="200%" height="300%" transform="(150 37.5 37.5)">
           <feOffset in="SourceAlpha" result="offA" dy="2" />

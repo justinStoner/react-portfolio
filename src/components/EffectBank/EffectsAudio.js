@@ -5,60 +5,84 @@ import { CompressorAudio } from '../Compressor';
 import { ReverbAudio } from '../Reverb';
 import { OverdriveAudio } from '../Overdrive';
 
+const createGains = (gains = {}, effectsChain, context) => {
+  // Create new gain nodes
+  let effects = Object.values(effectsChain);
+  const createdGains = effects.reduce((total, e) => {
+    return Object.assign({}, total, {
+      [e.id]: gains[e.id] || context.createGain()
+    });
+  }, gains);
+  // Remove old gain nodes
+  return Object.keys(createdGains)
+    .filter(k => {
+      if (effects.some(e => e.id === k)) {
+        return true;
+      } else {
+        createdGains[k].disconnect();
+        return false;
+      }
+    })
+    .reduce((total, k) => {
+      return Object.assign({}, total, {
+        [k]: createdGains[k]
+      });
+    }, {});
+};
+
 export class EffectsAudio extends Component{
   constructor(props){
     super(props)
-    this.effectsChain=[]
+    this.effectsChain={}
   }
 
-  componentWillMount(){
-    this.updateEffectsChain()
-  }
-  componentWillReceiveProps(nextProps){
-    if(nextProps.effects!= this.props.effects){
-      this.updateEffectsChain(nextProps)
-    }
-  }
-  updateEffectsChain(nextProps = this.props){
-    let arr = Object.values(nextProps.effects);
-    if(arr.length){
-      this.effectsChain = arr.map( ( e, i) => {
-        if ( i === 0 ) return {input:this.props.effectsIn, output:this.props.context.createGain()}
-        else if( i === arr.length-1) return {input:null, output:this.props.effectsOut}
-        else return {input:null, output:this.props.context.createGain()}
-      })
-      this.effectsChain.forEach( ( e, i ) => {
-        if( !e.input ) e.input = this.effectsChain[i-1].output;
-      })
-    }else{
+  // shouldComponentUpdate(nextProps){
+  //   if(nextProps.effects!= this.props.effects) return true
+  //   return false
+  // }
+  render(){
+    const length = Object.keys(this.props.effects).length;
+    const arr = Object.values(this.props.effects);
+    let output, input;
+    this.effectsChain = createGains(this.effectsChain, this.props.effects, this.props.context)
+    if(arr.length === 0){
+      this.props.effectsIn.disconnect()
       this.props.effectsIn.connect(this.props.effectsOut)
     }
-  }
-  render(){
     return (
       <div>
           {
-            Object.values(this.props.effects).map( (e, i) => {
-            return (
-              (() => {
-                switch (e.type) {
-                  case 'eq':
-                    return <EqAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent={this.props.parent}/>
-                  case 'delay':
-                    return <DelayAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent={this.props.parent}/>
-                  case 'compressor':
-                    return <CompressorAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent={this.props.parent}/>
-                  case 'sidechain-compressor':
-                    return <CompressorAudio audio={this.props.context} input={this.effectsChain[i].input} mode="sidechain" sideChainInput={this.props.sideChainIn} output={this.effectsChain[i].output} id={e.id} key={i} parent={this.props.parent}/>
-                  case 'reverb':
-                    return <ReverbAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent={this.props.parent}/>
-                  case 'overdrive':
-                    return <OverdriveAudio audio={this.props.context} input={this.effectsChain[i].input} output={this.effectsChain[i].output} id={e.id} key={i} parent={this.props.parent}/>
-                  default:
-                    return null
-                }
-              })()
-            )
+            arr.map( (e, i) => {
+              if( i < length -1 ){
+                output = this.effectsChain[arr[i+1].id]
+              }else{
+                output = this.props.effectsOut
+              }
+              if( i === 0 ){
+                input = this.props.effectsIn
+              }else{
+                input = this.effectsChain[e.id]
+              }
+              return (
+                (() => {
+                  switch (e.type) {
+                    case 'eq':
+                      return <EqAudio audio={this.props.context} input={input} output={output} id={e.id} key={i} parent={this.props.parent}/>
+                    case 'delay':
+                      return <DelayAudio audio={this.props.context} input={input} output={output} id={e.id} key={i} parent={this.props.parent}/>
+                    case 'compressor':
+                      return <CompressorAudio audio={this.props.context} input={input} output={output} id={e.id} key={i} parent={this.props.parent}/>
+                    case 'sidechain-compressor':
+                      return <CompressorAudio audio={this.props.context} input={input} mode="sidechain" sideChainInput={this.props.sideChainIn} output={output} id={e.id} key={i} parent={this.props.parent}/>
+                    case 'reverb':
+                      return <ReverbAudio audio={this.props.context} input={input} output={output} id={e.id} key={i} parent={this.props.parent}/>
+                    case 'overdrive':
+                      return <OverdriveAudio audio={this.props.context} input={input} output={output} id={e.id} key={i} parent={this.props.parent}/>
+                    default:
+                      return null
+                  }
+                })()
+              )
           })
         }
       </div>

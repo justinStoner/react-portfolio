@@ -24,14 +24,19 @@ class OverdriveAudio extends Component{
   }
   componentWillUnmount(){
     this.drive.bypass = true
+    this.props.input.disconnect()
+    this.drive.disconnect()
+    this.props.input.connect(this.props.output)
   }
   componentWillReceiveProps(nextProps){
     //const active=this.props.effects[this.props.parent][this.props.id].active;
     const nextActive=nextProps.effects[nextProps.parent][nextProps.id].active;
     const effect=this.props.effects[this.props.parent][this.props.id];
     //console.log(active, nextActive);
-    if(effect.active != nextActive){
-      this.drive.bypass = !nextActive;
+    if( nextActive ){
+      this.drive.bypass = false
+    }else{
+      this.drive.bypass = true
     }
   }
   render(){

@@ -222,7 +222,7 @@ const SelectSlider = React.createClass({
     var x,y
     return(
       <div className="svg-holder" ref="container" tabIndex="0" >
-        <svg viewBox={`0 0 ${size} ${size}`} filter="url(#shadow-4dp)">
+        <svg viewBox={`0 0 ${size} ${size}`} filter={(navigator.userAgent.indexOf('Safari')>-1 && navigator.userAgent.indexOf('Chrome') < 0 ) ?'':"url(#shadow-4dp)"}>
           <g transform={`rotate(0 ${center} ${center})`} >
             {renderPaths([{color:this.props.defaultValue==0?'#ddd':'#fff', value:25},{color:this.props.defaultValue==1?'#ddd':'#fff', value:25},
             {color:this.props.defaultValue==2?'#ddd':'#fff', value:25}, {color:this.props.defaultValue==3?'#ddd':'#fff', value:25}])}

@@ -39,19 +39,19 @@ class OverdriveUI extends Component{
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Gain</p>
-            <Knob value={effect.gain} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="gain"/>
+            <Knob value={effect.gain} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="gain" disabled={!effect.active}/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Type</p>
-            <Knob value={effect.mode} type="radial" min={0} max={5} step={1} onChange={this.onChange} propName="mode"/>
+            <Knob value={effect.mode} type="radial" min={0} max={5} step={1} onChange={this.onChange} propName="mode" disabled={!effect.active}/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Drive</p>
-            <Knob value={effect.drive} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="drive"/>
+            <Knob value={effect.drive} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="drive" disabled={!effect.active}/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Curve</p>
-            <Knob value={effect.curve} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="curve"/>
+            <Knob value={effect.curve} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="curve" disabled={!effect.active}/>
           </Cell>
         </Grid>
       </div>

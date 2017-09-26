@@ -25,7 +25,7 @@ class EqUI extends Component{
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
     return(
-      <div className="mdl-shadow--2dp mdl-color--red-300 text-white">
+      <div className="mdl-shadow--2dp mdl-color--amber-500">
         <Grid>
           <Cell col={12} >
             <p className="effect-label left">Equalizer</p>
@@ -39,27 +39,27 @@ class EqUI extends Component{
           </Cell>
           <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">80hz</p>
-            <Knob value={effect.eq80} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq80"/>
+            <Knob value={effect.eq80} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq80" disabled={!effect.active}/>
           </Cell>
           <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">350hz</p>
-            <Knob value={effect.eq350} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq350"/>
+            <Knob value={effect.eq350} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq350" disabled={!effect.active}/>
           </Cell>
           <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">720hz</p>
-            <Knob value={effect.eq720} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq720"/>
+            <Knob value={effect.eq720} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq720" disabled={!effect.active}/>
           </Cell>
           <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">1.6khz</p>
-            <Knob value={effect.eq16k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq16k"/>
+            <Knob value={effect.eq16k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq16k" disabled={!effect.active}/>
           </Cell>
           <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">5khz</p>
-            <Knob value={effect.eq5k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq5k"/>
+            <Knob value={effect.eq5k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq5k" disabled={!effect.active}/>
           </Cell>
           <Cell col={4} phone={1} tablet={4} className="text-center">
             <p className="effect-label">10khz</p>
-            <Knob value={effect.eq10k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq10k"/>
+            <Knob value={effect.eq10k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq10k" disabled={!effect.active}/>
           </Cell>
         </Grid>
       </div>

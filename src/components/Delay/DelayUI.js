@@ -27,7 +27,7 @@ class DelayUI extends Component{
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
     return(
-      <div className="mdl-shadow--2dp mdl-color--lime-400">
+      <div className='mdl-shadow--2dp mdl-color--orange-500 text-white'>
         <Grid>
           <Cell col={12} >
             <p className="effect-label left">Delay</p>
@@ -41,15 +41,15 @@ class DelayUI extends Component{
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Time</p>
-            <Knob value={effect.delayTime} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="delayTime"/>
+            <Knob value={effect.delayTime} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="delayTime" disabled={!effect.active}/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Feedback</p>
-            <Knob value={effect.feedback} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="feedback"/>
+            <Knob value={effect.feedback} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="feedback" disabled={!effect.active}/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Wet/Dry</p>
-            <Knob value={effect.wetLevel} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="wetLevel"/>
+            <Knob value={effect.wetLevel} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="wetLevel" disabled={!effect.active}/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} phone={1} tablet={4} className='text-center'>
 
@@ -59,7 +59,6 @@ class DelayUI extends Component{
     )
   }
 }
-//<button onClick={ ()=>{this.props.reOrder(this.props.parent, effect.index, 0, effect.id)} }>re order</button>
 DelayUI.propTypes={
   effects: PropTypes.object.isRequired
 }

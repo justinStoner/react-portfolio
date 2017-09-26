@@ -145,38 +145,22 @@ export class SynthAudio extends Component{
 
   }
   createNodes(){
-    //if(!this.props.hasMounted){
-      //this.effectsIn = this.props.context.createGain();
-      //this.effectsIn.gain.value=1;
-      //this.effectsOut = this.props.context.createGain();
-      this.props.audio.effectsOut.gain.value=this.props.synthOutput.masterVol/50;
-      //this.eq=this.props.context.createGain();
-      //this.delay=this.props.context.createGain();
-      //this.compressor=this.props.context.createGain();
-      //this.sideChain=this.props.context.createGain();
-      this.lfo=this.props.context.createOscillator();
-      this.lfo.type=this.props.lfo.wave;
-      this.lfo.frequency.value=this.props.lfo.freq;
-      this.lfo.detune.value=this.props.lfo.detune;
+    this.props.audio.effectsOut.gain.value=this.props.synthOutput.masterVol/50;
+    //this.sideChain=this.props.context.createGain();
+    this.lfo=this.props.context.createOscillator();
+    this.lfo.type=this.props.lfo.wave;
+    this.lfo.frequency.value=this.props.lfo.freq;
+    this.lfo.detune.value=this.props.lfo.detune;
 
-      // this.reverbNode = this.props.context.createConvolver();
-      // this.reverbGain = this.props.context.createGain();
-      // this.reverbBypassGain = this.props.context.createGain();
-
-      this.lfo.start(0);
-      this.connect();
-      window.addEventListener('keydown', this.play.bind(this));
-      window.addEventListener('keyup', this.stop.bind(this));
-      window.addEventListener('mock-keydown', this.playFromClick.bind(this));
-      window.addEventListener('mock-keyup', this.stopFromClick.bind(this));
-      //this.props.mount();
-    //}
+    this.lfo.start(0);
+    this.connect();
+    window.addEventListener('keydown', this.play.bind(this));
+    window.addEventListener('keyup', this.stop.bind(this));
+    window.addEventListener('mock-keydown', this.playFromClick.bind(this));
+    window.addEventListener('mock-keyup', this.stopFromClick.bind(this));
   }
 
   connect(){
-    // this.reverbNode.connect(this.reverbGain);
-    // this.reverbGain.connect(this.props.audio.effectsIn)
-    // this.reverbBypassGain.connect(this.props.audio.effectsIn)
     this.props.audio.effectsOut.connect(this.props.audio.input);
   }
 
@@ -290,7 +274,6 @@ export class SynthAudio extends Component{
        note['f1'].detune.setTargetAtTime( filterSustainLevel, now+filterAttackEnd, (this.props.synthFilter.lpfD/100.0) );
        note['f2'].detune.setTargetAtTime( filterSustainLevel, now+filterAttackEnd, (this.props.synthFilter.lpfD/100.0) );
 
-       //note.lfo.start(0);
        for(var ii=0;ii<3;ii++){
          note['o'+ii].start(0);
        }

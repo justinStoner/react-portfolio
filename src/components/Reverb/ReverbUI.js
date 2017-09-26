@@ -25,7 +25,7 @@ class ReverbUI extends Component{
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
     return(
-      <div className="mdl-shadow--2dp mdl-color--lime-300">
+      <div className="mdl-shadow--2dp mdl-color--yellow-500">
         <Grid>
           <Cell col={12}>
             <p className="effect-label left">Reverb</p>
@@ -39,7 +39,7 @@ class ReverbUI extends Component{
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Amount</p>
-            <Knob value={effect.amount} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="amount"/>
+            <Knob value={effect.amount} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="amount" disabled={!effect.active}/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Type</p>
@@ -47,11 +47,11 @@ class ReverbUI extends Component{
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">High Cut</p>
-            <Knob value={effect.highCut} type="radial" min={0} max={22050} step={1} onChange={this.onChange} propName="highCut"/>
+            <Knob value={effect.highCut} type="radial" min={0} max={22050} step={1} onChange={this.onChange} propName="highCut" disabled/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Low Cut</p>
-            <Knob value={effect.lowCut} type="radial" min={0} max={22050} step={1} onChange={this.onChange} propName="lowCut"/>
+            <Knob value={effect.lowCut} type="radial" min={0} max={22050} step={1} onChange={this.onChange} propName="lowCut" disabled/>
           </Cell>
         </Grid>
       </div>

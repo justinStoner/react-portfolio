@@ -18,7 +18,7 @@ class CompressorAudio extends Component{
     this.compressor.release.value = effect.release;
 
     if(effect.active){
-      if(this.props.mode == 'sidechain') this.props.sideChainInput.connect(this.compressor);
+      //if(this.props.mode == 'sidechain') this.props.sideChainInput.connect(this.compressor);
       this.props.input.connect(this.compressor);
 
       this.compressor.connect(this.props.output);
@@ -28,13 +28,11 @@ class CompressorAudio extends Component{
   }
   componentWillReceiveProps(nextProps){
     //const active=this.props.effects[this.props.parent][this.props.id].active;
-    if(nextProps.effects[nextProps.parent][nextProps.id]){
       const nextActive=nextProps.effects[nextProps.parent][nextProps.id].active;
-      if(nextActive){
-        this.props.input.disconnect();
-        this.props.input.connect(this.compressor);
-        this.compressor.connect(this.props.output);
-      }
+    if(nextActive){
+      this.props.input.disconnect();
+      this.props.input.connect(this.compressor);
+      this.compressor.connect(this.props.output);
     }else{
       this.props.input.disconnect();
       this.compressor.disconnect();

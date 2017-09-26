@@ -13,7 +13,7 @@ class SynthFilter extends Component{
   }
   render(){
     return(
-      <div className="mdl-shadow--2dp mdl-color--orange-300" >
+      <div className="mdl-shadow--2dp mdl-color--teal-500 text-white" >
         <Grid>
           <Cell col={12} >
             <p className="effect-label">Filter</p>

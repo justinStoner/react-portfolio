@@ -1,10 +1,15 @@
 import uuid from 'uuid';
+import polyfill from 'object.values';
 const id1 = uuid.v4()
 const id2 = uuid.v4()
 const id3 = uuid.v4()
 const id4 = uuid.v4()
 const reverbId = uuid.v4()
 const overdriveId = uuid.v4()
+
+if(!Object.values){
+  polyfill.shim();
+}
 
 const initialState = {
   synth:{

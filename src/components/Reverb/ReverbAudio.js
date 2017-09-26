@@ -43,7 +43,7 @@ class ReverbAudio extends Component{
   componentWillUnmount(){
     this.props.input.disconnect();
     this.reverbGain.disconnect();
-    this.reverbBypassGain.disconnect();
+    //this.reverbBypassGain.disconnect();
     this.props.input.connect(this.props.output)
   }
   componentWillReceiveProps(nextProps){
@@ -62,7 +62,7 @@ class ReverbAudio extends Component{
       }else{
         this.props.input.disconnect();
         this.reverbGain.disconnect();
-        this.reverbBypassGain.disconnect();
+        //this.reverbBypassGain.disconnect();
         this.props.input.connect(this.props.output)
       }
   //  }

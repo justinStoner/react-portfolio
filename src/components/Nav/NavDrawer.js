@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { toggleDrums } from '../../actions';
+import { Route } from 'react-router-dom';
+import './NavDrawer.css';
 
 class NavDrawer extends Component{
   constructor(props){
@@ -40,10 +42,10 @@ class NavDrawer extends Component{
           <p className="email">justin@heyjust.in</p>
         </div>
         <Navigation>
-            <Link to="/">About</Link>
-            <Link to="/synth">Synth</Link>
-            <Link to="/sequencer">Sequencer</Link>
-            <Link to="/crypto">Crypto Market Data</Link>
+            <Link to="/" className={this.props.location == '/' ? 'active' : ''}>About</Link>
+            <Link to="/synth" className={this.props.location == '/synth' ? 'active' : ''}>Synth</Link>
+            <Link to="/sequencer" className={this.props.location == '/sequencer' ? 'active' : ''}>Sequencer</Link>
+            <Link to="/crypto" className={this.props.location == '/crypto' ? 'active' : ''}>Crypto Market Data</Link>
         </Navigation>
       </Drawer>
     )
