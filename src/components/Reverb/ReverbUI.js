@@ -3,6 +3,7 @@ import { Grid, Cell, Menu, MenuItem, IconButton } from 'react-mdl'
 import { Knob } from '../Knob';
 import { connect } from 'react-redux';
 import { updateEffect, reorderEffects, removeEffect } from '../../actions';
+import { reverbLabels } from '../../utils/audio'
 import PropTypes from 'prop-types';
 
 class ReverbUI extends Component{
@@ -24,6 +25,7 @@ class ReverbUI extends Component{
   }
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
+    const length=Object.keys(this.props.effects[this.props.parent]).length -1;
     return(
       <div className="mdl-shadow--2dp mdl-color--yellow-500">
         <Grid>
@@ -32,8 +34,8 @@ class ReverbUI extends Component{
             <IconButton className="right" ripple name="more_vert" id={effect.id} style={{marginTop:'-8px', marginRight:'-8px'}}/>
             <Menu target={effect.id} ripple align="left">
                 <MenuItem onClick={this.toggleEffect}>{effect.active?'Deactivate':'Activate'}</MenuItem>
-                <MenuItem onClick={() => {this.reOrder(false)}}>Move Left</MenuItem>
-                <MenuItem onClick={() => {this.reOrder(true)}}>Move Right</MenuItem>
+                <MenuItem onClick={() => {this.reOrder(false)}} disabled={this.props.index === 0}>Move Left</MenuItem>
+                <MenuItem onClick={() => {this.reOrder(true)}} disabled={length === this.props.index}>Move Right</MenuItem>
                 <MenuItem onClick={() => {this.props.remove( this.props.parent, effect.id )}}>Remove</MenuItem>
             </Menu>
           </Cell>
@@ -43,7 +45,7 @@ class ReverbUI extends Component{
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Type</p>
-            <Knob value={effect.reverbType} type="select" labels={['hall', 'room', 'plate', 'spring']} min={0} max={100} step={1} onChange={this.onChange} propName="reverbType" disabled/>
+            <Knob value={effect.reverbType} type="select" labels={reverbLabels} min={0} max={100} step={1} onChange={this.onChange} propName="reverbType" disabled/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">High Cut</p>

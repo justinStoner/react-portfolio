@@ -91,6 +91,10 @@
 .text-white{
   color:#fff !important;
 }
+li.menu-item-active{
+  color:#2196f3;
+  background-color: #f0f0f0;
+}
 .text-center{
   text-align: center !important;
 }
@@ -106,6 +110,14 @@
 .effect-switch{
   width:auto !important;
   right: 20px;
+}
+.nav-input{
+  input{
+    border-bottom: 1px solid rgba(255, 255, 255, 0.50);
+  }
+  .mdl-textfield__label:after{
+    background-color: #fff
+  }
 }
 label.is-checked .mdl-switch__track{
   background: rgba(33,150,243,.5) !important;

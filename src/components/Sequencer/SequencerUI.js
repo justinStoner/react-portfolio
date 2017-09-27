@@ -136,7 +136,7 @@ class Sequencer extends React.Component{
               <AvModeSelector visualizerType={this.props.sequencer.visualizerType} onClick={ this.props.onChange } />
             </Cell>
           </Grid>
-          <AudioVisualizer visualizerType={this.props.sequencer.visualizerType} containerId='drum-controller' audio={this.props.audio} marginTop='-99px'></AudioVisualizer>
+          <AudioVisualizer visualizerType={this.props.sequencer.visualizerType} containerId='drum-controller' audio={this.props.audio}></AudioVisualizer>
         </Cell>
         <Cell col={12}>
           {
@@ -167,17 +167,20 @@ class Sequencer extends React.Component{
                     Object.values(sequencer.drums).map((drum, index)=>{
                       return (
                         <li key={index} className='mixer-item'>
+                          <div>
+                            <p className='effect-label'>{drum.displayName}</p>
+                          </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Volume</p>
                             <Knob value={drum.volume} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="volume" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Pitch</p>
-                            <Knob value={drum.pitch} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="pitch" index={drum.name}/>
+                            <Knob value={drum.pitch} type="radial" min={-50} max={50} step={1} onChange={this.onChange} propName="pitch" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">High</p>
-                            <Knob value={drum.high} type="radial" min={0} max={80} step={1} onChange={this.onChange} propName="high" index={drum.name}/>
+                            <Knob value={drum.high} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="high" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">High Freq</p>
@@ -185,7 +188,7 @@ class Sequencer extends React.Component{
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Mid</p>
-                            <Knob value={drum.mid} type="radial" min={0} max={80} step={1} onChange={this.onChange} propName="mid" index={drum.name}/>
+                            <Knob value={drum.mid} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="mid" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Mid Freq</p>
@@ -193,7 +196,7 @@ class Sequencer extends React.Component{
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Low</p>
-                            <Knob value={drum.low} type="radial" min={0} max={80} step={1} onChange={this.onChange} propName="low" index={drum.name}/>
+                            <Knob value={drum.low} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="low" index={drum.name}/>
                           </div>
                           <div className="input-field inline no-top-margin">
                             <p className="effect-label">Low Freq</p>
@@ -234,22 +237,22 @@ class Sequencer extends React.Component{
         {
           Object.values(this.props.effects).map( (e, i) => {
             return (
-              <Cell col={e.col} phone={4} tablet={3} key={i}>
+              <Cell col={e.col} phone={e.phone} tablet={e.tablet} key={i}>
                 {
                   (() => {
                     switch (e.type) {
                       case 'eq':
-                        return <EqUI parent="drums" id={e.id} />
+                        return <EqUI parent="drums" id={e.id} index={i}/>
                       case 'delay':
-                        return <DelayUI parent="drums" id={e.id}/>
+                        return <DelayUI parent="drums" id={e.id} index={i}/>
                       case 'compressor':
-                        return <CompressorUI parent="drums" id={e.id}/>
+                        return <CompressorUI parent="drums" id={e.id} index={i}/>
                       case 'sidechain-compressor':
-                        return <CompressorUI parent="drums" id={e.id} mode='sidechain-compressor'/>
+                        return <CompressorUI parent="drums" id={e.id} mode='sidechain-compressor' index={i}/>
                       case 'reverb':
-                        return <ReverbUI parent="drums" id={e.id}/>
+                        return <ReverbUI parent="drums" id={e.id} index={i}/>
                       case 'overdrive':
-                        return <OverdriveUI parent="drums" id={e.id}/>
+                        return <OverdriveUI parent="drums" id={e.id} index={i}/>
                       default:
                         return null
                     }

@@ -40,7 +40,8 @@ export class Crypto extends Component{
       filters:filters || defaultFilters,
       searchText:'',
       searching:false,
-      coinPickerOpen:true
+      coinPickerOpen:true,
+      coins:null
     }
 
     this.removeCoin=this.removeCoin.bind(this);
@@ -75,7 +76,7 @@ export class Crypto extends Component{
 
     socket.emit('subscribeToTicker', 5000);
   }
-  componentWillUnMount(){
+  componentWillUnmount(){
     socket.disconnect()
   }
   render(){

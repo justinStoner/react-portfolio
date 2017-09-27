@@ -51,43 +51,43 @@ class Synth extends Component{
         <div className="synth-container">
           <div>
             <Grid>
-              <Cell col={3} phone={4} tablet={3}>
+              <Cell col={3} phone={4} tablet={4}>
                 <Lfo/>
               </Cell>
               {
                 this.props.oscillators.map((o, i)=>{
                   return (
-                    <Cell col={2} phone={4} tablet={3} key={i}>
+                    <Cell col={2} phone={4} tablet={2} key={i}>
                       <Oscillator index={i} />
                     </Cell>
                   )
                 })
               }
-              <Cell col={3} phone={4} tablet={3}>
+              <Cell col={3} phone={4} tablet={4}>
                 <SynthOutput audio={this.props.audio}/>
               </Cell>
-              <Cell col={3} phone={4} tablet={3}>
+              <Cell col={3} phone={4} tablet={4}>
                 <SynthFilter/>
               </Cell>
               {
                 Object.values(this.props.effects).map( (e, i) => {
                   return (
-                    <Cell col={e.col} phone={4} tablet={3} key={i}>
+                    <Cell col={e.col} phone={e.phone} tablet={e.tablet} key={i}>
                       {
                         (() => {
                           switch (e.type) {
                             case 'eq':
-                              return <EqUI parent="synth" id={e.id} />
+                              return <EqUI parent="synth" id={e.id} index={i}/>
                             case 'delay':
-                              return <DelayUI parent="synth" id={e.id}/>
+                              return <DelayUI parent="synth" id={e.id} index={i}/>
                             case 'compressor':
-                              return <CompressorUI parent="synth" id={e.id}/>
+                              return <CompressorUI parent="synth" id={e.id} index={i}/>
                             case 'sidechain-compressor':
-                              return <CompressorUI parent="synth" id={e.id} mode='sidechain-compressor'/>
+                              return <CompressorUI parent="synth" id={e.id} mode='sidechain-compressor' index={i}/>
                             case 'reverb':
-                              return <ReverbUI parent="synth" id={e.id}/>
+                              return <ReverbUI parent="synth" id={e.id} index={i}/>
                             case 'overdrive':
-                              return <OverdriveUI parent="synth" id={e.id}/>
+                              return <OverdriveUI parent="synth" id={e.id} index={i}/>
                             default:
                               return null
                           }

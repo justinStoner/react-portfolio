@@ -3,6 +3,7 @@ import { Grid, Cell, IconButton, Menu, MenuItem } from 'react-mdl'
 import { Knob } from '../Knob';
 import { connect } from 'react-redux';
 import { updateEffect, reorderEffects, removeEffect } from '../../actions';
+import { delayLabels } from '../../utils/audio';
 import PropTypes from 'prop-types';
 
 class DelayUI extends Component{
@@ -26,6 +27,7 @@ class DelayUI extends Component{
   //<Switch className="right effect-switch" ripple id={effect.id} checked={effect.active} onChange={this.toggleEffect}>On</Switch>
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
+    const length=Object.keys(this.props.effects[this.props.parent]).length -1;
     return(
       <div className='mdl-shadow--2dp mdl-color--orange-500 text-white'>
         <Grid>
@@ -34,14 +36,14 @@ class DelayUI extends Component{
             <IconButton className="right" ripple name="more_vert" id={effect.id} style={{marginTop:'-8px', marginRight:'-8px'}}/>
             <Menu target={effect.id} ripple align="left">
                 <MenuItem onClick={this.toggleEffect}>{effect.active?'Deactivate':'Activate'}</MenuItem>
-                <MenuItem onClick={() => {this.reOrder(false)}}>Move Left</MenuItem>
-                <MenuItem onClick={() => {this.reOrder(true)}}>Move Right</MenuItem>
+                <MenuItem onClick={() => {this.reOrder(false)}} disabled={this.props.index === 0}>Move Left</MenuItem>
+                <MenuItem onClick={() => {this.reOrder(true)}} disabled={length === this.props.index}>Move Right</MenuItem>
                 <MenuItem onClick={() => {this.props.remove( this.props.parent, effect.id )}}>Remove</MenuItem>
             </Menu>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Time</p>
-            <Knob value={effect.delayTime} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="delayTime" disabled={!effect.active}/>
+            <Knob value={effect.delayTime} type="select" labels={delayLabels} onChange={this.onChange} propName="delayTime" disabled={!effect.active}/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className='text-center'>
             <p className="effect-label">Feedback</p>

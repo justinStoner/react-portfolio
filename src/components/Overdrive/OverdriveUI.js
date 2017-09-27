@@ -24,6 +24,7 @@ class OverdriveUI extends Component{
   }
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
+    const length=Object.keys(this.props.effects[this.props.parent]).length -1;
     return(
       <div className="mdl-shadow--2dp mdl-color--green-A400 text-white">
         <Grid>
@@ -32,8 +33,8 @@ class OverdriveUI extends Component{
             <IconButton className="right" ripple name="more_vert" id={effect.id} style={{marginTop:'-8px', marginRight:'-8px'}}/>
             <Menu target={effect.id} ripple align="left">
                 <MenuItem onClick={this.toggleEffect}>{effect.active?'Deactivate':'Activate'}</MenuItem>
-                <MenuItem onClick={() => {this.reOrder(false)}}>Move Left</MenuItem>
-                <MenuItem onClick={() => {this.reOrder(true)}}>Move Right</MenuItem>
+                <MenuItem onClick={() => {this.reOrder(false)}} disabled={this.props.index === 0}>Move Left</MenuItem>
+                <MenuItem onClick={() => {this.reOrder(true)}} disabled={length === this.props.index}>Move Right</MenuItem>
                 <MenuItem onClick={() => {this.props.remove( this.props.parent, effect.id )}}>Remove</MenuItem>
             </Menu>
           </Cell>

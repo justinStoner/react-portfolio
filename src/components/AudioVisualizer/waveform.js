@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-let audio, analyzer, dataArray, context, x, y, v, animId, sliceWidth;
+let audio, analyzer, dataArray, context, x, y, v, animId, sliceWidth, container;
 export class Waveform extends Component{
   constructor(props){
     super(props);
     this.state={
       width:0,
       height:0,
+      marginTop:0
     }
     audio=this.props.audio;
     console.log(this.props);
@@ -14,13 +15,13 @@ export class Waveform extends Component{
   }
   render(){
     return(
-      <canvas width={this.state.width} height={this.state.height} id='waveform' style={{position:'absolute', zIndex:0, marginTop:this.props.marginTop}}></canvas>
+      <canvas width={this.state.width} height={this.state.height} id='waveform' style={{position:'absolute', zIndex:0, marginTop:this.state.marginTop}}></canvas>
     )
   }
   componentDidMount(){
-    let container=document.getElementById(this.props.containerId);
+    container=document.getElementById(this.props.containerId);
     context=document.getElementById('waveform').getContext('2d')
-    this.setState({width: container.clientWidth, height: container.clientHeight});
+    this.setState({width: container.clientWidth, height: container.clientHeight, marginTop:-container.clientHeight});
     this.draw();
     window.addEventListener('resize', this.onResize.bind(this))
   }
@@ -29,10 +30,10 @@ export class Waveform extends Component{
     cancelAnimationFrame(animId);
   }
   onResize(){
-    let container=document.getElementById(this.props.containerId)
+    container=document.getElementById(this.props.containerId)
     cancelAnimationFrame(animId);
     if(container){
-      this.setState({width: container.clientWidth, height: container.clientHeight});
+      this.setState({width: container.clientWidth, height: container.clientHeight, marginTop:-container.clientHeight});
       this.draw();
     }
   }

@@ -14,11 +14,11 @@ export class AudioVisualizer extends Component{
     const props=this.props;
     switch (props.visualizerType) {
       case 'webgl':
-        return (<Webgl containerId={this.props.containerId} audio={this.props.audio} marginTop={this.props.marginTop}/>)
+        return (<Webgl containerId={this.props.containerId} audio={this.props.audio}/>)
       case 'waveform':
-        return (<Waveform containerId={this.props.containerId} audio={this.props.audio} marginTop={this.props.marginTop}/>)
+        return (<Waveform containerId={this.props.containerId} audio={this.props.audio}/>)
       case 'fractal':
-        return (<Fractal containerId={this.props.containerId} audio={this.props.audio} marginTop={this.props.marginTop}/>)
+        return (<Fractal containerId={this.props.containerId} audio={this.props.audio}/>)
       default:
         return null
     }

@@ -4,6 +4,7 @@ import {Knob} from '../Knob';
 import { connect } from 'react-redux';
 import { updateOscillator } from '../../actions';
 import PropTypes from 'prop-types';
+import { waveLabels } from '../../utils/audio';
 
 const waves=['sine', 'sawtooth', 'square', 'triangle'];
 class Oscillator extends Component{
@@ -33,7 +34,7 @@ class Oscillator extends Component{
           </Cell>
           <Cell col={6} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Wave</p>
-            <Knob value={waves.indexOf(this.props.oscillators[this.props.index].wave)} type="radial" min={0} max={3} step={1} onChange={this.props.onChange} propName="wave" type="select" index={this.props.index}/>
+            <Knob value={this.props.oscillators[this.props.index].wave} labels={waveLabels} type="radial" min={0} max={3} step={1} onChange={this.props.onChange} propName="wave" type="select" index={this.props.index}/>
           </Cell>
           <Cell col={6} phone={1} tablet={4} className="text-center">
             <p className="effect-label">Detune</p>

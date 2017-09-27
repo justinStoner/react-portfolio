@@ -63,6 +63,7 @@ const App=({playing, context, tempo, updateTempo})=>{
                           error="number"
                           label="Tempo"
                           value={tempo}
+                          className='nav-input'
                           style={{maxWidth:'45px'}}
                       />
                     </div>

@@ -20,6 +20,8 @@ const initialState = {
       curve:50,
       drive:50,
       col:2,
+      tablet:2,
+      phone:4,
       id:overdriveId,
       active:true,
       index:0
@@ -29,6 +31,8 @@ const initialState = {
       amount:66,
       active:true,
       col:2,
+      tablet:2,
+      phone:4,
       highCut:22050,
       lowCut:20,
       id:reverbId,
@@ -46,16 +50,20 @@ const initialState = {
       eq10k:0,
       active:false,
       col:2,
+      tablet:3,
+      phone:4,
       index:2
     },
     [id2]:{
       type:'delay',
       id:id2,
-      delayTime:100,
+      delayTime:1,
       feedback:15,
       wetLevel:15,
       active:false,
       col:2,
+      tablet:2,
+      phone:4,
       index:3
     },
     [id3]:{
@@ -68,6 +76,8 @@ const initialState = {
       release:0.1,
       active:true,
       col:2,
+      tablet:3,
+      phone:4,
       index:4
     }
     // [id4]:{

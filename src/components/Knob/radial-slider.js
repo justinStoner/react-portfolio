@@ -224,16 +224,8 @@ const RadialSlider = React.createClass({
   updateWithEvent: function(event, done) {
     console.log(event);
     if(event.srcElement.tagName != 'INPUT'){
-      var x, y;
-      if( event.x ){
-        x = event.x
-        y = event.y
-      }else{
-        x = event.changedTouches[0].pageX
-        y = event.changedTouches[0].pageY
-      }
       var $dom = this.refs.container;
-      var vector = [x, y];
+      var vector = [event.x || event.changedTouches[0].pageX, event.y || event.changedTouches[0].pageY];
       var deg = angle(vector, $dom);
       var value = this.normalize(deg);
       if(this.state.value<=10){

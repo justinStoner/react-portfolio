@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getContext } from '../../selectors';
 import { EffectsAudio } from '../EffectBank';
+import fetch from 'isomorphic-fetch';
+
 let sampleNames=[];
 export class DrumsAudio extends Component{
   constructor(props){
@@ -18,9 +20,8 @@ export class DrumsAudio extends Component{
     this.compressor[key].value=value;
   }
   componentWillMount(){
-    const context = this.props.context
-    const myRequest = new Request("/audio/reverb/room.wav");
-    fetch(myRequest)
+    const context = this.props.context;
+    fetch("/audio/reverb/room.wav")
     .then((res)=>res.arrayBuffer())
     .then((buffer)=>{
       this.props.context.decodeAudioData(buffer, (decodedData)=>{
@@ -64,16 +65,13 @@ export class DrumsAudio extends Component{
     )
   }
   loadSample(name){
-    //var source = this.context.createBufferSource();
-    var myRequest = new Request("/audio/roland-tr-33/"+name+".wav");
-      fetch(myRequest)
+      fetch("/audio/roland-tr-33/"+name+".wav")
       .then((res)=>res.arrayBuffer())
       .then((buffer)=>{
         this.props.context.decodeAudioData(buffer, (decodedData)=>{
-          //source.buffer=decodedData;
-          //console.log(source);
-          this.samples[name].sample = decodedData
+        this.samples[name].sample = decodedData
         })
+        .catch(e => alert(e))
       })
   }
   updateReverb(val, sample){
@@ -87,7 +85,9 @@ export class DrumsAudio extends Component{
     var src=this.props.context.createBufferSource();
     const drumSettings = this.props.sequencer.drums[sample.name];
     src.buffer=sample.sample;
-    src.detune.value=drumSettings.pitch-100;
+    try{
+      src.detune.value=drumSettings.pitch;
+    }catch(e){}
 
     sample.revNode.buffer=this.reverbBuffer;
 
@@ -98,15 +98,15 @@ export class DrumsAudio extends Component{
 
     sample.eq120.frequency.value=drumSettings.lowFreq;
     sample.eq120.type="lowshelf";
-    sample.eq120.gain.value=drumSettings.low-40;
+    sample.eq120.gain.value=drumSettings.low;
 
     sample.eq600.frequency.value=drumSettings.midFreq;
     sample.eq600.type="peaking";
-    sample.eq600.gain.value=drumSettings.mid-40;
+    sample.eq600.gain.value=drumSettings.mid;
 
     sample.eq5k.frequency.value=drumSettings.highFreq;
     sample.eq5k.type="highshelf";
-    sample.eq5k.gain.value=drumSettings.high-40;
+    sample.eq5k.gain.value=drumSettings.high;
 
     sample.filter1.type = drumSettings.filterType;
     sample.filter1.Q.value = drumSettings.Q;
@@ -144,8 +144,7 @@ export class DrumsAudio extends Component{
     var src=this.props.context.createBufferSource();
     src.buffer=sample.sound;
     src.connect(this.gain);
-    this.gain.connect(this.audio.drumsIn);
-    this.gain.gain.value=this.volume/50;
+    this.gain.gain.value=this.props.sequencer.volume/50;
     src.start(0);
   }
   handlePlay() {

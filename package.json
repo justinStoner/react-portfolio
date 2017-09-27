@@ -5,6 +5,7 @@
   "dependencies": {
     "chart.js": "^2.6.0",
     "cryptocoins-icons": "^2.5.0",
+    "isomorphic-fetch": "^2.2.1",
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.0.2",
     "object.values": "^1.0.4",

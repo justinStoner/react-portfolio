@@ -2,51 +2,7 @@
  * action types
  */
 import uuid from 'uuid';
-//import { name } from './__init__';
-export const SET_SYNTH_VOLUME = 'SET_SYNTH_VOLUME'
-export const TOGGLE_SYNTH_VISUALIZER = 'TOGGLE_SYNTH_VISUALIZER'
-export const SET_SYNTH_ATTACK = 'SET_SYNTH_ATTACK'
-export const SET_SYNTH_DECAY = 'SET_SYNTH_DECAY'
-export const SET_SYNTH_SUSTAIN = 'SET_SYNTH_SUSTAIN'
-export const SET_SYNTH_RELEASE = 'SET_SYNTH_RELEASE'
-export const SET_SYNTH_OCTAVE = 'SET_SYNTH_OCTAVE'
 
-export const SET_LFO_WAVE = 'SET_LFO_WAVE'
-export const SET_LFO_FREQ = 'SET_LFO_FREQ'
-export const SET_LFO_OSC = 'SET_LFO_OSC'
-
-export const SET_OSC_MIX = 'SET_OSC_MIX'
-export const SET_OSC_WAVE = 'SET_OSC_WAVE'
-export const SET_OSC_OCTAVE = 'SET_OSC_OCTAVE'
-export const SET_OSC_DETUNE = 'SET_OSC_OCTAVE'
-
-export const SET_FILTER_CUTOFF = 'SET_FILTER_CUTOFF'
-export const SET_FILTER_Q = 'SET_FILTER_Q'
-export const SET_FILTER_MOD = 'SET_FILTER_MOD'
-export const SET_FILTER_ENV = 'SET_FILTER_ENV'
-export const SET_FILTER_ATTACK = 'SET_FILTER_ATTACK'
-export const SET_FILTER_SUSTAIN = 'SET_FILTER_SUSTAIN'
-export const SET_FILTER_DECAY = 'SET_FILTER_DECAY'
-export const SET_FILTER_RELEASE = 'SET_FILTER_RELEASE'
-
-export const SET_EQ_FREQ = 'SET_EQ_FREQ'
-export const SET_EQ_NODES = 'SET_EQ_NODES'
-export const SET_EQ_ACTIVE = 'SET_EQ_ACTIVE'
-
-export const SET_DELAY_TIME = 'SET_DELAY_TIME'
-export const SET_DELAY_NODES = 'SET_DELAY_NODES'
-export const SET_DELAY_WET = 'SET_DELAY_WET'
-export const SET_DELAY_FEED = 'SET_DELAY_FEED'
-
-export const SET_COMP_ATTACK = "SET_COMP_ATTACK"
-export const SET_COMP_RELEASE = "SET_COMP_RELEASE"
-export const SET_COMP_DECAY = "SET_COMP_DECAY"
-export const SET_COMP_SUSTAIN = "SET_COMP_SUSTAIN"
-export const SET_COMP_THRESHOLD = "SET_COMP_THRESHOLD"
-export const SET_COMP_RATIO = "SET_COMP_RATIO"
-export const SET_COMP_KNEE = "SET_COMP_KNEE"
-export const SET_COMP_ACTIVE = "SET_COMP_ACTIVE"
-export const SET_COMP_NODES = "SET_COMP_NODES"
 export const name = 'synth'
 /*
  * other constants

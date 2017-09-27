@@ -26,50 +26,36 @@ const octave = [
 
 export const waveShapes = ['sine', 'square', 'sawtooth', 'triangle'];
 
-export const arpeggiatorModes = [
-  {
-    id: 'down',
-    name: 'Down'
-  },
-  {
-    id: 'up',
-    name: 'Up'
-  },
-  {
-    id: 'upDown',
-    name: 'Up / Down'
-  }
+export const waveLabels = [
+  {name:'sine', value:'sine', btnValue:'sine'},
+  {name:'square', value:'square', btnValue:'sqr'},
+  {name:'sawtooth', value:'sawtooth', btnValue:'saw'},
+  {name:'triangle', value:'triangle', btnValue:'tri'}
 ];
 
-export const arpeggiatorOctaves = [
-  { id: 1, name: 1 },
-  { id: 2, name: 2 },
-  { id: 3, name: 3 }
+export const reverbLabels = [
+  {name:'hall', value:'hall'},
+  {name:'room', value:'room'},
+  {name:'plate', value:'plate'},
+  {name:'spring', value:'spring'}
 ];
+
+export const delayLabels = [
+  {name:'1/1', value:4},
+  {name:'1/2', value:2},
+  {name:'1/4', value:1},
+  {name:'1/8', value:0.5},
+  {name:'1/8t', value:0.33},
+  {name:'1/16', value:0.25}
+];
+
 /**
 * Convert Note Number to Frequency
 */
 export const convertNoteFrequency = note => {
   return Math.pow(2, (note - 69) / 12) * 440;
 };
-/**
- * Create Gain Node
- */
-export const createGain = (context, velocity) => {
-  const gain = context.createGain();
-  gain.gain.value = velocity;
-  return gain;
-};
-/**
- * Create Oscillator using settings
- */
-export const createOscillator = (context, note, shape) => {
-  const osc = context.createOscillator();
-  osc.type = shape;
-  osc.frequency.value = convertNoteFrequency(note);
-  osc.start();
-  return osc;
-};
+
 /**
  * Equal power curve for audio cross fading
  */

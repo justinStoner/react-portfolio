@@ -24,6 +24,7 @@ class CompressorUI extends Component{
   }
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
+    const length=Object.keys(this.props.effects[this.props.parent]).length -1;
     if(effect){
       return(
         <div className="mdl-shadow--2dp mdl-color--deep-orange-500 text-white">
@@ -33,28 +34,28 @@ class CompressorUI extends Component{
               <IconButton className="right" ripple name="more_vert" id={effect.id} style={{marginTop:'-8px', marginRight:'-8px'}}/>
               <Menu target={effect.id} ripple align="left">
                   <MenuItem onClick={this.toggleEffect}>{effect.active?'Deactivate':'Activate'}</MenuItem>
-                  <MenuItem onClick={() => {this.reOrder(false)}}>Move Left</MenuItem>
-                  <MenuItem onClick={() => {this.reOrder(true)}}>Move Right</MenuItem>
+                  <MenuItem onClick={() => {this.reOrder(false)}} disabled={this.props.index === 0}>Move Left</MenuItem>
+                  <MenuItem onClick={() => {this.reOrder(true)}} disabled={length === this.props.index}>Move Right</MenuItem>
                   <MenuItem onClick={() => {this.props.remove( this.props.parent, effect.id )}}>Remove</MenuItem>
               </Menu>
             </Cell>
-            <Cell col={4} phone={1} tablet={4} className="text-center">
+            <Cell col={4} phone={1} tablet={2} className="text-center">
               <p className="effect-label">Attack</p>
               <Knob value={effect.attack} type="radial" min={0} max={1} step={0.01} onChange={this.onChange} propName="attack" disabled={!effect.active}/>
             </Cell>
-            <Cell col={4} phone={1} tablet={4} className="text-center">
+            <Cell col={4} phone={1} tablet={2} className="text-center">
               <p className="effect-label">Thresh.</p>
               <Knob value={effect.threshold} type="radial" min={-100} max={0} step={1} onChange={this.onChange} propName="threshold" disabled={!effect.active}/>
             </Cell>
-            <Cell col={4} phone={1} tablet={4} className="text-center">
+            <Cell col={4} phone={1} tablet={2} className="text-center">
               <p className="effect-label">Ratio</p>
               <Knob value={effect.ratio} type="radial" min={1} max={20} step={1} onChange={this.onChange} propName="ratio" disabled={!effect.active}/>
             </Cell>
-            <Cell col={4} phone={1} tablet={4} className="text-center">
+            <Cell col={4} phone={1} tablet={2} className="text-center">
               <p className="effect-label">Release</p>
               <Knob value={effect.release} type="radial" min={0} max={1} step={0.01} onChange={this.onChange} propName="release" disabled={!effect.active}/>
             </Cell>
-            <Cell col={4} phone={1} tablet={4} className="text-center">
+            <Cell col={4} phone={1} tablet={2} className="text-center">
               <p className="effect-label">Knee</p>
               <Knob value={effect.knee} type="radial" min={0} max={40} step={1} onChange={this.onChange} propName="knee" disabled={!effect.active}/>
             </Cell>

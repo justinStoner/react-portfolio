@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 //import { updateOscillator } from '../../actions';
 import PropTypes from 'prop-types';
+import fetch from 'isomorphic-fetch';
 
 class ReverbAudio extends Component{
   constructor(props){
@@ -22,8 +23,7 @@ class ReverbAudio extends Component{
 
     this.reverbNode.connect(this.reverbGain);
 
-    const myRequest = new Request("/audio/reverb/room.wav");
-    fetch(myRequest)
+    fetch("/audio/reverb/room.wav")
     .then((res)=>res.arrayBuffer())
     .then((buffer)=>{
       this.props.audio.decodeAudioData(buffer, (decodedData)=>{

@@ -19,10 +19,10 @@ export class AvModeSelector extends Component{
           <i className="material-icons">graphic_eq</i>
         </Button>
         <Menu target={this.state.id} ripple align="right">
-            <MenuItem onClick={() => {this.props.onClick('visualizerType', 'off')}} disabled={this.props.visualizerType=='off'}>Off</MenuItem>
-            <MenuItem onClick={() => {this.props.onClick('visualizerType', 'waveform')}} disabled={this.props.visualizerType=='waveform'}>WaveForm</MenuItem>
-            <MenuItem onClick={() => {this.props.onClick('visualizerType', 'webgl')}} disabled={this.props.visualizerType=='webgl'}>WebGL</MenuItem>
-            <MenuItem onClick={() => {this.props.onClick('visualizerType', 'fractal')}} disabled={this.props.visualizerType=='fractal'}>Fractal</MenuItem>
+            <MenuItem onClick={() => {this.props.onClick('visualizerType', 'off')}} className={this.props.visualizerType=='off' ? 'menu-item-active' : ''}>Off</MenuItem>
+            <MenuItem onClick={() => {this.props.onClick('visualizerType', 'waveform')}} className={this.props.visualizerType=='waveform'  ? 'menu-item-active' : ''}>WaveForm</MenuItem>
+            <MenuItem onClick={() => {this.props.onClick('visualizerType', 'webgl')}} className={this.props.visualizerType=='webgl'  ? 'menu-item-active' : ''}>WebGL</MenuItem>
+            <MenuItem onClick={() => {this.props.onClick('visualizerType', 'fractal')}} className={this.props.visualizerType=='fractal'  ? 'menu-item-active' : ''}>Fractal</MenuItem>
         </Menu>
       </div>
     )

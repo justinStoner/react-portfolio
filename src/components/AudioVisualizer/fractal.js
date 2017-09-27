@@ -10,6 +10,7 @@ let animID;
 let frame = 0;
 let dataArray, analyzer, audio;
 let iteration=0;
+let container
 //http://www.wiktorzychla.com/2014/02/animated-javascript-julia-fractals.html
 //https://stackoverflow.com/questions/19671543/js-canvas-implementation-of-julia-set
 export class Fractal extends Component{
@@ -18,6 +19,7 @@ export class Fractal extends Component{
     this.state={
       width:0,
       height:0,
+      marginTop:0
     }
     audio=this.props.audio;
     console.log(this.props);
@@ -26,7 +28,7 @@ export class Fractal extends Component{
   }
   render(){
     return(
-      <canvas width={this.state.width} height={this.state.height} id='fractal' style={{position:'absolute', zIndex:0, marginTop:this.props.marginTop}}></canvas>
+      <canvas width={this.state.width} height={this.state.height} id='fractal' style={{position:'absolute', zIndex:0, marginTop:this.state.marginTop}}></canvas>
     )
   }
   componentDidMount(){
@@ -35,7 +37,7 @@ export class Fractal extends Component{
     Wloop=WJulia*3
     HJulia=container.clientHeight;
     Hloop=HJulia*3
-    this.setState({width:WJulia, height:HJulia});
+    this.setState({width:WJulia, height:HJulia, marginTop:-container.clientHeight});
     init();
     window.addEventListener('resize', ()=>{
       let container=document.getElementById(this.props.containerId)
@@ -43,7 +45,7 @@ export class Fractal extends Component{
       Wloop=WJulia*3
       HJulia=container.clientHeight;
       Hloop=HJulia*3
-      this.setState({width:WJulia, height:HJulia});
+      this.setState({width:WJulia, height:HJulia, marginTop: -container.clientHeight});
       init();
     })
   }

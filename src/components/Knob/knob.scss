@@ -1,8 +1,11 @@
 /* modified from https://github.com/andrejewski/angle-input/blob/master/angle-input.css */
-.button-holder {
-  position: relative !important; }
+.button-holder{
+  position: relative !important;
+}
+svg{
 
-.radial-close {
+} 
+.radial-close{
   z-index: 2;
   position: fixed;
   left: 0;
@@ -10,14 +13,14 @@
   height: 0;
   bottom: 0;
   width: 100%;
-  height: 100%; }
-
-text {
-  text-anchor: middle;
+  height: 100%;
+}
+text{
+  text-anchor:middle;
   font-size: 12px;
-  font-weight: bold; }
-
-.angle-input {
+  font-weight: bold;
+}
+.angle-input{
   background: #fff;
   position: absolute;
   border-radius: 50%;
@@ -29,9 +32,10 @@ text {
   outline: none;
   margin: 0 auto;
   left: 0;
-  right: 0; }
+  right: 0;
+}
 
-.svg-holder {
+.svg-holder{
   position: absolute;
   left: 0;
   right: 0;
@@ -40,31 +44,37 @@ text {
   outline: none;
   margin: 0 auto;
   height: 75px;
-  width: 75px;
-  top: -4px; }
+  width:75px;
+  top:-4px;
+}
+.knob-holder{
 
-rect {
+}
+rect{
   overflow: visible;
   z-index: 4;
-  position: relative; }
+  position: relative;
+}
+svg{
 
-input.knob-input {
+}
+input.knob-input{
   position: absolute !important;
   z-index: 5;
   width: 40px;
-  outline: none;
+  outline:none;
   background: transparent;
   border: none;
-  color: #2196f3;
+  color:#2196f3;
   left: 24%;
   top: 48px;
-  text-align: center; }
-
+  text-align: center;
+}
 .no-spin::-webkit-inner-spin-button, .no-spin::-webkit-outer-spin-button {
-  -webkit-appearance: none !important;
-  margin: 0 !important;
-  -moz-appearance: textfield !important; }
-
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+    -moz-appearance:textfield !important;
+}
 .angle-input-pivot {
   position: absolute;
   left: 0;
@@ -72,7 +82,8 @@ input.knob-input {
   top: 50%;
   margin-top: -1px;
   height: 2px;
-  /* background-color: #aaa; */ }
+  /* background-color: #aaa; */
+}
 
 .angle-input-pivot::before {
   content: '';
@@ -85,9 +96,9 @@ input.knob-input {
   border-radius: 50%;
   background-color: #2196f3;
   /* box-shadow: 0 0 1px #888; */
-  border: 1px solid #ccc; }
-
-.radial-input-holder {
+  border: 1px solid #ccc;
+}
+.radial-input-holder{
   background: #2196f3;
   width: 27px;
   margin: 0 auto;
@@ -95,22 +106,24 @@ input.knob-input {
   padding-bottom: 2px;
   overflow: hidden;
   position: relative;
-  top: 50%;
-  transform: translateY(-50%); }
-
-.mdl-textfield__input.radial-input {
+  top:50%;
+  transform: translateY(-50%);
+}
+.mdl-textfield__input.radial-input{
   width: 100%;
   padding-bottom: 2px;
   font-size: 14px;
-  color: #fff;
+  color:#fff;
   text-align: center;
-  border-bottom: 1px solid #fff; }
 
-button.round-button {
+  border-bottom: 1px solid #fff;
+}
+button.round-button{
   z-index: 1;
   border: 2px solid #fff;
   text-transform: lowercase;
-  line-height: 1.3; }
-
-button.round-button[disabled][disabled] {
-  background-color: #9e9e9e !important; }
+  line-height: 1.3;
+}
+button.round-button[disabled][disabled]{
+  background-color: #9e9e9e !important;
+}
