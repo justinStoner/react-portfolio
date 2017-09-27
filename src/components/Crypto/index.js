@@ -49,16 +49,14 @@ export class Crypto extends Component{
   }
 
   componentDidMount(){
-    socket = openSocket('http://heyjust.in');
-    var currencies = new Request("api/crypto/currencies");
-    var marketData = new Request("api/crypto/marketdata");
-    fetch(currencies)
+    socket = openSocket(process.env.NODE_ENV === 'production' ? 'http://heyjust.in' : 'http://localhost:3000');
+    fetch("api/crypto/currencies")
     .then(res=>res.json())
     .then(res=>{
       console.log(res);
       if(res.success) {
         this.setState({currencies:mapCurrencies(res.result.filter( item => item.IsActive))});
-        fetch(marketData)
+        fetch("api/crypto/marketdata")
         .then(res=>res.json())
         .then(res=>{
           console.log(res);

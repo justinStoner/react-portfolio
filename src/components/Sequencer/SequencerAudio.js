@@ -65,14 +65,14 @@ export class DrumsAudio extends Component{
     )
   }
   loadSample(name){
-      fetch("/audio/roland-tr-33/"+name+".wav")
-      .then((res)=>res.arrayBuffer())
-      .then((buffer)=>{
-        this.props.context.decodeAudioData(buffer, (decodedData)=>{
-        this.samples[name].sample = decodedData
-        })
-        .catch(e => alert(e))
+    fetch("/audio/roland-tr-33/"+name+".wav")
+    .then((res)=>res.arrayBuffer())
+    .then((buffer)=>{
+      this.props.context.decodeAudioData(buffer, (decodedData)=>{
+      this.samples[name].sample = decodedData
       })
+      .catch(e => console.log(e))
+    })
   }
   updateReverb(val, sample){
     val=val/100;
