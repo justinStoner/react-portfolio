@@ -49,7 +49,7 @@ export class Crypto extends Component{
   }
 
   componentDidMount(){
-    socket = openSocket('http://localhost:3000');
+    socket = openSocket('http://heyjust.in');
     var currencies = new Request("api/crypto/currencies");
     var marketData = new Request("api/crypto/marketdata");
     fetch(currencies)
