@@ -17,7 +17,7 @@ class NavDrawer extends Component{
       <Drawer>
         <div className="header">
           <div className="profile">
-
+            <img src="images/me1.jpg" width="64" height="64" style={{borderRadius:'50px', cursor:'pointer'}} alt=""></img>
             <a className="mdl-navigation__link" id="settings" style={{color:'#fff', cursor:'pointer'}}>
               <i className="material-icons" style={{fontSize:'32px', marginRight:'0px'}}>info</i>
             </a>

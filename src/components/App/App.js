@@ -42,7 +42,7 @@ const App=({playing, context, tempo, updateTempo})=>{
     sideChainOutput:context.createGain()
   }
   console.log(drumsAudio.sideChainOutput);
-  //<img src="images/me1.jpg" width="64" height="64" style={{borderRadius:'50px', cursor:'pointer'}} alt=""></img>
+  
   return (
 
         <BrowserRouter>
