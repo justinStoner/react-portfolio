@@ -38,7 +38,6 @@ const App=({playing, context, tempo, updateTempo})=>{
   let drumsAudio={
     analyser:context.createAnalyser(),
     input:context.createGain(),
-    analyser:context.createAnalyser(),
     sideChainOutput:context.createGain()
   }
   console.log(drumsAudio.sideChainOutput);
@@ -53,7 +52,7 @@ const App=({playing, context, tempo, updateTempo})=>{
             <Route children={(match)=>(
                 <Header title={match.location.pathname == '/' ? 'About' : match.location.pathname.replace('/', '').charAt(0).toUpperCase() + match.location.pathname.slice(2).replace('/', '')} className="mdl-color--blue-500">
                   {
-                    (match.location.pathname == '/synth' || match.location.pathname == '/sequencer')
+                    (match.location.pathname.indexOf('synth') > -1  || match.location.pathname.indexOf('sequencer') > -1)
                     ?
                     <div>
                       <span style={{paddingRight:'8px'}}>Tempo</span>

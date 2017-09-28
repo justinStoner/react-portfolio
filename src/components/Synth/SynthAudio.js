@@ -158,6 +158,15 @@ export class SynthAudio extends Component{
     window.addEventListener('keyup', this.stop.bind(this));
     window.addEventListener('mock-keydown', this.playFromClick.bind(this));
     window.addEventListener('mock-keyup', this.stopFromClick.bind(this));
+
+    window.addEventListener('stop-synth', () => {
+      window.removeEventListener('keydown', this.play.bind(this))
+      window.removeEventListener('keyup', this.stop.bind(this))
+    })
+    window.addEventListener('start-synth', () => {
+      window.addEventListener('keydown', this.play.bind(this))
+      window.addEventListener('keyup', this.stop.bind(this))
+    })
   }
 
   connect(){

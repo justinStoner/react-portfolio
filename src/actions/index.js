@@ -20,6 +20,12 @@ export const name = 'synth'
      payload:volume
    }
  }
+ export const updateSequencer = ( key, value ) => {
+   return {
+     type:"UPDATE_SEQUENCER",
+     payload:{key, value}
+   }
+ }
  export const changeTempo = tempo =>{
    return {
      type:"CHANGE_TEMPO",

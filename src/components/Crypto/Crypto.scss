@@ -11,10 +11,26 @@
   }
 }
 .expandable{
-  .isExpanded{
-    transform: rotate(180deg);
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1),
+  background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+  color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+  transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+  -webkit-box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1) !important;
+}
+.isExpanded{
+  transform: rotate(180deg);
+}
+.notExpanded{
+  transform: rotate(0deg);
+}
+.crypto-card{
+  overflow: hidden;
+  .mdl-cell{
+    overflow: hidden;
   }
-  .notExpanded{
-    transform: rotate(0deg);
+  .mdl-cell p:nth-child(2){
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 }

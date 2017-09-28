@@ -13,7 +13,7 @@ import { AddEffect } from '../EffectBank'
 import { addEffect } from '../../actions'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toggleDrums, scheduleDrum, modifyDrum, changeSequencerVolume } from '../../actions';
+import { toggleDrums, scheduleDrum, modifyDrum, changeSequencerVolume, updateSequencer } from '../../actions';
 function generateTH(notePlaying){
   var arr=[];
   for(var i=0;i<16;i++){
@@ -294,6 +294,9 @@ const mapDispatchToProps = dispatch =>{
     },
     addEffect: ( type, parent ) => {
       dispatch(addEffect( type, parent ))
+    },
+    onChange: ( key, value ) => {
+      dispatch(updateSequencer( key, value ))
     }
   }
 }

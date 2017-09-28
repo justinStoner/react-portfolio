@@ -3,10 +3,7 @@ import { Grid, Cell, Card, CardTitle, CardText, CardActions, CardMenu, Chip, Chi
 import openSocket from 'socket.io-client';
 import { TopPanel } from './TopPanel.js';
 import { DataCard } from './DataCard';
-
 import './Crypto.css';
-import 'cryptocoins-icons/webfont/cryptocoins.css';
-import 'cryptocoins-icons/webfont/cryptocoins-colors.css';
 
 const colorNames = [
   ['Ask', 'askColor'],
@@ -69,13 +66,20 @@ export class Crypto extends Component{
 
     socket.on('ticker', tick => {
       console.log(tick);
-      this.setState( {coins:{...splitArray(tick.result, this.state)}} )
+      if(tick.success){
+        this.setState( {coins:{...splitArray(tick.result, this.state)}} )
+      }
     });
 
     socket.emit('subscribeToTicker', 5000);
+
+    let event = new CustomEvent("stop-synth")
+    window.dispatchEvent(event);
   }
   componentWillUnmount(){
     socket.disconnect()
+    let event = new CustomEvent("start-synth")
+    window.dispatchEvent(event);
   }
   render(){
     return (
@@ -95,6 +99,9 @@ export class Crypto extends Component{
           :
           null
         }
+        <Cell col={12}>
+            <p>ETH: 0x0D7E1502ca05adb3D9E0932fd6db88743ca1127b | BTC: 16svniBM2MjFSswNT3A38e2PToNmCLwvpq</p>
+        </Cell>
       </Grid>
     )
   }

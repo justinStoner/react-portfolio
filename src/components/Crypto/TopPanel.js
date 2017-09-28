@@ -15,8 +15,29 @@ export class TopPanel extends Component{
   render(){
     return(
       <Grid className='mdl-shadow--2dp mdl-color--white'>
-        <Cell col={12}>
+        <Cell col={1}>
           <h2 className="mdl-card__title-text" style={{display:'inline-block'}}>Coins</h2>
+        </Cell>
+        <Cell col={7} style={{maxHeight:'64px', overflow:'hidden'}}>
+          {
+            !this.state.isOpen
+            ?
+              <div className='row'>
+                {Object.values(this.props.filters).map( (filter, index) => {
+                  return (
+                    <Chip
+                      style={{marginRight:'8px'}}
+                      key={index}>
+                        {filter.name} | {Math.round10(this.props.coins[filter.name].Last, -3)}
+                      </Chip>
+                  )
+                })}
+              </div>
+            :
+            null
+          }
+        </Cell>
+        <Cell col={4}>
           <div style={{float:"right"}}>
             <Textfield
               onChange={(e) => {this.setState({searchText:e.target.value})}}
@@ -58,7 +79,7 @@ export class TopPanel extends Component{
                 return coin.MarketName.indexOf(this.state.searchText.toUpperCase()) > -1 && this.state.searchText.length && !this.props.filters[coin.MarketName]
               }).map( (coin, index) => {
                 return (
-                  <Chip style={{marginRight:'16px'}} key={index} onClick={ () => {this.props.addCoin(coin)} }>
+                  <Chip style={{marginRight:'16px', cursor:'pointer'}} key={index} onClick={ () => {this.props.addCoin(coin)} }>
                     {coin.MarketName} | {coin.Last}
                   </Chip>
                 )

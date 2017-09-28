@@ -91,6 +91,9 @@ const sequencer = (state = initialState, action) => {
     case 'CHANGE_VOLUME':
       newState.volume = action.payload
       return newState
+    case 'UPDATE_SEQUENCER':
+      newState[action.payload.key] = action.payload.value
+      return newState
     default:
       return state
   }
