@@ -35,6 +35,9 @@ export class SynthAudio extends Component{
     this.playKey=this.playKey.bind(this);
     this.stopKey=this.stopKey.bind(this);
     this.effectsChain=[];
+
+    this.play = this.play.bind(this);
+    this.stop = this.stop.bind(this);
   }
 
   componentWillMount(){
@@ -154,25 +157,26 @@ export class SynthAudio extends Component{
 
     this.lfo.start(0);
     this.connect();
-    window.addEventListener('keydown', this.play.bind(this));
-    window.addEventListener('keyup', this.stop.bind(this));
+    this.addKeyListeners()
+
     window.addEventListener('mock-keydown', this.playFromClick.bind(this));
     window.addEventListener('mock-keyup', this.stopFromClick.bind(this));
 
-    window.addEventListener('stop-synth', () => {
-      window.removeEventListener('keydown', this.play.bind(this))
-      window.removeEventListener('keyup', this.stop.bind(this))
-    })
-    window.addEventListener('start-synth', () => {
-      window.addEventListener('keydown', this.play.bind(this))
-      window.addEventListener('keyup', this.stop.bind(this))
-    })
+    window.addEventListener('stop-synth', this.removeKeyListeners.bind(this))
+    window.addEventListener('start-synth', this.addKeyListeners.bind(this))
   }
 
   connect(){
     this.props.audio.effectsOut.connect(this.props.audio.input);
   }
-
+  removeKeyListeners(){
+    window.removeEventListener('keydown', this.play)
+    window.removeEventListener('keyup', this.stop)
+  }
+  addKeyListeners(){
+    window.addEventListener('keydown', this.play)
+    window.addEventListener('keyup', this.stop)
+  }
   play(e){
     let s=e.key;
     let note;

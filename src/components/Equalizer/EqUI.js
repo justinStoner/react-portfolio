@@ -28,10 +28,10 @@ class EqUI extends Component{
     return(
       <div className="mdl-shadow--2dp mdl-color--amber-500">
         <Grid>
-          <Cell col={12} >
+          <Cell col={12} style={{position:'relative'}}>
             <p className="effect-label left">Equalizer</p>
             <IconButton className="right" ripple name="more_vert" id={effect.id} style={{marginTop:'-8px', marginRight:'-8px'}}/>
-            <Menu target={effect.id} ripple align="left">
+            <Menu target={effect.id} ripple align="right">
                 <MenuItem onClick={this.toggleEffect}>{effect.active?'Deactivate':'Activate'}</MenuItem>
                 <MenuItem onClick={() => {this.reOrder(false)}} disabled={this.props.index === 0}>Move Left</MenuItem>
                 <MenuItem onClick={() => {this.reOrder(true)}} disabled={length === this.props.index}>Move Right</MenuItem>

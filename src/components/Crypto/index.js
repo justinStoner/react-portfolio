@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Cell, Card, CardTitle, CardText, CardActions, CardMenu, Chip, ChipContact, IconButton, Textfield } from 'react-mdl';
+import { Grid, Cell, Spinner } from 'react-mdl';
 import openSocket from 'socket.io-client';
 import { TopPanel } from './TopPanel.js';
 import { DataCard } from './DataCard';
@@ -38,7 +38,8 @@ export class Crypto extends Component{
       searchText:'',
       searching:false,
       coinPickerOpen:true,
-      coins:null
+      coins:null,
+      loaded:false
     }
 
     this.removeCoin=this.removeCoin.bind(this);
@@ -57,9 +58,12 @@ export class Crypto extends Component{
         .then(res=>res.json())
         .then(res=>{
           console.log(res);
-          if(res.success) this.setState({coins:{...splitArray(res.result, this.state)}});
+          if(res.success) this.setState({coins:{...splitArray(res.result, this.state), loaded:true}});
+          else this.setState({loaded:true})
           console.log(this.state);
         })
+      }else{
+        this.setState({loaded:true})
       }
       console.log(this.state);
     })
@@ -85,19 +89,22 @@ export class Crypto extends Component{
     return (
       <Grid className="text-center">
         <Cell col={12} className="text-left">
-          <TopPanel coins={this.state.coins} currencies={this.state.currencies} filters={this.state.filters} addCoin={this.addCoin} removeCoin={ (filter) => {this.removeCoin(filter, this.state)}}></TopPanel>
+          <TopPanel coins={this.state.coins} currencies={this.state.currencies} filters={this.state.filters} addCoin={this.addCoin} loaded={this.state.loaded} removeCoin={ (filter) => {this.removeCoin(filter, this.state)}} />
         </Cell>
         {
-          this.state.coins && this.state.currencies ?
+          this.state.coins && this.state.currencies?
           Object.values(this.state.filters).map( (filter, index) => {
             return (
               <Cell col={4} key={index}>
-                <DataCard currencies={this.state.currencies} coins={this.state.coins} filter={filter} removeCoin={(filter) => {this.removeCoin(filter, this.state)}}></DataCard>
+                <DataCard currencies={this.state.currencies} coins={this.state.coins} filter={filter} removeCoin={(filter) => {this.removeCoin(filter, this.state)}} />
               </Cell>
             )
           })
-          :
-          null
+          : !this.state.loaded ?
+              <Cell col={12}>
+                <Spinner />
+              </Cell>
+              : null
         }
         <Cell col={12}>
             <p>ETH: 0x0D7E1502ca05adb3D9E0932fd6db88743ca1127b | BTC: 16svniBM2MjFSswNT3A38e2PToNmCLwvpq</p>
