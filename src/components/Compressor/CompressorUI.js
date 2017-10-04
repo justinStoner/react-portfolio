@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Grid, Cell, IconButton, Menu, MenuItem } from 'react-mdl'
+import { Grid, Cell } from 'react-mdl'
 import { Knob } from '../Knob';
 import { connect } from 'react-redux';
 import { updateEffect, reorderEffects, removeEffect } from '../../actions';
+import { EffectOptions } from '../EffectBank';
+import { ErrorBoundary } from '../Errors'
 import PropTypes from 'prop-types';
 
 class CompressorUI extends Component{
@@ -25,19 +27,13 @@ class CompressorUI extends Component{
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
     const length=Object.keys(this.props.effects[this.props.parent]).length -1;
-    if(effect){
-      return(
-        <div className="mdl-shadow--2dp mdl-color--deep-orange-500 text-white">
+    return(
+      <ErrorBoundary message={this.props.parent + ' > ' + this.constructor.name + ' encountered an error'}>
+        <div className="mdl-shadow--2dp mdl-color--deep-orange-500 text-white" id={'effect-'+effect.id}>
           <Grid>
-            <Cell col={12} style={{position:'relative'}}>
+            <Cell col={12}>
               <p className="effect-label left">Compressor</p>
-              <IconButton className="right" ripple name="more_vert" id={effect.id} style={{marginTop:'-8px', marginRight:'-8px'}}/>
-              <Menu target={effect.id} ripple align="right">
-                  <MenuItem onClick={this.toggleEffect}>{effect.active?'Deactivate':'Activate'}</MenuItem>
-                  <MenuItem onClick={() => {this.reOrder(false)}} disabled={this.props.index === 0}>Move Left</MenuItem>
-                  <MenuItem onClick={() => {this.reOrder(true)}} disabled={length === this.props.index}>Move Right</MenuItem>
-                  <MenuItem onClick={() => {this.props.remove( this.props.parent, effect.id )}}>Remove</MenuItem>
-              </Menu>
+              <EffectOptions id={effect.id} active={effect.active} index={this.props.index} length={length} toggleEffect={this.toggleEffect} reOrder={this.reOrder} remove={this.props.remove} parent={this.props.parent}/>
             </Cell>
             <Cell col={4} phone={1} tablet={2} className="text-center">
               <p className="effect-label">Attack</p>
@@ -61,10 +57,8 @@ class CompressorUI extends Component{
             </Cell>
           </Grid>
         </div>
-      )
-    }else{
-      return null
-    }
+      </ErrorBoundary>
+    )
   }
 }
 

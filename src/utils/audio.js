@@ -1,12 +1,12 @@
 export const filterTypes = [
-  'lowpass',
-  'highpass',
-  'bandpass',
-  'lowshelf',
-  'highshelf',
-  'peaking',
-  'notch',
-  'allpass'
+  {name:'lowpass', value:'lowpass'},
+  {name:'highpass', value:'highpass'},
+  {name:'bandpass', value:'bandpass'},
+  {name:'lowshelf', value:'lowshelf'},
+  {name:'highshelf', value:'highshelf'},
+  {name:'peaking', value:'peaking'},
+  {name:'notch', value:'notch'},
+  {name:'allpass', value:'allpass'}
 ];
 
 const octave = [
@@ -48,6 +48,192 @@ export const delayLabels = [
   {name:'1/8t', value:0.33},
   {name:'1/16', value:0.25}
 ];
+
+export const defaultEffectSettings = {
+  overdrive:{
+    type:'overdrive',
+    effectLevelMode:'none',
+    gain:50,
+    mode:0,
+    curve:50,
+    drive:50,
+    col:2,
+    tablet:2,
+    phone:4,
+    id:null,
+    active:true,
+    index:0
+  },
+  reverb:{
+    type:'reverb',
+    effectLevel:66,
+    effectLevelMode:'blend',
+    active:true,
+    col:2,
+    tablet:2,
+    phone:4,
+    highCut:22050,
+    lowCut:20,
+    id:null,
+    reverbType:'hall',
+    index:1
+  },
+  eq:{
+    type:'eq',
+    effectLevelMode:'none',
+    id:null,
+    eq80:24,
+    eq350:22,
+    eq720:21,
+    eq16k:-14,
+    eq5k:-20,
+    eq10k:0,
+    active:true,
+    col:2,
+    tablet:3,
+    phone:4,
+    index:2
+  },
+  delay:{
+    type:'delay',
+    id:null,
+    delayTime:1,
+    feedback:15,
+    effectLevel:15,
+    effectLevelMode:'wet',
+    active:true,
+    col:2,
+    tablet:2,
+    phone:4,
+    index:3
+  },
+  compressor:{
+    type:'compressor',
+    effectLevelMode:'none',
+    id:null,
+    threshold:-50,
+    knee:8,
+    ratio:10,
+    attack:0.1,
+    release:0.1,
+    active:true,
+    col:2,
+    tablet:3,
+    phone:4,
+    index:4
+  },
+  filter:{
+    type:'filter',
+    filterType:'lowshelf',
+    effectLevelMode:'none',
+    frequency:500,
+    Q:10,
+    gain:100,
+    col:2,
+    tablet:2,
+    phone:4,
+    id:null,
+    index:null,
+    active:true
+  },
+  chorus:{
+    type:'chorus',
+    effectLevelMode:'none',
+    rate:1.5,
+    feedback:0.2,
+    delay:0.0045,
+    col:2,
+    tablet:2,
+    phone:4,
+    id:null,
+    index:null,
+    active:true
+  },
+  phaser:{
+    type:'phaser',
+    effectLevelMode:'none',
+    rate: 1.2,                     //0.01 to 8 is a decent range, but higher values are possible
+    depth: 0.3,                    //0 to 1
+    feedback: 0.2,                 //0 to 1+
+    stereoPhase: 30,               //0 to 180
+    baseModulationFrequency: 700,  //500 to 1500
+    col:2,
+    tablet:3,
+    phone:4,
+    id:null,
+    index:null,
+    active:true
+  },
+  tremolo:{
+    type:'tremolo',
+    effectLevelMode:'none',
+    intensity: 0.3,    //0 to 1
+    rate: 4,         //0.001 to 8
+    stereoPhase: 0,    //0 to 180
+    col:2,
+    tablet:2,
+    phone:4,
+    id:null,
+    index:null,
+    active:true
+  },
+  wahwah:{
+    type:'wahwah',
+    effectLevelMode:'none',
+    automode: true,                //true/false
+    baseFrequency: 0.5,            //0 to 1
+    excursionOctaves: 2,           //1 to 6
+    sweep: 0.2,                    //0 to 1
+    resonance: 10,                 //1 to 100
+    sensitivity: 0.5,              //-1 to 1
+    col:2,
+    tablet:3,
+    phone:4,
+    id:null,
+    index:null,
+    active:true
+  },
+  bitcrusher:{
+    type:'bitcrusher',
+    effectLevelMode:'none',
+    bits: 4,          //1 to 16
+    normfreq: 0.1,    //0 to 1
+    bufferSize: 4096,  //256 to 16384
+    col:2,
+    tablet:2,
+    phone:4,
+    id:null,
+    index:null,
+    active:true
+  },
+  moogfilter:{
+    type:'moogfilter',
+    effectLevelMode:'none',
+    cutoff: 0.065,    //0 to 1
+    resonance: 3.5,   //0 to 4
+    bufferSize: 4096,  //256 to 16384
+    col:2,
+    tablet:2,
+    phone:4,
+    id:null,
+    index:null,
+    active:true
+  },
+  pingpongdelay:{
+    type:'pingpongdelay',
+    effectLevelMode:'none',
+    wetLevel: 0.5, //0 to 1
+    feedback: 0.3, //0 to 1
+    delayTimeLeft: 150, //1 to 10000 (milliseconds)
+    delayTimeRight: 200, //1 to 10000 (milliseconds)
+    col:2,
+    tablet:2,
+    phone:4,
+    id:null,
+    index:null,
+    active:true
+  }
+}
 
 /**
 * Convert Note Number to Frequency

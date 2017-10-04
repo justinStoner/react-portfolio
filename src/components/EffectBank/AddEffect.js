@@ -15,9 +15,10 @@ export class AddEffect extends Component{
           <i className="material-icons">add</i>
         </Button>
         <Menu target={addEffectID} ripple align="left">
-            <MenuItem onClick={()=>{this.props.addEffect('compressor', this.props.parent)}}>Compressor</MenuItem>
+            <MenuItem onClick={()=> {this.props.addEffect('compressor', this.props.parent)}}>Compressor</MenuItem>
             <MenuItem onClick={() => {this.props.addEffect('delay', this.props.parent)}}>Delay</MenuItem>
             <MenuItem onClick={() => {this.props.addEffect('eq', this.props.parent)}}>Equalizer</MenuItem>
+            <MenuItem onClick={() => {this.props.addEffect('filter', this.props.parent)}}>Filter</MenuItem>
             <MenuItem onClick={() => {this.props.addEffect('reverb', this.props.parent)}}>Reverb</MenuItem>
             <MenuItem onClick={() => {this.props.addEffect('overdrive', this.props.parent)}}>Overdrive</MenuItem>
         </Menu>

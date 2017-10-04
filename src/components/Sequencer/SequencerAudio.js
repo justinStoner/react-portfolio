@@ -6,7 +6,7 @@ import { EffectsAudio } from '../EffectBank';
 import fetch from 'isomorphic-fetch';
 
 let sampleNames=[];
-export class DrumsAudio extends Component{
+export class SequencerAudio extends Component{
   constructor(props){
     super(props);
     this.props=props;
@@ -16,8 +16,10 @@ export class DrumsAudio extends Component{
     this.volume=85;
     this.loopLength=16;
   }
-  setCompressor(key, value){
-    this.compressor[key].value=value;
+  shouldComponentUpdate(nextProps){
+    const props = this.props;
+    if(nextProps.effects != props.effects) return true
+    return false
   }
   componentWillMount(){
     const context = this.props.context;
@@ -29,8 +31,9 @@ export class DrumsAudio extends Component{
       })
     })
     this.gain=context.createGain();
-    //this.gain.connect(this.props.audio.input)
-    this.sideChainGain=context.createGain();
+    this.gain.connect(this.props.audio.effectsIn)
+    this.props.audio.effectsOut.connect(this.props.audio.input)
+    //this.sideChainGain=context.createGain();
     this.props.audio.input.connect(this.props.audio.analyser)
     this.props.audio.analyser.fftSize=2048;
     Object.values(this.props.sequencer.drums).map( drum => {
@@ -61,7 +64,7 @@ export class DrumsAudio extends Component{
   }
   render(){
     return (
-      <EffectsAudio effects={this.props.effects} context={this.props.context} effectsIn={this.gain} effectsOut={this.props.audio.input} parent="drums"/>
+      <EffectsAudio effects={this.props.effects} context={this.props.context} effectsIn={this.props.audio.effectsIn} effectsOut={this.props.audio.effectsOut} parent="drums"/>
     )
   }
   loadSample(name){
@@ -137,7 +140,7 @@ export class DrumsAudio extends Component{
       //this.gain.connect(this.effectsIn);
     //}
     this.gain.gain.value=this.props.sequencer.volume/50;
-    this.sideChainGain.gain.value=this.props.sequencer.volume/50;
+    //this.sideChainGain.gain.value=this.props.sequencer.volume/50;
     src.start(time);
   }
   playSample(sample){
@@ -213,19 +216,21 @@ export class DrumsAudio extends Component{
       this.noteTime += 0.25 * (60.0 / this.props.tempo);
   }
 }
-DrumsAudio.propTypes={
+SequencerAudio.propTypes={
   context: PropTypes.object.isRequired,
   tempo: PropTypes.number,
   sequencer:PropTypes.object,
   playing: PropTypes.bool.isRequired,
-  effects: PropTypes.object.isRequired
+  effects: PropTypes.object.isRequired,
+  audio:PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({
-  context: getContext(state),
+  context: state.audio.context,
   tempo:state.tempo,
   sequencer:state.sequencer,
   playing: state.playing,
-  effects: state.effects.drums
+  effects: state.effects.drums,
+  audio: state.audio.sequencer
 });
 
-export default connect(mapStateToProps, undefined)(DrumsAudio)
+export default connect(mapStateToProps, undefined)(SequencerAudio)

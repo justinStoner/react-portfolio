@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
-import { Grid, Cell, Menu, MenuItem, IconButton } from 'react-mdl'
-import { Knob } from '../Knob';
-import { connect } from 'react-redux';
-import { updateEffect, reorderEffects, removeEffect } from '../../actions';
+import React, { Component } from 'react'
+import { Grid, Cell } from 'react-mdl'
+import { Knob } from '../Knob'
+import { connect } from 'react-redux'
+import { updateEffect, reorderEffects, removeEffect } from '../../actions'
 import { reverbLabels } from '../../utils/audio'
-import PropTypes from 'prop-types';
+import { EffectOptions } from '../EffectBank'
+import { ErrorBoundary } from '../Errors'
+import PropTypes from 'prop-types'
 
 class ReverbUI extends Component{
   constructor(props){
@@ -27,36 +29,32 @@ class ReverbUI extends Component{
     const effect=this.props.effects[this.props.parent][this.props.id];
     const length=Object.keys(this.props.effects[this.props.parent]).length -1;
     return(
-      <div className="mdl-shadow--2dp mdl-color--yellow-500">
-        <Grid>
-          <Cell col={12} style={{position:'relative'}}>
-            <p className="effect-label left">Reverb</p>
-            <IconButton className="right" ripple name="more_vert" id={effect.id} style={{marginTop:'-8px', marginRight:'-8px'}}/>
-            <Menu target={effect.id} ripple align="right">
-                <MenuItem onClick={this.toggleEffect}>{effect.active?'Deactivate':'Activate'}</MenuItem>
-                <MenuItem onClick={() => {this.reOrder(false)}} disabled={this.props.index === 0}>Move Left</MenuItem>
-                <MenuItem onClick={() => {this.reOrder(true)}} disabled={length === this.props.index}>Move Right</MenuItem>
-                <MenuItem onClick={() => {this.props.remove( this.props.parent, effect.id )}}>Remove</MenuItem>
-            </Menu>
-          </Cell>
-          <Cell col={6} phone={1} tablet={4} className='text-center'>
-            <p className="effect-label">Amount</p>
-            <Knob value={effect.amount} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="amount" disabled={!effect.active}/>
-          </Cell>
-          <Cell col={6} phone={1} tablet={4} className='text-center'>
-            <p className="effect-label">Type</p>
-            <Knob value={effect.reverbType} type="select" labels={reverbLabels} min={0} max={100} step={1} onChange={this.onChange} propName="reverbType" disabled/>
-          </Cell>
-          <Cell col={6} phone={1} tablet={4} className='text-center'>
-            <p className="effect-label">High Cut</p>
-            <Knob value={effect.highCut} type="radial" min={0} max={22050} step={1} onChange={this.onChange} propName="highCut" disabled/>
-          </Cell>
-          <Cell col={6} phone={1} tablet={4} className='text-center'>
-            <p className="effect-label">Low Cut</p>
-            <Knob value={effect.lowCut} type="radial" min={0} max={22050} step={1} onChange={this.onChange} propName="lowCut" disabled/>
-          </Cell>
-        </Grid>
-      </div>
+      <ErrorBoundary message={this.props.parent + ' > ' + this.constructor.name + ' encountered an error'}>
+        <div className="mdl-shadow--2dp mdl-color--yellow-500" id={'effect-'+effect.id}  message={this.props.parent + ' > ' + this.constructor.name + ' encountered an error'}>
+          <Grid>
+            <Cell col={12}>
+              <p className="effect-label left">Reverb</p>
+              <EffectOptions id={effect.id} active={effect.active} index={this.props.index} length={length} toggleEffect={this.toggleEffect} reOrder={this.reOrder} remove={this.props.remove} parent={this.props.parent}/>
+            </Cell>
+            <Cell col={6} phone={1} tablet={4} className='text-center'>
+              <p className="effect-label">Amount</p>
+              <Knob value={effect.effectLevel} type="radial" min={0} max={100} step={1} onChange={this.onChange} propName="effectLevel" disabled={!effect.active}/>
+            </Cell>
+            <Cell col={6} phone={1} tablet={4} className='text-center'>
+              <p className="effect-label">Type</p>
+              <Knob value={effect.reverbType} type="select" labels={reverbLabels} min={0} max={100} step={1} onChange={this.onChange} propName="reverbType" disabled/>
+            </Cell>
+            <Cell col={6} phone={1} tablet={4} className='text-center'>
+              <p className="effect-label">High Cut</p>
+              <Knob value={effect.highCut} type="radial" min={0} max={22050} step={1} onChange={this.onChange} propName="highCut" disabled/>
+            </Cell>
+            <Cell col={6} phone={1} tablet={4} className='text-center'>
+              <p className="effect-label">Low Cut</p>
+              <Knob value={effect.lowCut} type="radial" min={0} max={22050} step={1} onChange={this.onChange} propName="lowCut" disabled/>
+            </Cell>
+          </Grid>
+        </div>
+      </ErrorBoundary>
     )
   }
 }

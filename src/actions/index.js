@@ -7,6 +7,11 @@ export const name = 'synth'
 /*
  * other constants
  */
+ export const resetApp = () => {
+   return {
+     type:'RESET_APP'
+   }
+ }
  export const addEffect = ( type, parent) => {
    return {
      type:'ADD_EFFECT',

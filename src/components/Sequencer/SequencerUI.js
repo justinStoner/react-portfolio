@@ -2,11 +2,7 @@ import React, {Component} from 'react';
 import {Grid, Cell} from 'react-mdl';
 import './sequencer.css';
 import {Knob} from '../Knob';
-import { EqUI } from '../Equalizer';
-import { DelayUI } from '../Delay';
-import { CompressorUI } from '../Compressor';
-import { ReverbUI } from '../Reverb';
-import { OverdriveUI } from '../Overdrive';
+import { EffectsUI } from '../EffectBank';
 import { AudioVisualizer } from '../AudioVisualizer';
 import { AvModeSelector } from '../AudioVisualizer/AvModeSelector'
 import { AddEffect } from '../EffectBank'
@@ -72,6 +68,14 @@ class Sequencer extends React.Component{
     this.changeFilter=this.changeFilter.bind(this);
     this.changeDrumSound=this.changeDrumSound.bind(this);
     this.changeMasterVolume=this.changeMasterVolume.bind(this);
+  }
+  shouldComponentUpdate(nextProps){
+    const props = this.props;
+    console.log(nextProps.effects != props.effects);
+    if(nextProps.effects != props.effects) return true
+    if(nextProps.sequencer != props.sequencer) return true
+    if(nextProps.playing != props.playing) return true
+    return false
   }
   onChange(key, value, index){
     this.props.modifyDrum(key, value, index);
@@ -234,34 +238,7 @@ class Sequencer extends React.Component{
                 </ul>
           }
         </Cell>
-        {
-          Object.values(this.props.effects).map( (e, i) => {
-            return (
-              <Cell col={e.col} phone={e.phone} tablet={e.tablet} key={i}>
-                {
-                  (() => {
-                    switch (e.type) {
-                      case 'eq':
-                        return <EqUI parent="drums" id={e.id} index={i}/>
-                      case 'delay':
-                        return <DelayUI parent="drums" id={e.id} index={i}/>
-                      case 'compressor':
-                        return <CompressorUI parent="drums" id={e.id} index={i}/>
-                      case 'sidechain-compressor':
-                        return <CompressorUI parent="drums" id={e.id} mode='sidechain-compressor' index={i}/>
-                      case 'reverb':
-                        return <ReverbUI parent="drums" id={e.id} index={i}/>
-                      case 'overdrive':
-                        return <OverdriveUI parent="drums" id={e.id} index={i}/>
-                      default:
-                        return null
-                    }
-                  })()
-                }
-              </Cell>
-            )
-          })
-        }
+        <EffectsUI effects={this.props.effects} parent="drums"/>
       </Grid>
     )
   }
@@ -269,13 +246,14 @@ class Sequencer extends React.Component{
 Sequencer.propTypes={
   sequencer: PropTypes.object.isRequired,
   playing:  PropTypes.bool.isRequired,
-  effects: PropTypes.object.isRequired
+  effects: PropTypes.object.isRequired,
+  audio:PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({
   sequencer:state.sequencer,
   playing:state.playing,
-  effects: state.effects.drums
-
+  effects: state.effects.drums,
+  audio: state.audio.sequencer
 });
 //key value index
 const mapDispatchToProps = dispatch =>{

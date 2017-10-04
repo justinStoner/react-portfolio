@@ -1,6 +1,9 @@
 import React, { Component }  from 'react';
+import { connect } from 'react-redux';
+import { ErrorBoundary } from '../Errors'
+import PropTypes from 'prop-types';
 
-export class AudioBus extends Component{
+class AudioBus extends Component{
   constructor(props){
     super(props);
     this.props=props;
@@ -22,3 +25,16 @@ export class AudioBus extends Component{
     return null
   }
 }
+AudioBus.propTypes={
+  context: PropTypes.object.isRequired,
+  synth: PropTypes.object.isRequired,
+  drums: PropTypes.object.isRequired,
+  analyser: PropTypes.object.isRequired
+}
+const mapStateToProps = state => ({
+  context: state.audio.context,
+  synth:state.audio.synth,
+  drums:state.audio.sequencer,
+  analyser:state.audio.analyser
+});
+export default connect(mapStateToProps, undefined)(AudioBus)

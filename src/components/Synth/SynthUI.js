@@ -4,19 +4,14 @@ import Oscillator from '../Oscillator';
 import Lfo from '../Lfo';
 import SynthOutput from '../SynthOutput';
 import SynthFilter from '../SynthFilter';
-import { EqUI } from '../Equalizer';
-import { DelayUI } from '../Delay';
-import { CompressorUI } from '../Compressor';
-import { ReverbUI } from '../Reverb';
-import { OverdriveUI } from '../Overdrive';
+import { EffectsUI } from '../EffectBank';
 import Keyboard from '../Keyboard';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getContext } from '../../selectors';
 import './synth.css';
 
 
-class Synth extends Component{
+class SynthUI extends Component{
   constructor(props){
     super(props);
     // this.updateOscillator=this.updateOscillator.bind(this);
@@ -69,34 +64,7 @@ class Synth extends Component{
               <Cell col={3} phone={4} tablet={4}>
                 <SynthFilter/>
               </Cell>
-              {
-                Object.values(this.props.effects).map( (e, i) => {
-                  return (
-                    <Cell col={e.col} phone={e.phone} tablet={e.tablet} key={i}>
-                      {
-                        (() => {
-                          switch (e.type) {
-                            case 'eq':
-                              return <EqUI parent="synth" id={e.id} index={i}/>
-                            case 'delay':
-                              return <DelayUI parent="synth" id={e.id} index={i}/>
-                            case 'compressor':
-                              return <CompressorUI parent="synth" id={e.id} index={i}/>
-                            case 'sidechain-compressor':
-                              return <CompressorUI parent="synth" id={e.id} mode='sidechain-compressor' index={i}/>
-                            case 'reverb':
-                              return <ReverbUI parent="synth" id={e.id} index={i}/>
-                            case 'overdrive':
-                              return <OverdriveUI parent="synth" id={e.id} index={i}/>
-                            default:
-                              return null
-                          }
-                        })()
-                      }
-                    </Cell>
-                  )
-                })
-              }
+              <EffectsUI parent="synth" effects={this.props.effects}/>
             </Grid>
           </div>
         </div>
@@ -105,23 +73,19 @@ class Synth extends Component{
     )
   }
 }
-Synth.propTypes={
-  context: PropTypes.object.isRequired,
+SynthUI.propTypes={
   synth:PropTypes.object.isRequired,
   oscillators: PropTypes.array.isRequired,
   lfo: PropTypes.object.isRequired,
-  effects: PropTypes.object.isRequired
-  //hasMounted:PropTypes.bool.isRequired,
-  //mount:PropTypes.func.isRequired
+  effects: PropTypes.object.isRequired,
+  audio:PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({
-  //hasMounted: state.hasMounted,
-  //mount: state.mount,
   synth:state.synth,
-  context: getContext(state),
   oscillators:state.oscillators,
   lfo:state.lfo,
-  effects:state.effects.synth
+  effects:state.effects.synth,
+  audio:state.audio.synth
 });
 
-export default connect(mapStateToProps, undefined)(Synth)
+export default connect(mapStateToProps, undefined)(SynthUI)

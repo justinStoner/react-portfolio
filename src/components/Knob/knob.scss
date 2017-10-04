@@ -4,7 +4,7 @@
 }
 svg{
 
-} 
+}
 .radial-close{
   z-index: 2;
   position: fixed;
@@ -123,6 +123,8 @@ button.round-button{
   border: 2px solid #fff;
   text-transform: lowercase;
   line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 button.round-button[disabled][disabled]{
   background-color: #9e9e9e !important;

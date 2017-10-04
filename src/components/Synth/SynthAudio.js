@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { keyDown, keyUp } from '../../actions';
 import { getContext } from '../../selectors';
 import { EffectsAudio } from '../EffectBank';
+import { ErrorBoundary } from '../Errors'
 
 const octaves=[-3,-2,-1,0,1,2,3];
 const waves=['sine', 'sawtooth', 'square', 'triangle'];
@@ -42,16 +43,6 @@ export class SynthAudio extends Component{
 
   componentWillMount(){
     this.createNodes()
-    let arr = Object.values(this.props.effects);
-    console.log(this.props.effects);
-    this.effectsChain = arr.map( ( e, i) => {
-      if ( i === 0 ) return {input:this.props.audio.effectsIn, output:this.props.context.createGain()}
-      else if( i === arr.length-1) return {input:null, output:this.props.audio.effectsOut}
-      else return {input:null, output:this.props.context.createGain()}
-    })
-    this.effectsChain.forEach( ( e, i ) => {
-      if( !e.input ) e.input = this.effectsChain[i-1].output;
-    })
   }
   componentDidUpdate(){
 
@@ -73,17 +64,6 @@ export class SynthAudio extends Component{
       this.lfo.type = lfo.wave;
       this.lfo.frequency.value = lfo.freq;
       this.lfo.detune.value = lfo.detune;
-    }
-    if(nextProps.effects!= this.props.effects){
-      let arr = Object.values(nextProps.effects);
-      this.effectsChain = arr.map( ( e, i) => {
-        if ( i === 0 ) return {input:this.props.audio.effectsIn, output:this.props.context.createGain()}
-        else if( i === arr.length-1) return {input:null, output:this.props.audio.effectsOut}
-        else return {input:null, output:this.props.context.createGain()}
-      })
-      this.effectsChain.forEach( ( e, i ) => {
-        if( !e.input ) e.input = this.effectsChain[i-1].output;
-      })
     }
     if(filter != this.props.synthFilter){
       Object.values(notes).forEach( note =>{
@@ -329,18 +309,19 @@ SynthAudio.propTypes={
   oscillators: PropTypes.array.isRequired,
   lfo: PropTypes.object.isRequired,
   effects: PropTypes.object.isRequired,
-  keys:PropTypes.object.isRequired
-
+  keys:PropTypes.object.isRequired,
+  audio:PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({
-  context: getContext(state),
+  context: state.audio.context,
   synth: state.synth,
   synthFilter: state.synthFilter,
   synthOutput: state.synthOutput,
   oscillators:state.oscillators,
   lfo:state.lfo,
   effects:state.effects.synth,
-  keys:state.keys
+  keys:state.keys,
+  audio:state.audio.synth
 });
 
 const mapDispatchToProps = dispatch =>{

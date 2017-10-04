@@ -3,7 +3,7 @@ import './audio-visualizer.css';
 //import {Waveform} from './waveform';
 import { FreqBarGraph } from './FreqBarGraph';
 import { Fractal } from './fractal';
-import { Waveform } from './waveform';
+import { Waveform } from './WaveForm';
 import { Webgl } from './webgl';
 
 export class AudioVisualizer extends Component{

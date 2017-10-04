@@ -16,9 +16,10 @@ import { MaterialShadowsSvg } from './material-shadows-svg';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getContext } from '../../selectors';
-import { AudioBus } from '../AudioBus';
+import AudioBus from '../AudioBus';
 import NavDrawer from '../Nav/NavDrawer';
-import { changeTempo } from '../../actions'
+import { changeTempo } from '../../actions';
+import { ErrorBoundary } from '../Errors'
 //import { actionCreators } from 'react-redux-webaudio';
 var testExp = new RegExp('Android|webOS|iPhone|iPad|' + 'BlackBerry|Windows Phone|'  + 'Opera Mini|IEMobile|Mobile' , 'i');
 window.isMobile=testExp.test(navigator.userAgent);
@@ -28,77 +29,62 @@ const mountSynth=()=>{
   synthMounted=true;
 }
 const App=({playing, context, tempo, updateTempo})=>{
-  let analyser=context.createAnalyser();
-  let synthAudio={
-    analyser:context.createAnalyser(),
-    input:context.createGain(),
-    effectsIn:context.createGain(),
-    effectsOut:context.createGain()
-  }
-  let drumsAudio={
-    analyser:context.createAnalyser(),
-    input:context.createGain(),
-    sideChainOutput:context.createGain()
-  }
-  console.log(drumsAudio.sideChainOutput);
-
   return (
-
         <BrowserRouter>
           <Layout fixedHeader fixedDrawer style={{background:'#e0e0e0'}}>
-            <AudioBus synth={synthAudio} drums={drumsAudio} analyser={analyser} context={context} />
-            <SynthAudio audio={synthAudio} sideChainIn={drumsAudio.sideChainOutput}/>
-            <SequencerAudio audio={drumsAudio} />
-            <Route children={(match)=>(
-                <Header title={match.location.pathname == '/' ? 'About' : match.location.pathname.replace('/', '').charAt(0).toUpperCase() + match.location.pathname.slice(2).replace('/', '')} className="mdl-color--blue-500">
-                  {
-                    (match.location.pathname.indexOf('synth') > -1  || match.location.pathname.indexOf('sequencer') > -1)
-                    ?
-                    <div>
-                      <span style={{paddingRight:'8px'}}>Tempo</span>
-                      <Textfield
-                          onChange={(e) => {updateTempo(e.target.value)}}
-                          pattern="-?[0-9]*(\.[0-9]+)?"
-                          error="number"
-                          label="Tempo"
-                          value={tempo}
-                          className='nav-input'
-                          style={{maxWidth:'45px'}}
-                      />
-                    </div>
-                    :
-                    null
-                  }
-                </Header>
-              )}/>
+            <ErrorBoundary>
+              <AudioBus/>
+              <SynthAudio/>
+              <SequencerAudio/>
+              <Route children={(match)=>(
+                  <Header title={match.location.pathname == '/' ? 'About' : match.location.pathname.replace('/', '').charAt(0).toUpperCase() + match.location.pathname.slice(2).replace('/', '')} className="mdl-color--blue-500">
+                    {
+                      (match.location.pathname.indexOf('synth') > -1  || match.location.pathname.indexOf('sequencer') > -1)
+                      ?
+                      <div>
+                        <span style={{paddingRight:'8px'}}>Tempo</span>
+                        <Textfield
+                            onChange={(e) => {updateTempo(e.target.value)}}
+                            pattern="-?[0-9]*(\.[0-9]+)?"
+                            error="number"
+                            label="Tempo"
+                            value={tempo}
+                            className='nav-input'
+                            style={{maxWidth:'45px'}}
+                        />
+                      </div>
+                      :
+                      null
+                    }
+                  </Header>
+                )}/>
 
-            <Route children={(match) => (
-                <NavDrawer location={match.location.pathname}/>
-              )} />
-            <Content>
-              <Route exact path="/" component={About}/>
-              <Route path="/synth" render={(props)=>(
-                  <SynthUI audio={synthAudio} hasMounted={synthMounted} mount={mountSynth} />
-                )}/>
-              <Route path="/sequencer" render={(props)=>(
-                  <SequencerUI audio={drumsAudio} context={context}/>
-                )}/>
-              <Route path="/crypto" render={(props)=>(
-                  <Crypto />
-                )}/>
-            </Content>
-            <MaterialShadowsSvg/>
+              <Route children={(match) => (
+                  <NavDrawer location={match.location.pathname}/>
+                )} />
+              <Content>
+                <Route exact path="/" component={About}/>
+                <Route path="/synth" render={(props)=>(
+                    <SynthUI/>
+                  )}/>
+                <Route path="/sequencer" render={(props)=>(
+                    <SequencerUI/>
+                  )}/>
+                <Route path="/crypto" render={(props)=>(
+                    <Crypto />
+                  )}/>
+              </Content>
+              <MaterialShadowsSvg/>
+            </ErrorBoundary>
           </Layout>
         </BrowserRouter>
   );
 }
 App.propTypes = {
-  context:PropTypes.object.isRequired,
   tempo:PropTypes.number
 };
 
 const mapStateToProps = state => ({
-  context: getContext(state),
   tempo:state.tempo
 });
 

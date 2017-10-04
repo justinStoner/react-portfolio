@@ -71,7 +71,7 @@ export class TopPanel extends Component{
           null
         }
         {
-          this.state.searching && this.state.isOpen && this.state.searchText.length
+          this.state.searching && this.state.isOpen && this.state.searchText.length && this.props.loaded
           ?
           <Cell col={12}>
             {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Menu, MenuItem } from 'react-mdl'
-import RadialSlider from './radial-slider';
+import RadialSlider from './RadialSlider';
 import uuid from 'uuid'
 import './knob.css';
 
@@ -21,6 +21,8 @@ export class Knob extends Component{
     }))
   }
   render(){
+    const {flat, square} = this.props;
+    console.log(flat, square);
     const isToggled=this.state.isToggled;
     let label;
     if(this.props.type === 'select') label = this.props.labels.filter( label => label.value === this.props.value)[0]
@@ -61,7 +63,7 @@ export class Knob extends Component{
           this.props.type === 'select'
           ?
           <div style={{position:'relative'}}>
-            <Button id={this.state.id} raised ripple className={(this.props.color==='green'?"mdl-color--green-A400 ":"mdl-color--blue-500") + " round-button text-white"} disabled={this.props.disabled}>
+            <Button id={this.state.id} raised title={this.props.value} ripple className={(this.props.color==='green'?"mdl-color--green-A400 ":"mdl-color--blue-500 ") + "round-button text-white"} disabled={this.props.disabled}>
               {
                 label.btnValue ? label.btnValue : label.name
               }
@@ -75,7 +77,7 @@ export class Knob extends Component{
             </Menu>
           </div>
           :
-          <Button id={this.state.id} raised ripple className={(this.props.color==='green'?"mdl-color--green-A400 ":"mdl-color--blue-500") + " round-button text-white"} onClick={this.toggleInput} disabled={this.props.disabled}>
+          <Button id={this.state.id} title={this.props.value} raised ripple className={(this.props.color==='green'?"mdl-color--green-A400 ":"mdl-color--blue-500") + " round-button text-white"} onClick={this.toggleInput} disabled={this.props.disabled}>
             {this.props.value}
           </Button>
         }

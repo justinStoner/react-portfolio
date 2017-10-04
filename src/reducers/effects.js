@@ -1,5 +1,6 @@
 import uuid from 'uuid';
-import polyfill from 'object.values';
+import 'core-js/es7/object';
+import { defaultEffectSettings } from '../utils/audio';
 const id1 = uuid.v4()
 const id2 = uuid.v4()
 const id3 = uuid.v4()
@@ -7,14 +8,11 @@ const id4 = uuid.v4()
 const reverbId = uuid.v4()
 const overdriveId = uuid.v4()
 
-if(!Object.values){
-  polyfill.shim();
-}
-
 const initialState = {
   synth:{
     [overdriveId]:{
       type:'overdrive',
+      effectLevelMode:'none',
       gain:50,
       mode:0,
       curve:50,
@@ -28,7 +26,8 @@ const initialState = {
     },
     [reverbId]:{
       type:'reverb',
-      amount:66,
+      effectLevel:66,
+      effectLevelMode:'blend',
       active:true,
       col:2,
       tablet:2,
@@ -41,6 +40,7 @@ const initialState = {
     },
     [id1]:{
       type:'eq',
+      effectLevelMode:'none',
       id:id1,
       eq80:24,
       eq350:22,
@@ -59,7 +59,8 @@ const initialState = {
       id:id2,
       delayTime:1,
       feedback:15,
-      wetLevel:15,
+      effectLevel:15,
+      effectLevelMode:'wet',
       active:false,
       col:2,
       tablet:2,
@@ -68,6 +69,7 @@ const initialState = {
     },
     [id3]:{
       type:'compressor',
+      effectLevelMode:'none',
       id:id3,
       threshold:-50,
       knee:8,
@@ -95,7 +97,6 @@ const initialState = {
   },
   drums:{}
 }
-const presets = Object.values(initialState.synth).map( i => i)
 
 const effects = (state = initialState, action) => {
   let newState, obj, arr;
@@ -145,15 +146,14 @@ const effects = (state = initialState, action) => {
         }
       }
       return newState
-      //TODO reorder array
-      break;
     case 'ADD_EFFECT':
       newState = Object.assign({}, state);
       newState[action.parent] = Object.assign({}, newState[action.parent])
-      obj = presets.filter( p => p.type === action.payload)[0];
+      obj = Object.assign({}, defaultEffectSettings[action.payload])
       //length++
       obj.index = Object.values(newState[action.parent]).length
       let id = uuid.v4()
+      delete obj.id
       obj.id=id
       newState[action.parent][id]=obj
       return newState

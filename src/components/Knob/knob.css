@@ -110,7 +110,9 @@ button.round-button {
   z-index: 1;
   border: 2px solid #fff;
   text-transform: lowercase;
-  line-height: 1.3; }
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis; }
 
 button.round-button[disabled][disabled] {
   background-color: #9e9e9e !important; }

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Grid, Cell, IconButton, Menu, MenuItem } from 'react-mdl'
+import { Grid, Cell } from 'react-mdl'
 import {Knob} from '../Knob';
 import { connect } from 'react-redux';
 import { updateEffect, reorderEffects, removeEffect } from '../../actions';
+import { EffectOptions } from '../EffectBank';
+import { ErrorBoundary } from '../Errors'
 import PropTypes from 'prop-types';
 
 class EqUI extends Component{
@@ -26,44 +28,40 @@ class EqUI extends Component{
     const effect=this.props.effects[this.props.parent][this.props.id];
     const length=Object.keys(this.props.effects[this.props.parent]).length -1;
     return(
-      <div className="mdl-shadow--2dp mdl-color--amber-500">
-        <Grid>
-          <Cell col={12} style={{position:'relative'}}>
-            <p className="effect-label left">Equalizer</p>
-            <IconButton className="right" ripple name="more_vert" id={effect.id} style={{marginTop:'-8px', marginRight:'-8px'}}/>
-            <Menu target={effect.id} ripple align="right">
-                <MenuItem onClick={this.toggleEffect}>{effect.active?'Deactivate':'Activate'}</MenuItem>
-                <MenuItem onClick={() => {this.reOrder(false)}} disabled={this.props.index === 0}>Move Left</MenuItem>
-                <MenuItem onClick={() => {this.reOrder(true)}} disabled={length === this.props.index}>Move Right</MenuItem>
-                <MenuItem onClick={() => {this.props.remove( this.props.parent, effect.id )}}>Remove</MenuItem>
-            </Menu>
-          </Cell>
-          <Cell col={4} phone={1} tablet={2} className="text-center">
-            <p className="effect-label">80hz</p>
-            <Knob value={effect.eq80} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq80" disabled={!effect.active}/>
-          </Cell>
-          <Cell col={4} phone={1} tablet={2} className="text-center">
-            <p className="effect-label">350hz</p>
-            <Knob value={effect.eq350} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq350" disabled={!effect.active}/>
-          </Cell>
-          <Cell col={4} phone={1} tablet={2} className="text-center">
-            <p className="effect-label">720hz</p>
-            <Knob value={effect.eq720} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq720" disabled={!effect.active}/>
-          </Cell>
-          <Cell col={4} phone={1} tablet={2} className="text-center">
-            <p className="effect-label">1.6khz</p>
-            <Knob value={effect.eq16k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq16k" disabled={!effect.active}/>
-          </Cell>
-          <Cell col={4} phone={1} tablet={2} className="text-center">
-            <p className="effect-label">5khz</p>
-            <Knob value={effect.eq5k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq5k" disabled={!effect.active}/>
-          </Cell>
-          <Cell col={4} phone={1} tablet={2} className="text-center">
-            <p className="effect-label">10khz</p>
-            <Knob value={effect.eq10k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq10k" disabled={!effect.active}/>
-          </Cell>
-        </Grid>
-      </div>
+      <ErrorBoundary message={this.props.parent + ' > ' + this.constructor.name + ' encountered an error'}>
+        <div className="mdl-shadow--2dp mdl-color--amber-500" id={'effect-'+effect.id}>
+          <Grid>
+            <Cell col={12}>
+              <p className="effect-label left">Equalizer</p>
+              <EffectOptions id={effect.id} active={effect.active} index={this.props.index} length={length} toggleEffect={this.toggleEffect} reOrder={this.reOrder} remove={this.props.remove} parent={this.props.parent}/>
+            </Cell>
+            <Cell col={4} phone={1} tablet={2} className="text-center">
+              <p className="effect-label">80hz</p>
+              <Knob value={effect.eq80} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq80" disabled={!effect.active}/>
+            </Cell>
+            <Cell col={4} phone={1} tablet={2} className="text-center">
+              <p className="effect-label">350hz</p>
+              <Knob value={effect.eq350} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq350" disabled={!effect.active}/>
+            </Cell>
+            <Cell col={4} phone={1} tablet={2} className="text-center">
+              <p className="effect-label">720hz</p>
+              <Knob value={effect.eq720} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq720" disabled={!effect.active}/>
+            </Cell>
+            <Cell col={4} phone={1} tablet={2} className="text-center">
+              <p className="effect-label">1.6khz</p>
+              <Knob value={effect.eq16k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq16k" disabled={!effect.active}/>
+            </Cell>
+            <Cell col={4} phone={1} tablet={2} className="text-center">
+              <p className="effect-label">5khz</p>
+              <Knob value={effect.eq5k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq5k" disabled={!effect.active}/>
+            </Cell>
+            <Cell col={4} phone={1} tablet={2} className="text-center">
+              <p className="effect-label">10khz</p>
+              <Knob value={effect.eq10k} type="radial" min={-40} max={40} step={1} onChange={this.onChange} propName="eq10k" disabled={!effect.active}/>
+            </Cell>
+          </Grid>
+        </div>
+      </ErrorBoundary>
     )
   }
 }

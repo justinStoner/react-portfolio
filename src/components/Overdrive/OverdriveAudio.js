@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
 import * as Tuna from "tunajs";
-import PropTypes from 'prop-types';
+import { ErrorBoundary } from '../Errors'
+import Effect from '../EffectBank/Effect';
 
 class OverdriveAudio extends Component{
   constructor(props){
     super(props)
-    this.tuna = new Tuna(this.props.audio)
+    this.tuna = new Tuna(this.props.context)
   }
   componentWillMount(){
     const effect=this.props.effects[this.props.parent][this.props.id];
@@ -16,46 +16,28 @@ class OverdriveAudio extends Component{
         drive: effect.drive/100,              //0 to 1
         curveAmount: effect.curve/100,          //0 to 1
         algorithmIndex: effect.mode,       //0 to 5, selects one of our drive algorithms
-        bypass: !effect.active
+        bypass: false
     });
-
-      this.props.input.connect(this.drive);
-      this.drive.connect(this.props.output)
+    this.props.wire(this.props, undefined, this.drive);
+    this.props.applySettings(this.props.effect)
   }
   componentWillUnmount(){
-    this.drive.bypass = true
-    this.props.input.disconnect()
-    this.drive.disconnect()
-    this.props.input.connect(this.props.output)
+
   }
   componentWillReceiveProps(nextProps){
-    //const active=this.props.effects[this.props.parent][this.props.id].active;
-    const nextActive=nextProps.effects[nextProps.parent][nextProps.id].active;
-    const effect=this.props.effects[this.props.parent][this.props.id];
-    //console.log(active, nextActive);
-    if( nextActive ){
-      this.drive.bypass = false
-    }else{
-      this.drive.bypass = true
+    if(this.props){
+      this.props.wire(nextProps, undefined, this.drive);
+      this.props.applySettings(nextProps.effect, this.props.effect)
     }
   }
   render(){
-    const effect=this.props.effects[this.props.parent][this.props.id];
+    const effect=this.props.effect;
     this.drive.outputGain = effect.gain/100
     this.drive.drive = effect.drive/100
     this.drive.curveAmount = effect.curve/100
     this.drive.algorithmIndex = effect.mode
-    return null
+    return <ErrorBoundary id={this.props.id} idType="effect-" message={this.props.parent + ' > ' + this.constructor.name + ' encountered an error'}/>
   }
 }
 
-OverdriveAudio.propTypes={
-  effects: PropTypes.object.isRequired
-}
-const mapStateToProps = state => ({
-  effects:state.effects
-
-});
-
-
-export default connect(mapStateToProps, undefined)(OverdriveAudio)
+export default Effect(OverdriveAudio)
