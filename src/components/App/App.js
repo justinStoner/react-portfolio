@@ -30,9 +30,9 @@ const mountSynth=()=>{
 }
 const App=({playing, context, tempo, updateTempo})=>{
   return (
-        <BrowserRouter>
-          <Layout fixedHeader fixedDrawer style={{background:'#e0e0e0'}}>
-            <ErrorBoundary>
+        <ErrorBoundary>
+          <BrowserRouter>
+            <Layout fixedHeader fixedDrawer style={{background:'#e0e0e0'}}>
               <AudioBus/>
               <SynthAudio/>
               <SequencerAudio/>
@@ -75,9 +75,9 @@ const App=({playing, context, tempo, updateTempo})=>{
                   )}/>
               </Content>
               <MaterialShadowsSvg/>
-            </ErrorBoundary>
-          </Layout>
-        </BrowserRouter>
+            </Layout>
+          </BrowserRouter>
+        </ErrorBoundary>
   );
 }
 App.propTypes = {
