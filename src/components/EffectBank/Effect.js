@@ -27,7 +27,7 @@ const Effect = (WrappedComponent, effectLevelMode = 'none') => {
 
     componentWillReceiveProps(nextProps) {
       if (this.props) {
-        console.log(this.props);
+        //console.log(this.props);
         //this.applySettings(nextProps.effects[this.props.parent][this.props.id], this.props.effects[this.props.parent][this.props.id]);
       }
     }
@@ -71,7 +71,6 @@ const Effect = (WrappedComponent, effectLevelMode = 'none') => {
           }
           break;
         case 'none':
-          console.log('here');
           if(next.active){
             this.effectGain.gain.value = 1
           }else{
@@ -148,7 +147,6 @@ const Effect = (WrappedComponent, effectLevelMode = 'none') => {
       return (
           <WrappedComponent
             {...this.props}
-            effect={this.props.effects[this.props.parent][this.props.id]}
             bypass={this.bypass}
             applySettings={this.applySettings}
             wire={this.wire}
@@ -158,11 +156,9 @@ const Effect = (WrappedComponent, effectLevelMode = 'none') => {
     }
   }
   EffectComponent.PropTypes={
-    effects:PropTypes.object.isRequired,
     tempo:PropTypes.number.isRequired
   }
   const mapStateToProps = state => ({
-    effects:state.effects,
     tempo:state.tempo
   });
 

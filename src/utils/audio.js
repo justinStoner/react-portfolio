@@ -181,12 +181,12 @@ export const defaultEffectSettings = {
     type:'wahwah',
     effectLevelMode:'none',
     automode: true,                //true/false
-    baseFrequency: 0.5,            //0 to 1
+    baseFrequency: 50,            //0 to 1
     excursionOctaves: 2,           //1 to 6
-    sweep: 0.2,                    //0 to 1
+    sweep: 20,                    //0 to 1
     resonance: 10,                 //1 to 100
-    sensitivity: 0.5,              //-1 to 1
-    col:2,
+    sensitivity: 5,              //-1 to 1
+    col:3,
     tablet:3,
     phone:4,
     id:null,

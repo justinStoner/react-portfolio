@@ -21,6 +21,7 @@ export class AddEffect extends Component{
             <MenuItem onClick={() => {this.props.addEffect('filter', this.props.parent)}}>Filter</MenuItem>
             <MenuItem onClick={() => {this.props.addEffect('reverb', this.props.parent)}}>Reverb</MenuItem>
             <MenuItem onClick={() => {this.props.addEffect('overdrive', this.props.parent)}}>Overdrive</MenuItem>
+            <MenuItem onClick={() => {this.props.addEffect('wahwah', this.props.parent)}}>Wah Wah</MenuItem>
         </Menu>
       </div>
     )

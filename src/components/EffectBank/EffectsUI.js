@@ -6,6 +6,7 @@ import { CompressorUI } from '../Compressor';
 import { ReverbUI } from '../Reverb';
 import { OverdriveUI } from '../Overdrive';
 import { FilterUI } from '../Filter';
+import { WahWahUI } from '../WahWah'
 
 export class EffectsUI extends Component{
   constructor(props){
@@ -39,6 +40,8 @@ const cellChild = (e, i, parent) => {
       return <OverdriveUI parent={parent} id={e.id} index={i}/>
     case 'filter':
       return <FilterUI parent={parent} id={e.id} index={i}/>
+    case 'wahwah':
+      return <WahWahUI parent={parent} id={e.id} index={i}/>
     default:
       return null
   }

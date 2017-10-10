@@ -18,7 +18,7 @@ export class SequencerAudio extends Component{
   }
   shouldComponentUpdate(nextProps){
     const props = this.props;
-    if(nextProps.effects != props.effects) return true
+    if(nextProps.effects.drums != props.effects.drums) return true
     return false
   }
   componentWillMount(){
@@ -64,11 +64,11 @@ export class SequencerAudio extends Component{
   }
   render(){
     return (
-      <EffectsAudio effects={this.props.effects} context={this.props.context} effectsIn={this.props.audio.effectsIn} effectsOut={this.props.audio.effectsOut} parent="drums"/>
+      <EffectsAudio effects={this.props.effects.drums} context={this.props.context} effectsIn={this.props.audio.effectsIn} effectsOut={this.props.audio.effectsOut} parent="drums"/>
     )
   }
   loadSample(name){
-    fetch("/audio/roland-tr-33/"+name+".wav")
+    fetch("/audio/roland-tr-33/"+name.replace(' ', '-')+".wav")
     .then((res)=>res.arrayBuffer())
     .then((buffer)=>{
       this.props.context.decodeAudioData(buffer, (decodedData)=>{
@@ -170,7 +170,7 @@ export class SequencerAudio extends Component{
 
 
   componentWillReceiveProps(newProps){
-    console.log(newProps.playing, this.props.playing);
+    //console.log(newProps.playing, this.props.playing);
     if(newProps.playing && !this.props.playing){
       this.noteTime = 0.0;
       this.startTime = this.props.context.currentTime + 0.005;
@@ -229,7 +229,7 @@ const mapStateToProps = state => ({
   tempo:state.tempo,
   sequencer:state.sequencer,
   playing: state.playing,
-  effects: state.effects.drums,
+  effects: state.effects,
   audio: state.audio.sequencer
 });
 

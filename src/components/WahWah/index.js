@@ -1,4 +1,4 @@
-import OverdriveAudio from './OverdriveAudio';
-import OverdriveUI from './OverdriveUI';
+import WahWahAudio from './WahWahAudio';
+import WahWahUI from './WahWahUI';
 
-export { OverdriveAudio, OverdriveUI }
+export { WahWahAudio, WahWahUI }

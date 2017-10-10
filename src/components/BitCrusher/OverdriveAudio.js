@@ -9,17 +9,17 @@ class OverdriveAudio extends Component{
     this.tuna = new Tuna(this.props.context)
   }
   componentWillMount(){
-    const effect=this.props.effects[this.props.parent][this.props.id];
+    const effect = this.props.effect
 
     this.drive = new this.tuna.Overdrive({
         outputGain: effect.gain/100,         //0 to 1+
         drive: effect.drive/100,              //0 to 1
         curveAmount: effect.curve/100,          //0 to 1
         algorithmIndex: effect.mode,       //0 to 5, selects one of our drive algorithms
-        bypass: false
+        bypass: !effect.active
     });
     this.props.wire(this.props, undefined, this.drive);
-    this.props.applySettings(this.props.effect)
+    //this.props.applySettings(this.props.effect)
   }
   componentWillUnmount(){
 
@@ -27,7 +27,7 @@ class OverdriveAudio extends Component{
   componentWillReceiveProps(nextProps){
     if(this.props){
       this.props.wire(nextProps, undefined, this.drive);
-      this.props.applySettings(nextProps.effect, this.props.effect)
+      //this.props.applySettings(nextProps.effect, this.props.effect)
     }
   }
   render(){
@@ -36,6 +36,7 @@ class OverdriveAudio extends Component{
     this.drive.drive = effect.drive/100
     this.drive.curveAmount = effect.curve/100
     this.drive.algorithmIndex = effect.mode
+    this.drive.bypass = !effect.active
     return <ErrorBoundary id={this.props.id} idType="effect-" message={this.props.parent + ' > ' + this.constructor.name + ' encountered an error'}/>
   }
 }

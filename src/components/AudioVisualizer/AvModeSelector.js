@@ -13,6 +13,7 @@ export class AvModeSelector extends Component{
     return true
   }
   //<MenuItem onClick={() => {this.props.onClick('visualizerType', 'webgl')}} className={this.props.visualizerType=='webgl'  ? 'menu-item-active' : ''}>WebGL</MenuItem>
+  //<MenuItem onClick={() => {this.props.onClick('visualizerType', 'fractal')}} className={this.props.visualizerType=='fractal'  ? 'menu-item-active' : ''}>Fractal</MenuItem>
   render(){
     return(
       <div style={{position:'relative'}}>
@@ -23,7 +24,7 @@ export class AvModeSelector extends Component{
             <MenuItem onClick={() => {this.props.onClick('visualizerType', 'off')}} className={this.props.visualizerType=='off' ? 'menu-item-active' : ''}>Off</MenuItem>
             <MenuItem onClick={() => {this.props.onClick('visualizerType', 'waveform')}} className={this.props.visualizerType=='waveform'  ? 'menu-item-active' : ''}>Wave Form</MenuItem>
             <MenuItem onClick={() => {this.props.onClick('visualizerType', 'freqgraph')}} className={this.props.visualizerType=='freqgraph'  ? 'menu-item-active' : ''}>Freq Graph</MenuItem>
-            <MenuItem onClick={() => {this.props.onClick('visualizerType', 'fractal')}} className={this.props.visualizerType=='fractal'  ? 'menu-item-active' : ''}>Fractal</MenuItem>
+
         </Menu>
       </div>
     )

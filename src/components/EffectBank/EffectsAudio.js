@@ -5,7 +5,7 @@ import { CompressorAudio } from '../Compressor';
 import { ReverbAudio } from '../Reverb';
 import { OverdriveAudio } from '../Overdrive';
 import { FilterAudio } from '../Filter';
-//import Effect from './Effect';
+import { WahWahAudio } from '../WahWah';
 
 const createGains = (gains = {}, effects, context) => {
   // Create new gain nodes
@@ -31,7 +31,7 @@ const createGains = (gains = {}, effects, context) => {
     }, {});
 };
 
-export class EffectsAudio extends Component{
+export default class EffectsAudio extends Component{
   constructor(props){
     super(props)
     this.effectsChain={}
@@ -46,22 +46,11 @@ export class EffectsAudio extends Component{
       this.props.effectsIn.connect(this.props.effectsOut)
     }
     return arr.map( (e, i) => {
-      let inputStr, outputStr
       const Effect = this.effect(e, i);
-      // const EffectContainer = Effect(effect)
       output = this.props.effectsOut
       if( i < length -1 ){
         output = this.effectsChain[arr[i+1].id]
-        outputStr=' gain ' + (i+1) + ' '
-      }else{
-        outputStr=' '+this.props.parent.toUpperCase()+' EFFECTSOUT '
       }
-      if( i === 0 ){
-        inputStr=this.props.parent.toUpperCase()+' EFFECTSIN '
-      }else{
-        inputStr='gain '+ i + ' '
-      }
-      console.log(inputStr + 'connected to '+e.type + ' connected to' + outputStr)
       return (<Effect
                 context={this.props.context}
                 input={i===0?this.props.effectsIn:null}
@@ -69,6 +58,7 @@ export class EffectsAudio extends Component{
                 output={output}
                 id={e.id}
                 key={i}
+                effect={e}
                 parent={this.props.parent}/>)
     })
   }
@@ -88,6 +78,8 @@ export class EffectsAudio extends Component{
         return OverdriveAudio
       case 'filter':
         return FilterAudio
+      case 'wahwah':
+        return WahWahAudio
       default:
         return null
     }

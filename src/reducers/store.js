@@ -8,7 +8,7 @@ const middlewares = [thunk];
 export default function configureStore() {
   const store = createStore(
     appReducer,
-    //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
     compose(applyMiddleware(...middlewares), autoRehydrate())
   );
 

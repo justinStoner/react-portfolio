@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Grid, Cell, Spinner } from 'react-mdl';
-import openSocket from 'socket.io-client';
 import { TopPanel } from './TopPanel.js';
 import { DataCard } from './DataCard';
 import './Crypto.css';
@@ -22,7 +21,6 @@ const defaultFilters = {
   'USDT-ETH':{currency1:'USDT', currency2:'ETH', name:'USDT-ETH'},
   'USDT-BTC':{currency1:'USDT', currency2:'BTC', name:'USDT-BTC'}
 };
-let socket;
 
 export class Crypto extends Component{
   constructor(props){
@@ -44,10 +42,11 @@ export class Crypto extends Component{
 
     this.removeCoin=this.removeCoin.bind(this);
     this.addCoin=this.addCoin.bind(this)
+    this.getMarkets = this.getMarkets.bind(this);
+    this.intervalId;
   }
 
   componentDidMount(){
-    socket = openSocket(process.env.NODE_ENV === 'production' ? 'http://heyjust.in' : 'http://localhost:3000');
     fetch("/api/crypto/currencies")
     .then(res=>res.json())
     .then(res=>{
@@ -61,6 +60,7 @@ export class Crypto extends Component{
           if(res.success) this.setState({coins:{...splitArray(res.result, this.state), loaded:true}});
           else this.setState({loaded:true})
           console.log(this.state);
+          this.intervalId = window.setInterval(this.getMarkets, 5000)
         })
       }else{
         this.setState({loaded:true})
@@ -68,20 +68,18 @@ export class Crypto extends Component{
       console.log(this.state);
     })
 
-    socket.on('ticker', tick => {
-      console.log(tick);
-      if(tick.success){
-        this.setState( {coins:{...splitArray(tick.result, this.state)}} )
-      }
-    });
-
-    socket.emit('subscribeToTicker', 5000);
-
     let event = new CustomEvent("stop-synth")
     window.dispatchEvent(event);
   }
+  getMarkets(){
+    fetch("/api/crypto/marketdata")
+    .then(res=>res.json())
+    .then(res=>{
+      if(res.success) this.setState({coins:{...splitArray(res.result, this.state), loaded:true}});
+    })
+  }
   componentWillUnmount(){
-    socket.disconnect()
+    clearInterval(this.intervalId);
     let event = new CustomEvent("start-synth")
     window.dispatchEvent(event);
   }

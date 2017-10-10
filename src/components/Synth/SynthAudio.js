@@ -52,7 +52,7 @@ export class SynthAudio extends Component{
     if(nextProps.oscillators != props.oscillators) return true
     if(nextProps.synthFilter != props.synthFilter) return true
     if(nextProps.synthOutput != props.synthOutput) return true
-    if(nextProps.effects != props.effects) return true
+    if(nextProps.effects.synth != props.effects.synth) return true
     return false
   }
   componentWillReceiveProps(nextProps){
@@ -88,7 +88,7 @@ export class SynthAudio extends Component{
   }
   render(){
     return (
-      <EffectsAudio effects={this.props.effects} context={this.props.context} effectsIn={this.props.audio.effectsIn} effectsOut={this.props.audio.effectsOut} parent="synth"/>
+      <EffectsAudio effects={this.props.effects.synth} context={this.props.context} effectsIn={this.props.audio.effectsIn} effectsOut={this.props.audio.effectsOut} parent="synth"/>
     )
   }
   updateOsc(osc, hz, gain, newProps) {
@@ -319,7 +319,7 @@ const mapStateToProps = state => ({
   synthOutput: state.synthOutput,
   oscillators:state.oscillators,
   lfo:state.lfo,
-  effects:state.effects.synth,
+  effects:state.effects,
   keys:state.keys,
   audio:state.audio.synth
 });
