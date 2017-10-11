@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { ErrorBoundary } from '../Errors'
 import fetch from 'isomorphic-fetch';
 import Effect from '../EffectBank/Effect';
+import reverb from '../../assets/audio/reverb/room.wav';
 
 class ReverbAudio extends Component{
   constructor(props){
@@ -12,7 +13,7 @@ class ReverbAudio extends Component{
     this.reverbNode = this.props.context.createConvolver();
     this.props.wire(this.props, undefined, this.reverbNode);
     this.props.applySettings(this.props.effect)
-    fetch("/audio/reverb/room.wav")
+    fetch(reverb)
     .then((res)=>res.arrayBuffer())
     .then((buffer)=>{
       this.props.context.decodeAudioData(buffer, (decodedData)=>{

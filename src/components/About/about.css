@@ -8,7 +8,7 @@ background-image: url("data:image/svg+xml,%3Csvg width='304' height='304' viewBo
 }
 .who-am-i{
   color:#fff !important;
-  background:url('/images/sideofhouseresize1.jpg') center/cover;
+  background:url('../../assets/images/sideofhouseresize1.jpg') center/cover;
   height:176px;
 
 }

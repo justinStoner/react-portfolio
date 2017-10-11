@@ -1,7 +1,13 @@
 {
-  "main.css": "static/css/main.4fdcce98.css",
-  "main.css.map": "static/css/main.4fdcce98.css.map",
-  "main.js": "static/js/main.db829bd9.js",
-  "main.js.map": "static/js/main.db829bd9.js.map",
-  "static\\media\\logo.svg": "static/media/logo.5d5d9eef.svg"
+  "main.css": "static/css/main.917657e5.css",
+  "main.css.map": "static/css/main.917657e5.css.map",
+  "main.js": "static/js/main.537e6937.js",
+  "main.js.map": "static/js/main.537e6937.js.map",
+  "static\\media\\MaterialIcons-Regular.eot": "static/media/MaterialIcons-Regular.e79bfd88.eot",
+  "static\\media\\MaterialIcons-Regular.ttf": "static/media/MaterialIcons-Regular.a37b0c01.ttf",
+  "static\\media\\MaterialIcons-Regular.woff": "static/media/MaterialIcons-Regular.012cf6a1.woff",
+  "static\\media\\MaterialIcons-Regular.woff2": "static/media/MaterialIcons-Regular.570eb838.woff2",
+  "static\\media\\logo.svg": "static/media/logo.5d5d9eef.svg",
+  "static\\media\\room.wav": "static/media/room.9692e08d.wav",
+  "static\\media\\sideofhouseresize1.jpg": "static/media/sideofhouseresize1.a590af81.jpg"
 }

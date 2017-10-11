@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { getContext } from '../../selectors';
 import { EffectsAudio } from '../EffectBank';
 import fetch from 'isomorphic-fetch';
+import reverb from '../../assets/audio/reverb/room.wav';
 
 let sampleNames=[];
 export class SequencerAudio extends Component{
@@ -23,7 +24,7 @@ export class SequencerAudio extends Component{
   }
   componentWillMount(){
     const context = this.props.context;
-    fetch("/audio/reverb/room.wav")
+    fetch(reverb)
     .then((res)=>res.arrayBuffer())
     .then((buffer)=>{
       this.props.context.decodeAudioData(buffer, (decodedData)=>{
