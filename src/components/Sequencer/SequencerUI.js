@@ -69,12 +69,12 @@ class Sequencer extends React.Component{
     this.changeDrumSound=this.changeDrumSound.bind(this);
     this.changeMasterVolume=this.changeMasterVolume.bind(this);
   }
-  shouldComponentUpdate(nextProps){
+  shouldComponentUpdate(nextProps, nextState){
     const props = this.props;
-    console.log(nextProps.effects != props.effects);
     if(nextProps.effects != props.effects) return true
     if(nextProps.sequencer != props.sequencer) return true
     if(nextProps.playing != props.playing) return true
+    if(nextState.mixer != this.state.mixer) return true
     return false
   }
   onChange(key, value, index){
