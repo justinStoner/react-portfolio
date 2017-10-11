@@ -71,12 +71,16 @@ export class TopPanel extends Component{
           null
         }
         {
-          this.state.searching && this.state.isOpen && this.state.searchText.length && this.props.loaded
+          this.state.searching && this.state.isOpen && this.state.searchText.length
           ?
           <Cell col={12}>
             {
-              Object.values(this.props.coins).filter( (coin, index) =>{
-                return coin.MarketName.indexOf(this.state.searchText.toUpperCase()) > -1 && this.state.searchText.length && !this.props.filters[coin.MarketName]
+              Object.values(this.props.coins).filter( (coin, index) => {
+                if(coin.MarketName){
+                  return coin.MarketName.indexOf(this.state.searchText.toUpperCase()) > -1 && this.state.searchText.length && !this.props.filters[coin.MarketName]
+                }else{
+                  return false
+                }
               }).map( (coin, index) => {
                 return (
                   <Chip style={{marginRight:'16px', cursor:'pointer'}} key={index} onClick={ () => {this.props.addCoin(coin)} }>

@@ -5,6 +5,7 @@ import { getContext } from '../../selectors';
 import { EffectsAudio } from '../EffectBank';
 import fetch from 'isomorphic-fetch';
 import reverb from '../../assets/audio/reverb/room.wav';
+import { rolandTr33 } from '../../utils/drums';
 
 let sampleNames=[];
 export class SequencerAudio extends Component{
@@ -69,9 +70,12 @@ export class SequencerAudio extends Component{
     )
   }
   loadSample(name){
-    fetch("/audio/roland-tr-33/"+name.replace(' ', '-')+".wav")
-    .then((res)=>res.arrayBuffer())
-    .then((buffer)=>{
+    //TODO redux-migrate
+    let newName = name.replace('Roland_TR-33_','').replace(' ', '');
+    newName = newName.substr(0,2).toLowerCase() + newName.substr(2, newName.length)
+    fetch(rolandTr33[newName])
+    .then( res => res.arrayBuffer())
+    .then( buffer => {
       this.props.context.decodeAudioData(buffer, (decodedData)=>{
       this.samples[name].sample = decodedData
       })

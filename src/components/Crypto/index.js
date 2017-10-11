@@ -33,9 +33,6 @@ export class Crypto extends Component{
     }
     this.state={
       filters:filters || defaultFilters,
-      searchText:'',
-      searching:false,
-      coinPickerOpen:true,
       coins:null,
       loaded:false
     }
@@ -56,7 +53,7 @@ export class Crypto extends Component{
         fetch("/api/crypto/marketdata")
         .then(res=>res.json())
         .then(res=>{
-          console.log(res);
+          //console.log(res);
           if(res.success) this.setState({coins:{...splitArray(res.result, this.state), loaded:true}});
           else this.setState({loaded:true})
           console.log(this.state);
