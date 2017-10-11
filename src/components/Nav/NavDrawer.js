@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { toggleDrums } from '../../actions';
 import { Route } from 'react-router-dom';
 import './NavDrawer.css';
+import me1 from '../../assets/images/me1.jpg';
 
 class NavDrawer extends Component{
   constructor(props){
@@ -17,7 +18,7 @@ class NavDrawer extends Component{
       <Drawer>
         <div className="header">
           <div className="profile">
-            <img src="images/me1.jpg" width="64" height="64" style={{borderRadius:'50px', cursor:'pointer'}} alt=""></img>
+            <img src={me1} width="64" height="64" style={{borderRadius:'50px', cursor:'pointer'}} alt=""></img>
             <a className="mdl-navigation__link" id="settings" style={{color:'#fff', cursor:'pointer'}}>
               <i className="material-icons" style={{fontSize:'32px', marginRight:'0px'}}>info</i>
             </a>

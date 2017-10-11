@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Grid, Cell, Card, CardTitle, CardText, Tabs, Tab} from 'react-mdl';
 import './about.css';
 import {Chart} from 'chart.js';
+
 const svgStyle={
   position:'absolute',
   top:'-9999px'
