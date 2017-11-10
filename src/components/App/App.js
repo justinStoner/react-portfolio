@@ -37,7 +37,7 @@ const App=({playing, context, tempo, updateTempo})=>{
               <SynthAudio/>
               <SequencerAudio/>
               <Route children={(match)=>(
-                  <Header title={match.location.pathname == '/' ? 'About' : match.location.pathname.replace('/', '').charAt(0).toUpperCase() + match.location.pathname.slice(2).replace('/', '')} className="mdl-color--blue-500">
+                  <Header title={match.location.pathname == '/' ? 'About' : match.location.pathname.replace('/', '').charAt(0).toUpperCase() + match.location.pathname.slice(2)} className="mdl-color--blue-500">
                     {
                       (match.location.pathname.indexOf('synth') > -1  || match.location.pathname.indexOf('sequencer') > -1)
                       ?

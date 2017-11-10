@@ -27,7 +27,7 @@ class NavDrawer extends Component{
                 data-mdl-for="settings">
               <li className="mdl-menu__item" ><a href="https://www.linkedin.com/in/justin-stoner-95160487" target="_blank">LinkedIn</a></li>
               <li className="mdl-menu__item"><a href="justin-stoner-resume.pdf" target="_blank">Resume</a></li>
-              <li className="mdl-menu__item"><a href="mailto:justin-stoner-resume.pdf" target="_blank">Contact</a></li>
+              <li className="mdl-menu__item"><a href="mailto:justin@heyjust.in" target="_blank">Contact</a></li>
             </ul>
           </div>
           <a className="mdl-navigation__link">

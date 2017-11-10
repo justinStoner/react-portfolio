@@ -24,11 +24,6 @@ class EqUI extends Component{
   reOrder(dir){
     this.props.reOrder(this.props.parent, dir, this.props.id)
   }
-  shouldComponentUpdate(next){
-    if(next.effects[this.props.parent][this.props.id] != this.props.effects[this.props.parent][this.props.id]) return true
-    console.log('test');
-    return false;
-  }
   render(){
     const effect=this.props.effects[this.props.parent][this.props.id];
     const length=Object.keys(this.props.effects[this.props.parent]).length -1;

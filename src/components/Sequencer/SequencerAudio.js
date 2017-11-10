@@ -5,7 +5,7 @@ import { getContext } from '../../selectors';
 import { EffectsAudio } from '../EffectBank';
 import fetch from 'isomorphic-fetch';
 import reverb from '../../assets/audio/reverb/room.wav';
-import { rolandTr33 } from '../../utils/drums';
+import { rolandTr33 } from '../../utils/drums/index';
 
 let sampleNames=[];
 export class SequencerAudio extends Component{
